@@ -5,10 +5,9 @@ import path from "node:path";
 import { allShadcnTargets, buildShadcnRegistry } from "@/lib/registry-server";
 
 const ROOT = path.join(import.meta.dir, "..");
-const SKILL_PATH = path.join(ROOT, "skills/beui/SKILL.md");
-const EVALS_PATH = path.join(ROOT, "skills/beui/evals.json");
-const CATALOG_PATH = path.join(ROOT, "skills/beui/catalog.md");
-const LIVE_REGISTRY = "https://beui.dev/r/registry.json";
+const SKILL_PATH = path.join(ROOT, "skills/agentui/SKILL.md");
+const EVALS_PATH = path.join(ROOT, "skills/agentui/evals.json");
+const CATALOG_PATH = path.join(ROOT, "skills/agentui/catalog.md");
 
 type SkillEvals = {
   skill_name: string;
@@ -32,7 +31,7 @@ function slugsFromSkill(markdown: string) {
   }
 
   for (const match of markdown.matchAll(
-    /https:\/\/beui\.dev\/r\/([a-z][a-z0-9-]*)(?:\.json)?/g,
+    /https:\/\/agentui\.dev\/r\/([a-z][a-z0-9-]*)(?:\.json)?/g,
   )) {
     if (match[1] === "registry") continue;
     found.add(match[1]);
@@ -48,18 +47,18 @@ function slugsFromSkill(markdown: string) {
   return [...found];
 }
 
-describe("beUI skill", () => {
-  test("README documents a non-interactive skill install", async () => {
+describe("AgentUI skill", () => {
+  test("README points at the bundled AgentUI skill", async () => {
     const readme = await readFile(path.join(ROOT, "README.md"), "utf8");
-    expect(readme).toContain("npx skills add starc007/ui-components --skill beui");
-    expect(readme).not.toContain("npx skills add https://beui.dev");
+    expect(readme).toContain("skills/agentui/SKILL.md");
+    expect(readme).not.toContain("github.com/starc007");
   });
 
   test("keeps the live registry as the source of truth", async () => {
     const skill = await readFile(SKILL_PATH, "utf8");
 
     expect(existsSync(CATALOG_PATH)).toBe(false);
-    expect(skill).toContain("curl -fsS https://beui.dev/r/registry.json");
+    expect(skill).toContain("curl -fsS https://agentui.dev/r/registry.json");
     expect(skill).toContain("items[].name");
     expect(skill).toContain("The live registry is the source of truth");
     expect(skill).not.toContain("!`curl");
@@ -79,8 +78,9 @@ describe("beUI skill", () => {
     const registry = await buildShadcnRegistry();
     const names = registry.items.map((item) => item.name);
 
-    expect(registry.name).toBe("beui");
-    expect(names.length).toBeGreaterThan(40);
+    expect(registry.name).toBe("agentui");
+    expect(names.length).toBeGreaterThan(10);
+    expect(allShadcnTargets().every((target) => target.categorySlug === "agents")).toBe(true);
     expect(new Set(names).size).toBe(names.length);
 
     for (const item of registry.items) {
@@ -99,7 +99,7 @@ describe("beUI skill", () => {
     const known = installSlugs();
     const evals = JSON.parse(await readFile(EVALS_PATH, "utf8")) as SkillEvals;
 
-    expect(evals.skill_name).toBe("beui");
+    expect(evals.skill_name).toBe("agentui");
     expect(evals.evals.length).toBeGreaterThan(5);
 
     for (const item of evals.evals) {
@@ -117,30 +117,4 @@ describe("beUI skill", () => {
     }
   });
 
-  test("production registry.json can be fetched with the skill command", async () => {
-    const proc = Bun.spawn(["curl", "-fsS", LIVE_REGISTRY], {
-      stdout: "pipe",
-      stderr: "pipe",
-    });
-    const stdout = await new Response(proc.stdout).text();
-    const stderr = await new Response(proc.stderr).text();
-    const code = await proc.exited;
-
-    expect(code, stderr || `curl exited ${code}`).toBe(0);
-
-    const catalog = JSON.parse(stdout) as {
-      name?: string;
-      items?: Array<{ name?: string; title?: string; description?: string }>;
-    };
-
-    expect(catalog.name).toBe("beui");
-    expect(Array.isArray(catalog.items)).toBe(true);
-    expect(catalog.items?.length).toBeGreaterThan(40);
-
-    for (const item of catalog.items ?? []) {
-      expect(item.name).toMatch(/^[a-z][a-z0-9-]*$/);
-      expect(item.title).toBeTruthy();
-      expect(item.description).toBeTruthy();
-    }
-  });
 });

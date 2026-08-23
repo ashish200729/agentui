@@ -30,7 +30,7 @@ function buildPage(page: number): Person[] {
     out.push({
       id: String(n),
       name: `${first} ${last}`,
-      email: `${first.toLowerCase()}.${last.toLowerCase()}${n}@beui.dev`,
+      email: `${first.toLowerCase()}.${last.toLowerCase()}${n}@agentui.dev`,
       role: ROLES[(n * 3) % ROLES.length],
       status: STATUSES[(n * 5) % STATUSES.length],
       mrr: 12 + ((n * 37) % 488),

@@ -4,22 +4,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/motion/tabs";
 
 const SPACES = [
-  { value: "components", label: "Components", href: "/components/motion" },
-  { value: "blocks", label: "Blocks", href: "/components/blocks" },
-  { value: "agents", label: "Agents", href: "/components/agents" },
+  { value: "agents", label: "Components", href: "/components/agents" },
 ];
 
 /** Top-level space switcher — the library's own Tabs in controlled mode, driven by the route. */
 export function HeaderTabs({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
-  const active = pathname.startsWith("/components/blocks")
-    ? "blocks"
-    : pathname.startsWith("/components/agents")
-      ? "agents"
-      : pathname.startsWith("/components")
-        ? "components"
-        : "";
+  const active = pathname.startsWith("/components/agents") ? "agents" : "";
 
   return (
     <Tabs

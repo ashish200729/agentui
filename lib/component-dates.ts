@@ -6,7 +6,7 @@
  */
 const COMPONENT_DATES = {
   "motion/tilt-card": { publishedAt: "2026-05-17", updatedAt: "2026-06-22" },
-  "motion/button": { publishedAt: "2026-05-17", updatedAt: "2026-07-13" },
+  "motion/button": { publishedAt: "2026-05-17", updatedAt: "2026-08-23" },
   "motion/expandable-control": {
     publishedAt: "2026-08-22",
     updatedAt: "2026-08-22",
@@ -41,12 +41,12 @@ const COMPONENT_DATES = {
     publishedAt: "2026-07-21",
     updatedAt: "2026-08-20",
   },
-  "motion/text-animation": { publishedAt: "2026-05-17", updatedAt: "2026-08-19" },
+  "motion/text-animation": { publishedAt: "2026-05-17", updatedAt: "2026-08-23" },
   "motion/number": { publishedAt: "2026-05-17", updatedAt: "2026-06-28" },
   "motion/animated-badge": { publishedAt: "2026-06-05", updatedAt: "2026-06-10" },
-  "motion/action-swap": { publishedAt: "2026-06-10", updatedAt: "2026-06-28" },
+  "motion/action-swap": { publishedAt: "2026-06-10", updatedAt: "2026-08-23" },
   "motion/animated-toast-stack": { publishedAt: "2026-06-05", updatedAt: "2026-07-13" },
-  "motion/theme-toggle": { publishedAt: "2026-06-15", updatedAt: "2026-06-20" },
+  "motion/theme-toggle": { publishedAt: "2026-06-15", updatedAt: "2026-08-23" },
   "motion/bouncy-accordion": { publishedAt: "2026-06-16", updatedAt: "2026-07-13" },
   "motion/drawer": { publishedAt: "2026-06-22", updatedAt: "2026-08-20" },
   "motion/scroll-animation": { publishedAt: "2026-06-24", updatedAt: "2026-06-28" },
@@ -122,7 +122,7 @@ const COMPONENT_DATES = {
   },
   "agents/agent-activity": {
     publishedAt: "2026-08-01",
-    updatedAt: "2026-08-19",
+    updatedAt: "2026-08-23",
   },
   "blocks/infinite-masonry": { publishedAt: "2026-07-15", updatedAt: "2026-07-15" },
   "blocks/notification-stack": { publishedAt: "2026-07-14", updatedAt: "2026-07-14" },
@@ -133,19 +133,19 @@ const COMPONENT_DATES = {
   "blocks/dynamic-island": { publishedAt: "2026-06-10", updatedAt: "2026-07-13" },
   "blocks/command-palette": { publishedAt: "2026-05-17", updatedAt: "2026-08-22" },
   "blocks/morphing-search": { publishedAt: "2026-08-18", updatedAt: "2026-08-22" },
-  "blocks/expandable-action-bar": { publishedAt: "2026-06-05", updatedAt: "2026-06-22" },
+  "blocks/expandable-action-bar": { publishedAt: "2026-06-05", updatedAt: "2026-08-23" },
   "blocks/overflow-actions": { publishedAt: "2026-06-19", updatedAt: "2026-06-28" },
   "blocks/expandable-tabs": { publishedAt: "2026-06-14", updatedAt: "2026-06-28" },
   "blocks/morphing-tabs": { publishedAt: "2026-08-06", updatedAt: "2026-08-06" },
   "blocks/swipeable-list": { publishedAt: "2026-06-15", updatedAt: "2026-06-28" },
-  "blocks/file-upload": { publishedAt: "2026-06-18", updatedAt: "2026-08-20" },
+  "blocks/file-upload": { publishedAt: "2026-06-18", updatedAt: "2026-08-23" },
   "blocks/prediction-market": { publishedAt: "2026-06-18", updatedAt: "2026-06-21" },
   "blocks/wallet-card": { publishedAt: "2026-07-03", updatedAt: "2026-07-03" },
   "blocks/otp-input": { publishedAt: "2026-06-13", updatedAt: "2026-07-13" },
   "blocks/signup-form": { publishedAt: "2026-08-08", updatedAt: "2026-08-08" },
   "blocks/bloom-menu": { publishedAt: "2026-06-26", updatedAt: "2026-06-26" },
   "blocks/feedback-widget": { publishedAt: "2026-06-29", updatedAt: "2026-07-13" },
-  "blocks/not-found": { publishedAt: "2026-06-21", updatedAt: "2026-06-21" },
+  "blocks/not-found": { publishedAt: "2026-06-21", updatedAt: "2026-08-23" },
 } as const;
 
 export type ComponentDates = {

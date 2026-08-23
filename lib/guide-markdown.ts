@@ -87,28 +87,28 @@ const visible = {
   "ai-agents": {
     title: "Agent Guide",
     description:
-      "Install the beUI agent skill, connect the MCP server, or consume the agent-friendly registry endpoints directly.",
+      "Install the AgentUI agent skill, connect the MCP server, or consume the agent-friendly registry endpoints directly.",
     body: `## Agent skill
 
-Install the skill when you want coding agents to choose existing beUI components before inventing custom motion widgets.
+The skill at \`skills/agentui/SKILL.md\` teaches coding agents to choose existing AgentUI components before inventing custom motion widgets.
 
-\`\`\`bash
-npx skills add starc007/ui-components --skill beui
+\`\`\`text
+skills/agentui/SKILL.md
 \`\`\`
 
 ## MCP server
 
-Connect the hosted beUI MCP server at \`https://mcp.beui.dev/mcp\`.
+Connect the hosted AgentUI MCP server at \`https://mcp.agentui.dev/mcp\`.
 
 \`\`\`bash
 # Claude Code
-claude mcp add --transport http beui https://mcp.beui.dev/mcp
+claude mcp add --transport http agentui https://mcp.agentui.dev/mcp
 
 # Codex
-codex mcp add beui --url https://mcp.beui.dev/mcp
+codex mcp add agentui --url https://mcp.agentui.dev/mcp
 
 # Amp
-amp mcp add beui https://mcp.beui.dev/mcp
+amp mcp add agentui https://mcp.agentui.dev/mcp
 \`\`\`
 
 Manual configuration:
@@ -116,9 +116,9 @@ Manual configuration:
 \`\`\`json
 {
   "mcpServers": {
-    "beui": {
+    "agentui": {
       "type": "http",
-      "url": "https://mcp.beui.dev/mcp"
+      "url": "https://mcp.agentui.dev/mcp"
     }
   }
 }
@@ -140,9 +140,9 @@ Available tools: \`list_components\`, \`search_components\`, \`get_component\`, 
 
 ## Agent flow
 
-1. Fetch \`https://beui.dev/r\` to discover components.
+1. Fetch \`https://agentui.dev/r\` to discover components.
 2. Select the closest item by its published name and description.
-3. Fetch \`https://beui.dev/r/{slug}\` for source, files, and dependencies.
+3. Fetch \`https://agentui.dev/r/{slug}\` for source, files, and dependencies.
 4. Write every returned file to its declared path.
 5. Install the external dependencies from the response.
 
@@ -150,10 +150,10 @@ Available tools: \`list_components\`, \`search_components\`, \`get_component\`, 
 
 \`\`\`bash
 # Official registry namespace
-npx shadcn@latest add @beui/animated-toast-stack
+npx shadcn@latest add @beui/message
 
 # Direct registry URL
-npx shadcn@latest add https://beui.dev/r/animated-toast-stack.json
+npx shadcn@latest add https://agentui.dev/r/message.json
 \`\`\`
 
 ## Entry shape
@@ -162,46 +162,45 @@ Registry entries include the component slug, name, description, category, docume
 
 ## Generative UI
 
-To let a model compose beUI components into a live interface, follow the [OpenUI integration guide](${SITE_URL}/docs/openui.md).`,
+To let a model compose AgentUI components into a live interface, follow the [OpenUI integration guide](${SITE_URL}/docs/openui.md).`,
   },
   openui: {
-    title: "Use beUI with OpenUI",
+    title: "Use AgentUI with OpenUI",
     description:
-      "Register beUI components with OpenUI, generate the system prompt, stream OpenUI Lang, and render interactive UI.",
-    body: `OpenUI lets a model emit an abstract UI tree instead of Markdown. Its React runtime maps every node to a component you register, so generated responses use only the beUI components you allow.
+      "Register AgentUI components with OpenUI, generate the system prompt, stream OpenUI Lang, and render interactive UI.",
+    body: `OpenUI lets a model emit an abstract UI tree instead of Markdown. Its React runtime maps every node to a component you register, so generated responses use only the AgentUI components you allow.
 
 ## Install
 
 \`\`\`bash
 npm install @openuidev/react-lang @openuidev/lang-core zod
 npm install openai
-npx shadcn@latest add @beui/button @beui/animated-badge @beui/animated-number
+npx shadcn@latest add @beui/message @beui/prompt-input @beui/agent-activity
 \`\`\`
 
 ## Register components
 
-Use \`defineComponent\` to map an OpenUI Lang node to a beUI component. The Zod schema validates streamed model output, while the description teaches the model when to use the component.
+Use \`defineComponent\` to map an OpenUI Lang node to an AgentUI component. The Zod schema validates streamed model output, while the description teaches the model when to use the component.
 
 \`\`\`tsx
 import { defineComponent, useTriggerAction } from "@openuidev/react-lang";
 import { z } from "zod/v4";
-import { Button } from "@/components/motion/button";
+import { Message, MessageBubble, MessageBubbleContent } from "@/components/agents/message";
 
-const BeButton = defineComponent({
-  name: "Button",
-  description: "Spring-pressed action button.",
+const AgentMessage = defineComponent({
+  name: "Message",
+  description: "A user or assistant message rendered in the conversation.",
   props: z.object({
-    label: z.string(),
-    action: z.string(),
+    text: z.string(),
+    from: z.enum(["user", "assistant"]).default("assistant"),
   }),
-  component: ({ props }) => {
-    const triggerAction = useTriggerAction();
-    return (
-      <Button onClick={() => triggerAction(props.action)}>
-        {props.label}
-      </Button>
-    );
-  },
+  component: ({ props }) => (
+    <Message from={props.from}>
+      <MessageBubble>
+        <MessageBubbleContent>{props.text}</MessageBubbleContent>
+      </MessageBubble>
+    </Message>
+  ),
 });
 \`\`\`
 
@@ -212,9 +211,9 @@ const BeButton = defineComponent({
 \`\`\`tsx
 import { createLibrary } from "@openuidev/react-lang";
 
-export const beuiLibrary = createLibrary({
+export const agentuiLibrary = createLibrary({
   root: "Stack",
-  components: [Stack, BeButton, BeBadge, BeStat],
+  components: [Stack, AgentMessage],
 });
 \`\`\`
 
@@ -224,8 +223,8 @@ Generate a serializable library specification whenever the component library cha
 
 \`\`\`bash
 npx @openuidev/cli@latest generate \\
-  --spec ./lib/beui-library.tsx \\
-  --out ./lib/generated/beui-library.spec.json
+  --spec ./lib/agentui-library.tsx \\
+  --out ./lib/generated/agentui-library.spec.json
 \`\`\`
 
 Pass that specification to \`generateSystemPrompt\` in the server route, then stream the model's OpenUI Lang response to the browser.
@@ -235,15 +234,15 @@ Pass that specification to \`generateSystemPrompt\` in the server route, then st
 \`\`\`tsx
 <Renderer
   response={response}
-  library={beuiLibrary}
+  library={agentuiLibrary}
   isStreaming={isStreaming}
   onAction={(event) => onSend(event.humanFriendlyMessage)}
 />
 \`\`\`
 
-## Why beUI fits
+## Why AgentUI fits
 
-beUI components own their files and ship through a shadcn-compatible registry. Generated interfaces inherit the host application's semantic color tokens and use real React controls.
+AgentUI components own their files and ship through a shadcn-compatible registry. Generated interfaces inherit the host application's semantic color tokens and use real React controls.
 
 ## Resources
 

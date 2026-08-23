@@ -1,4 +1,9 @@
-import { allComponents, findCategory, registry } from "@/lib/registry";
+import {
+  allComponents,
+  findCategory,
+  publicAllComponents,
+  publicRegistry,
+} from "@/lib/registry";
 import { componentDates } from "@/lib/component-dates";
 import { pageUrlFor, withSignature } from "@/lib/signature";
 import { SITE_URL } from "@/lib/site";
@@ -138,8 +143,12 @@ function uniqueByPath(files: ShadcnRegistryFile[]) {
   });
 }
 
-export function allRegistryTargets(): RegistryTarget[] {
-  return allComponents().flatMap((component) => {
+function catalogComponents(publicOnly: boolean) {
+  return publicOnly ? publicAllComponents() : allComponents();
+}
+
+export function allRegistryTargets({ publicOnly = true } = {}): RegistryTarget[] {
+  return catalogComponents(publicOnly).flatMap((component) => {
     const visibleTarget: RegistryTarget = {
       slug: component.slug,
       name: component.name,
@@ -166,8 +175,8 @@ export function allRegistryTargets(): RegistryTarget[] {
   });
 }
 
-export function allShadcnTargets(): RegistryTarget[] {
-  return allComponents().flatMap((component) => {
+export function allShadcnTargets({ publicOnly = true } = {}): RegistryTarget[] {
+  return catalogComponents(publicOnly).flatMap((component) => {
     const variantTargets: RegistryTarget[] = (component.examples ?? [])
       .filter((example) => example.installSlug)
       .map((example) => ({
@@ -194,12 +203,12 @@ export function allShadcnTargets(): RegistryTarget[] {
   });
 }
 
-export function findRegistryTarget(slug: string) {
-  return allRegistryTargets().find((target) => target.slug === slug);
+export function findRegistryTarget(slug: string, { publicOnly = true } = {}) {
+  return allRegistryTargets({ publicOnly }).find((target) => target.slug === slug);
 }
 
-function findShadcnTarget(slug: string) {
-  return allShadcnTargets().find((target) => target.slug === slug);
+function findShadcnTarget(slug: string, { publicOnly = true } = {}) {
+  return allShadcnTargets({ publicOnly }).find((target) => target.slug === slug);
 }
 
 type CollectedSourceGraph = {
@@ -249,9 +258,13 @@ async function collectSourceGraph(initialFiles: string[]): Promise<CollectedSour
   };
 }
 
-export async function buildEntry(categorySlug: string, slug: string): Promise<RegistryEntry | null> {
+export async function buildEntry(
+  categorySlug: string,
+  slug: string,
+  { publicOnly = true } = {},
+): Promise<RegistryEntry | null> {
   const cat = findCategory(categorySlug);
-  const comp = findRegistryTarget(slug);
+  const comp = findRegistryTarget(slug, { publicOnly });
   if (!cat || !comp || comp.categorySlug !== categorySlug) return null;
 
   const requiredFiles = [comp.file, ...(comp.extraFiles ?? [])];
@@ -309,9 +322,12 @@ function mergeRegistryFiles(
 export async function buildShadcnItem(
   categorySlug: string,
   slug: string,
-  { includeContent = true }: { includeContent?: boolean } = {},
+  {
+    includeContent = true,
+    publicOnly = true,
+  }: { includeContent?: boolean; publicOnly?: boolean } = {},
 ): Promise<ShadcnRegistryItem | null> {
-  const comp = findShadcnTarget(slug);
+  const comp = findShadcnTarget(slug, { publicOnly });
   if (!comp || comp.categorySlug !== categorySlug) return null;
 
   const graph = await collectSourceGraph([comp.file, ...(comp.extraFiles ?? [])]);
@@ -325,7 +341,7 @@ export async function buildShadcnItem(
     type: comp.categorySlug === "blocks" ? "registry:block" : "registry:component",
     title: comp.name,
     description: comp.description,
-    author: "Saurabh <saurabh10102@gmail.com>",
+    author: "AgentUI",
     dependencies,
     registryDependencies: [],
     files: uniqueByPath(
@@ -352,7 +368,7 @@ export async function buildShadcnRegistry(): Promise<ShadcnRegistry> {
 
   return {
     $schema: "https://ui.shadcn.com/schema/registry.json",
-    name: "beui",
+    name: "agentui",
     homepage: SITE_URL,
     items: items.filter((item): item is Omit<ShadcnRegistryItem, "$schema"> => item !== null),
   };
@@ -360,8 +376,8 @@ export async function buildShadcnRegistry(): Promise<ShadcnRegistry> {
 
 export async function buildIndex() {
   return {
-    name: "beUI",
-    description: "Animated components for React and Next.js.",
+    name: "AgentUI",
+    description: "AI agent components for React and Next.js.",
     site: SITE_URL,
     endpoints: {
       llms: `${SITE_URL}/llms.txt`,
@@ -374,12 +390,12 @@ export async function buildIndex() {
       raw: `${SITE_URL}/r/{slug}/raw`,
       markdown: `${SITE_URL}/components/{category}/{slug}.md`,
     },
-    categories: registry.map((c) => ({
+    categories: publicRegistry.map((c) => ({
       slug: c.slug,
       name: c.name,
       description: c.description,
     })),
-    components: allComponents().map((c) => {
+    components: publicAllComponents().map((c) => {
       const dates = componentDates(c.category.slug, c.slug);
       return {
         slug: c.slug,
@@ -397,7 +413,7 @@ export async function buildIndex() {
   };
 }
 
-export function findCategoryBySlug(slug: string) {
-  const target = findRegistryTarget(slug);
-  return target ? registry.find((c) => c.slug === target.categorySlug) : undefined;
+export function findCategoryBySlug(slug: string, { publicOnly = true } = {}) {
+  const target = findRegistryTarget(slug, { publicOnly });
+  return target ? findCategory(target.categorySlug) : undefined;
 }

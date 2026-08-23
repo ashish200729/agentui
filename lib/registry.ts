@@ -870,7 +870,7 @@ export const registry: CategoryEntry[] = [
     slug: "agents",
     name: "AI Agents",
     description:
-      "Animated React components for agent reasoning, progress, tool activity, and conversational AI interfaces.",
+      "AI agent components for reasoning, progress, tool activity, and conversational interfaces.",
     components: [
       {
         slug: "message-bubble",
@@ -1760,18 +1760,49 @@ export function allComponents() {
   );
 }
 
+/** The category currently published through the public AgentUI surfaces. */
+export const PUBLIC_CATEGORY_SLUG = "agents" as const;
+
+/** Keep hidden categories in the source catalog for a future re-enable. */
+export const publicRegistry = registry.filter(
+  (category) => category.slug === PUBLIC_CATEGORY_SLUG,
+);
+
+export function findPublicCategory(slug: string) {
+  return publicRegistry.find((category) => category.slug === slug);
+}
+
+export function findPublicComponent(categorySlug: string, slug: string) {
+  return findPublicCategory(categorySlug)?.components.find(
+    (component) => component.slug === slug,
+  );
+}
+
+export function publicAllComponents() {
+  return publicRegistry.flatMap((category) =>
+    category.components.map((component) => ({ ...component, category })),
+  );
+}
+
+function installableCount(categories: CategoryEntry[]) {
+  return categories.reduce(
+    (total, category) =>
+      total +
+      category.components.reduce((count, component) => {
+        const variants = (component.examples ?? []).filter(
+          (example) => example.installSlug,
+        ).length;
+        return count + (variants || 1);
+      }, 0),
+    0,
+  );
+}
+
 /** Top-level components and total installable targets (counting variants). */
 export const COMPONENT_COUNT = registry.reduce(
   (n, c) => n + c.components.length,
   0,
 );
 
-export const INSTALLABLE_COUNT = registry.reduce(
-  (n, c) =>
-    n +
-    c.components.reduce((m, comp) => {
-      const variants = (comp.examples ?? []).filter((e) => e.installSlug).length;
-      return m + (variants || 1);
-    }, 0),
-  0,
-);
+export const INSTALLABLE_COUNT = installableCount(registry);
+export const PUBLIC_INSTALLABLE_COUNT = installableCount(publicRegistry);

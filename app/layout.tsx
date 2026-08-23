@@ -12,9 +12,7 @@ import { SiteDock } from "@/components/app/chrome/site-dock";
 import { SiteFrame } from "@/components/app/chrome/site-frame";
 import { KeyboardShortcuts } from "@/components/app/chrome/keyboard-shortcuts";
 import { JsonLd } from "@/components/app/analytics/json-ld";
-import { getGithubStarCount } from "@/lib/github";
 import {
-  AUTHOR,
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_TITLE,
@@ -36,12 +34,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
   title: {
-    default: `${SITE_TITLE} · beUI`,
-    template: "%s · beUI",
+    default: `${SITE_TITLE} · ${SITE_NAME}`,
+    template: `%s · ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
-  authors: [{ name: AUTHOR, url: "https://github.com/starc007" }],
-  creator: AUTHOR,
   publisher: SITE_NAME,
   category: "technology",
   formatDetection: { telephone: false, email: false, address: false },
@@ -54,7 +50,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: `${SITE_TITLE} · beUI`,
+    title: `${SITE_TITLE} · ${SITE_NAME}`,
     description: SITE_DESCRIPTION,
     type: "website",
     url: "/",
@@ -65,31 +61,31 @@ export const metadata: Metadata = {
         url: "/api/og",
         width: 1200,
         height: 630,
-        alt: `${SITE_TITLE} · beUI`,
+        alt: `${SITE_TITLE} · ${SITE_NAME}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_TITLE} · beUI`,
+    title: `${SITE_TITLE} · ${SITE_NAME}`,
     description: SITE_DESCRIPTION,
     images: ["/api/og"],
   },
   keywords: [
-    "React motion components",
-    "best motion components",
-    "free motion components",
-    "open source motion components",
+    "AI agent components",
+    "best AI agent components",
+    "free AI agent components",
+    "open source AI agent components",
     "open source React components",
     "free React components",
     "Tailwind CSS components",
     "Next.js components",
     "shadcn registry",
     "shadcn-compatible components",
-    "framer motion components",
-    "best framer motion components",
-    "framer motion templates",
-    "framer motion components and templates",
+    "streaming chat components",
+    "AI reasoning UI",
+    "agent tool activity UI",
+    "human in the loop components",
     "animated UI components",
     "component library",
     "copy paste components",
@@ -105,8 +101,7 @@ export const viewport: Viewport = {
   ],
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const githubStarCount = await getGithubStarCount();
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const googleAnalyticsId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
 
   return (
@@ -126,7 +121,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             data-respect-do-not-track="true"
           />
         )}
-        <link rel="icon" type="image/png" href="/beui-mark.png" />
+        <link rel="icon" type="image/png" href="/agentui-mark.png" />
         <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
         <link rel="alternate" type="application/json" title="Component registry" href="/r" />
         <link rel="alternate" type="application/json" title="shadcn registry" href="/registry.json" />
@@ -136,7 +131,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ThemeProvider>
           <PreferencesProvider>
             <KeyboardShortcuts />
-            <SiteHeader githubStarCount={githubStarCount} />
+            <SiteHeader />
             <main className="pt-14 pb-32">
               <SiteFrame>{children}</SiteFrame>
             </main>

@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, mock, test } from "bun:test";
 import {
+  act,
   cleanup,
   fireEvent,
   render,
@@ -31,11 +32,17 @@ describe("AttachmentUpload", () => {
     expect(getByLabelText("Removing brief.pdf")).toBeTruthy();
     expect(queryByText("brief.pdf")).toBeTruthy();
 
-    await waitFor(() => {
-      expect(onRemove).toHaveBeenCalledWith(FILE_ITEM);
-      expect(queryByLabelText("Removing brief.pdf")).toBeNull();
-      expect(queryByLabelText("Remove brief.pdf")).toBeNull();
+    // Let the fixed pending hold and the short exit settle in one act boundary.
+    // A mutation-observer wait here re-ran tens of thousands of times while
+    // Motion updated styles, making the full suite time out despite the row
+    // completing in under a second.
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 800));
     });
+
+    expect(onRemove).toHaveBeenCalledWith(FILE_ITEM);
+    expect(queryByLabelText("Removing brief.pdf")).toBeNull();
+    expect(queryByLabelText("Remove brief.pdf")).toBeNull();
   });
 
   test("rejects files over the size limit", () => {

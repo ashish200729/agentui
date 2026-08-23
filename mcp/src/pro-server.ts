@@ -43,7 +43,7 @@ function summary(item: Omit<ProRegistryItem, "$schema">) {
 
 export function createProServer(env: ProEnv, authorization: string) {
   const server = new McpServer({
-    name: "beUI Pro",
+    name: "AgentUI Pro",
     version: "0.1.0",
   });
 
@@ -51,7 +51,7 @@ export function createProServer(env: ProEnv, authorization: string) {
     "list_components",
     {
       description:
-        "List every installable beUI Pro premium animated block and component available to this license.",
+        "List every installable AgentUI Pro premium animated block and component available to this license.",
       inputSchema: {},
     },
     async () => {
@@ -60,7 +60,7 @@ export function createProServer(env: ProEnv, authorization: string) {
         return json(index.items.map(summary));
       } catch (cause) {
         return error(
-          `Failed to list beUI Pro components: ${(cause as Error).message}`,
+          `Failed to list AgentUI Pro components: ${(cause as Error).message}`,
         );
       }
     },
@@ -70,7 +70,7 @@ export function createProServer(env: ProEnv, authorization: string) {
     "search_components",
     {
       description:
-        "Search installable beUI Pro blocks and components by name, slug, or description. Returns the closest matches first.",
+        "Search installable AgentUI Pro blocks and components by name, slug, or description. Returns the closest matches first.",
       inputSchema: {
         query: z
           .string()
@@ -89,7 +89,7 @@ export function createProServer(env: ProEnv, authorization: string) {
         return json(matches);
       } catch (cause) {
         return error(
-          `Failed to search beUI Pro components: ${(cause as Error).message}`,
+          `Failed to search AgentUI Pro components: ${(cause as Error).message}`,
         );
       }
     },
@@ -99,7 +99,7 @@ export function createProServer(env: ProEnv, authorization: string) {
     "get_component",
     {
       description:
-        "Get a licensed beUI Pro item with its dependencies and complete source files. Use the returned source to install or adapt the block in the current project.",
+        "Get a licensed AgentUI Pro item with its dependencies and complete source files. Use the returned source to install or adapt the block in the current project.",
       inputSchema: {
         slug: z
           .string()
@@ -127,7 +127,7 @@ export function createProServer(env: ProEnv, authorization: string) {
         });
       } catch (cause) {
         return error(
-          `Could not load beUI Pro component "${slug}": ${(cause as Error).message}`,
+          `Could not load AgentUI Pro component "${slug}": ${(cause as Error).message}`,
         );
       }
     },
@@ -137,7 +137,7 @@ export function createProServer(env: ProEnv, authorization: string) {
     "get_install_command",
     {
       description:
-        "Get the authenticated shadcn CLI install command and required components.json registry configuration for an installable beUI Pro item.",
+        "Get the authenticated shadcn CLI install command and required components.json registry configuration for an installable AgentUI Pro item.",
       inputSchema: {
         slug: z
           .string()

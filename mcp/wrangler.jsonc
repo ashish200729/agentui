@@ -1,19 +1,19 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "beui-mcp",
+  "name": "agentui-mcp",
   "main": "src/index.ts",
   "compatibility_date": "2025-05-01",
   "compatibility_flags": ["nodejs_compat"],
   "observability": { "enabled": false },
   "vars": {
-    "REGISTRY_URL": "https://beui.dev",
-    "PRO_REGISTRY_URL": "https://pro.beui.dev"
+    "REGISTRY_URL": "https://agentui.dev",
+    "PRO_REGISTRY_URL": "https://pro.agentui.dev"
   },
   "durable_objects": {
-    "bindings": [{ "name": "BeUiMcp", "class_name": "BeUiMcp" }]
+    "bindings": [{ "name": "AgentUiMcp", "class_name": "AgentUiMcp" }]
   },
-  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["BeUiMcp"] }],
-  // Custom domain. Requires beui.dev's zone on Cloudflare; wrangler provisions
-  // the mcp.beui.dev DNS record on deploy.
-  "routes": [{ "pattern": "mcp.beui.dev", "custom_domain": true }]
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["AgentUiMcp"] }],
+  // Custom domain. Requires agentui.dev's zone on Cloudflare; wrangler provisions
+  // the mcp.agentui.dev DNS record on deploy.
+  "routes": [{ "pattern": "mcp.agentui.dev", "custom_domain": true }]
 }

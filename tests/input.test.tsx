@@ -57,9 +57,9 @@ describe("Input", () => {
     );
 
     fireEvent.change(getByLabelText("Query"), {
-      target: { value: "beUI" },
+      target: { value: "AgentUI" },
     });
 
-    expect(onChange).toHaveBeenCalledWith("beUI");
+    expect(onChange).toHaveBeenCalledWith("AgentUI");
   });
 });

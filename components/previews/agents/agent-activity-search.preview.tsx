@@ -117,7 +117,7 @@ function SearchDemo() {
       status={complete ? "complete" : "working"}
       contentType="search"
       defaultOpen={reduce}
-      collapseOnComplete={!reduce}
+      collapseOnComplete={false}
       maxHeight={220}
       items={[
         {

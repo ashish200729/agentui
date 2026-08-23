@@ -48,7 +48,7 @@ function StepsDemo() {
       contentType="step"
       duration={4.2}
       defaultOpen={reduce}
-      collapseOnComplete={!reduce}
+      collapseOnComplete={false}
       maxHeight={220}
       items={STEPS.slice(0, visible).map((step, index) => ({
         ...step,

@@ -1,5 +1,5 @@
 /**
- * The beUI theme layer: everything a project needs for the components to look
+ * The AgentUI theme layer: everything a project needs for the components to look
  * right without shadcn. Paste it into your globals.css (below `@import
  * "tailwindcss";`), or run `npx shadcn init` which sets up the same tokens.
  *
@@ -16,7 +16,7 @@ export const THEME_CSS = `@custom-variant dark (&:where(.dark, .dark *));
     --card: oklch(97% 0 0);
     --muted-foreground: oklch(50% 0 0);
     --border: oklch(15% 0 0 / 0.06);
-    /* beUI extensions */
+    /* AgentUI extensions */
     --border-strong: oklch(15% 0 0 / 0.12);
     --accent-fg: oklch(15% 0 0);
     --neon: oklch(80% 0.22 145);

@@ -167,7 +167,7 @@ function GeneratedPreview() {
   );
 }
 
-function AssistantIdentity({ label = "beUI Agent" }: { label?: string }) {
+function AssistantIdentity({ label = "AgentUI Agent" }: { label?: string }) {
   return (
     <MessageHeader>
       <span>{label}</span>
@@ -433,7 +433,7 @@ export function ChatAppExample({
             <Message from="assistant">
               <MessageAvatar><Bot /></MessageAvatar>
               <MessageContent className="gap-3">
-                <MessageHeader><span>beUI Agent</span><span>10:24</span></MessageHeader>
+                <MessageHeader><span>AgentUI Agent</span><span>10:24</span></MessageHeader>
                 <AgentActivity
                   status="complete"
                   duration={6}
@@ -443,7 +443,7 @@ export function ChatAppExample({
                     { id: "reason", type: "text", content: "Tracing the checkout submission path and validation boundary." },
                     { id: "read", type: "tool", action: "read", target: "checkout/submit.ts" },
                     { id: "search", type: "search", query: "order validation failures", results: [
-                      { id: "result-1", title: "Agent interface guide", domain: "beui.dev", url: "/docs/ai-agents" },
+                      { id: "result-1", title: "Agent interface guide", domain: "agentui.dev", url: "/docs/ai-agents" },
                     ] },
                   ]}
                 />
@@ -569,19 +569,19 @@ export function ChatAppExample({
                           {
                             id: "message",
                             title: "Message composition",
-                            domain: "beui.dev",
+                            domain: "agentui.dev",
                             url: "/components/agents/message",
                           },
                           {
                             id: "diff",
                             title: "File Diff",
-                            domain: "beui.dev",
+                            domain: "agentui.dev",
                             url: "/components/agents/file-diff",
                           },
                           {
                             id: "approval",
                             title: "Tool Approval",
-                            domain: "beui.dev",
+                            domain: "agentui.dev",
                             url: "/components/agents/tool-approval",
                           },
                         ]}
@@ -632,7 +632,7 @@ export function ChatAppExample({
                   <MessageAvatar><User /></MessageAvatar>
                 )}
                 <MessageContent>
-                  {message.from === "assistant" ? <AssistantIdentity label="beUI Agent" /> : null}
+                  {message.from === "assistant" ? <AssistantIdentity label="AgentUI Agent" /> : null}
                   <MessageBubble variant={message.from === "user" ? "solid" : "soft"}>
                     <MessageBubbleContent>
                       {message.from === "assistant" ? (

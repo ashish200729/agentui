@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "beui-mcp",
+      "name": "agentui-mcp",
       "dependencies": {
         "@modelcontextprotocol/sdk": "1.23.0",
         "agents": "^0.2.35",

@@ -1,14 +1,9 @@
 {
-  "name": "ui-components",
+  "name": "agentui",
   "version": "0.2.0",
   "private": true,
-  "author": {
-    "name": "Saurabh",
-    "email": "saurabh10102@gmail.com",
-    "url": "https://saura3h.xyz"
-  },
   "license": "MIT",
-  "description": "UI Components for React",
+  "description": "AgentUI components for React",
   "keywords": [
     "react",
     "reactjs",
@@ -17,10 +12,6 @@
     "tailwindcss",
     "typescript"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/starc007/ui-components"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -19,9 +19,8 @@ export async function GET() {
   lines.push("");
   lines.push("## Guides");
   lines.push("");
-  lines.push(`- [Motion Guides](${SITE_URL}/docs/motion-patterns.md): Purposeful motion, timing, easing, recipes, and reduced motion.`);
   lines.push(`- [Agent Guide](${SITE_URL}/docs/ai-agents.md): Agent skill, MCP server, registry endpoints, and install flows.`);
-  lines.push(`- [OpenUI Guide](${SITE_URL}/docs/openui.md): Register beUI components and render streamed generative interfaces.`);
+  lines.push(`- [OpenUI Guide](${SITE_URL}/docs/openui.md): Register AgentUI components and render streamed generative interfaces.`);
   lines.push("");
   lines.push("## Components");
   lines.push("");

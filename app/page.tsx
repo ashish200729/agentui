@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { registry } from "@/lib/registry";
+import { publicRegistry } from "@/lib/registry";
 import { Hero } from "@/components/app/landing/hero";
-import { InstallCommand } from "@/components/app/docs/install-command";
 import { LandingComponentCard } from "@/components/app/landing/landing-component-card";
 import { SiteFooter } from "@/components/app/chrome/site-footer";
 import { Testimonials } from "@/components/app/landing/testimonials";
@@ -10,34 +9,22 @@ import { WorkCta } from "@/components/app/landing/work-cta";
 import { isComponentNew } from "@/lib/component-status";
 
 const CURATED: { category: string; slug: string }[] = [
-  { category: "motion", slug: "button" },
-  { category: "motion", slug: "morphing-modal" },
-  { category: "motion", slug: "animated-toast-stack" },
-  { category: "motion", slug: "action-swap" },
-  { category: "motion", slug: "dock" },
-  { category: "motion", slug: "tabs" },
-  { category: "blocks", slug: "dynamic-island" },
-  { category: "blocks", slug: "command-palette" },
-  { category: "blocks", slug: "expandable-action-bar" },
-  { category: "blocks", slug: "expandable-tabs" },
-  { category: "motion", slug: "tilt-card" },
-  { category: "motion", slug: "bottom-sheet" },
-  { category: "motion", slug: "switch" },
-  { category: "motion", slug: "tooltip" },
-  { category: "motion", slug: "text-animation" },
-  { category: "motion", slug: "number" },
-  { category: "motion", slug: "bouncy-accordion" },
-  { category: "motion", slug: "range-slider" },
-  { category: "motion", slug: "theme-toggle" },
-  { category: "motion", slug: "drawer" },
-  { category: "blocks", slug: "swap" },
-  { category: "blocks", slug: "otp-input" },
-  { category: "blocks", slug: "swipeable-list" },
-  { category: "blocks", slug: "bloom-menu" },
+  { category: "agents", slug: "message" },
+  { category: "agents", slug: "prompt-input" },
+  { category: "agents", slug: "streaming-response" },
+  { category: "agents", slug: "agent-activity" },
+  { category: "agents", slug: "tool-result" },
+  { category: "agents", slug: "code-block" },
+  { category: "agents", slug: "approval-card" },
+  { category: "agents", slug: "todo-list" },
+  { category: "agents", slug: "file-diff" },
+  { category: "agents", slug: "citations" },
+  { category: "agents", slug: "image-generation" },
+  { category: "agents", slug: "message-scroller" },
 ];
 
 const GRID_CLASS =
-  "grid grid-cols-1 gap-4 [grid-auto-rows:19rem] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4";
+  "grid grid-cols-1 gap-x-5 gap-y-10 [grid-auto-rows:19rem] sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-12 xl:grid-cols-4";
 
 function SectionHeader({
   eyebrow,
@@ -63,7 +50,7 @@ function SectionHeader({
           href={href}
           className="group inline-flex items-center self-start text-sm font-medium text-muted-foreground transition-colors hover:text-foreground md:self-auto"
         >
-          Browse animated React components
+          Browse components
           <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
       ) : null}
@@ -72,7 +59,7 @@ function SectionHeader({
 }
 
 export default function Home() {
-  const newComponents = registry
+  const newComponents = publicRegistry
     .flatMap((category) =>
       category.components
         .filter((component) => isComponentNew(component))
@@ -108,7 +95,7 @@ export default function Home() {
     ),
   );
   const curatedComponents = CURATED.flatMap(({ category, slug }) => {
-    const cat = registry.find((c) => c.slug === category);
+    const cat = publicRegistry.find((c) => c.slug === category);
     const comp = cat?.components.find((c) => c.slug === slug);
     return comp ? [{ category, component: comp }] : [];
   }).filter(
@@ -118,19 +105,12 @@ export default function Home() {
 
   return (
     <div className="relative">
-      <section className="relative isolate overflow-hidden px-4 pb-20 pt-20 md:pt-28">
+      <section className="relative isolate flex min-h-[calc(100svh-3.5rem)] items-center overflow-hidden px-4 py-16 sm:py-20 md:py-24">
         <Hero />
       </section>
 
-      <section className="mx-auto max-w-2xl px-4 pb-24">
-        <p className="mb-5 text-center text-sm text-muted-foreground">
-          Built on Framer Motion. Distributed via shadcn.
-        </p>
-        <InstallCommand />
-      </section>
-
       {newComponents.length ? (
-        <section className="mx-auto max-w-7xl border-t border-border px-4 pb-16 pt-14">
+        <section className="mx-auto max-w-7xl px-4 pb-16 pt-14">
           <SectionHeader eyebrow="New" title="Recently launched" />
           <div className={GRID_CLASS}>
             {newComponents.map(({ category, component, previewKey }) => (
@@ -145,11 +125,11 @@ export default function Home() {
         </section>
       ) : null}
 
-      <section className="mx-auto max-w-7xl border-t border-border px-4 pb-16 pt-14">
+      <section className="mx-auto max-w-7xl px-4 pb-16 pt-14">
         <SectionHeader
-          eyebrow="Components"
-          title="Motion primitives"
-          href="/components/motion"
+          eyebrow="Agent UI"
+          title="Agent components"
+          href="/components/agents"
         />
         <div className={GRID_CLASS}>
           {curatedComponents.map(({ category, component }) => (

@@ -12,10 +12,10 @@ export function Testimonials() {
     <section className="pb-16">
       <div className="mx-auto mb-8 max-w-7xl border-t border-border px-4 pt-14">
         <p className="text-[0.7rem] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-          Testimonials
+          Example feedback
         </p>
         <h2 className="mt-3 font-display text-3xl font-semibold leading-tight tracking-tight text-foreground md:text-4xl">
-          Loved by builders
+          Example builder notes
         </h2>
       </div>
 

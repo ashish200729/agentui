@@ -33,7 +33,7 @@ export class ProRegistryError extends Error {
 }
 
 function base(env: { PRO_REGISTRY_URL?: string }) {
-  return (env.PRO_REGISTRY_URL ?? "https://pro.beui.dev").replace(/\/$/, "");
+  return (env.PRO_REGISTRY_URL ?? "https://pro.agentui.dev").replace(/\/$/, "");
 }
 
 async function fetchJson<T>(url: string, authorization: string): Promise<T> {
@@ -49,10 +49,10 @@ async function fetchJson<T>(url: string, authorization: string): Promise<T> {
   if (!response.ok) {
     const message =
       response.status === 401
-        ? "The beUI Pro token is invalid or expired."
+        ? "The AgentUI Pro token is invalid or expired."
         : response.status === 404
-          ? "The requested beUI Pro component was not found."
-          : `The beUI Pro registry responded with status ${response.status}.`;
+          ? "The requested AgentUI Pro component was not found."
+          : `The AgentUI Pro registry responded with status ${response.status}.`;
     throw new ProRegistryError(message, response.status);
   }
 
@@ -97,9 +97,9 @@ export function proInstallCommand(slug: string, pm: ProPackageManager) {
 }
 
 export const PRO_REGISTRY_SETUP = {
-  "@beui": "https://beui.dev/r/{name}.json",
+  "@beui": "https://agentui.dev/r/{name}.json",
   "@beui-pro": {
-    url: "https://pro.beui.dev/r/{name}.json",
+    url: "https://pro.agentui.dev/r/{name}.json",
     headers: {
       Authorization: "Bearer ${BEUI_PRO_TOKEN}",
     },

@@ -76,7 +76,7 @@ function StreamingTextDemo() {
       status={complete ? "complete" : "working"}
       duration={STREAM_SECONDS}
       defaultOpen={reduce}
-      collapseOnComplete={!reduce}
+      collapseOnComplete={false}
       maxHeight={180}
     />
   );

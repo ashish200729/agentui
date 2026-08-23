@@ -15,8 +15,8 @@ describe("guide Markdown", () => {
 
     for (const slug of GUIDE_SLUGS) {
       const markdown = buildGuideMarkdown(slug);
-      expect(markdown).toContain(`documentation: "https://beui.dev/docs/${slug}"`);
-      expect(markdown).toContain(`markdown: "https://beui.dev/docs/${slug}.md"`);
+      expect(markdown).toContain(`documentation: "https://agentui.dev/docs/${slug}"`);
+      expect(markdown).toContain(`markdown: "https://agentui.dev/docs/${slug}.md"`);
       expect(markdown).toContain("\n## ");
     }
   });
@@ -28,7 +28,7 @@ describe("guide Markdown", () => {
   });
 
   test("serves Markdown with discovery headers", async () => {
-    const response = await GET(new Request("https://beui.dev/docs/openui.md"), {
+    const response = await GET(new Request("https://agentui.dev/docs/openui.md"), {
       params: Promise.resolve({ slug: "openui.md" }),
     });
 
@@ -38,14 +38,14 @@ describe("guide Markdown", () => {
     );
     expect(response.headers.get("x-robots-tag")).toBe("noindex");
     expect(response.headers.get("link")).toContain("</docs/openui>");
-    expect(await response.text()).toContain("# Use beUI with OpenUI");
+    expect(await response.text()).toContain("# Use AgentUI with OpenUI");
   });
 
   test("rejects unknown or non-Markdown guide paths", async () => {
-    const unknown = await GET(new Request("https://beui.dev/docs/unknown.md"), {
+    const unknown = await GET(new Request("https://agentui.dev/docs/unknown.md"), {
       params: Promise.resolve({ slug: "unknown.md" }),
     });
-    const html = await GET(new Request("https://beui.dev/docs/openui"), {
+    const html = await GET(new Request("https://agentui.dev/docs/openui"), {
       params: Promise.resolve({ slug: "openui" }),
     });
 

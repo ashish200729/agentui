@@ -85,6 +85,11 @@ export const previews: Record<string, ComponentType> = {
   "agents/citations": dynamic(() =>
     import("./agents/citations.preview").then((m) => m.CitationsPreview),
   ),
+  "agents/agent-activity": dynamic(() =>
+    import("./agents/agent-activity-landing.preview").then(
+      (m) => m.AgentActivityLandingPreview,
+    ),
+  ),
   "agents/agent-activity-text": dynamic(() =>
     import("./agents/agent-activity-text.preview").then(
       (m) => m.AgentActivityTextPreview,
@@ -466,6 +471,15 @@ export const previews: Record<string, ComponentType> = {
   ),
 };
 
-export function getPreview(category: string, slug: string) {
-  return previews[`${category}/${slug}`];
+export function getPreview(
+  category: string,
+  slug: string,
+  fallbackKeys: readonly (string | undefined)[] = [],
+) {
+  const direct = previews[`${category}/${slug}`];
+  if (direct) return direct;
+  for (const key of fallbackKeys) {
+    if (key && previews[key]) return previews[key];
+  }
+  return undefined;
 }

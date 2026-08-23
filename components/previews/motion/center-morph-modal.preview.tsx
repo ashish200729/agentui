@@ -21,12 +21,12 @@ export function CenterMorphModalPreview() {
         </CenterMorphModalTrigger>
 
         <CenterMorphModalContent
-          ariaLabel="beUI Pro"
+          ariaLabel="AgentUI Pro"
           ariaDescribedBy="center-morph-pro-description"
         >
           <div className="p-7 sm:p-8">
             <p className="text-sm font-medium text-muted-foreground">
-              beUI Pro
+              AgentUI Pro
             </p>
             <h2 className="mt-5 max-w-xs pr-8 text-2xl font-medium tracking-tight text-foreground">
               Ship the whole experience.
@@ -59,12 +59,12 @@ export function CenterMorphModalPreview() {
             </div>
 
             <a
-              href="https://pro.beui.dev/?utm_source=beui&utm_medium=component_preview&utm_campaign=center_morph_modal"
+              href="https://pro.agentui.dev/?utm_source=agentui&utm_medium=component_preview&utm_campaign=center_morph_modal"
               target="_blank"
               rel="noreferrer"
               className="mt-7 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background press focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              Explore beUI Pro
+              Explore AgentUI Pro
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>

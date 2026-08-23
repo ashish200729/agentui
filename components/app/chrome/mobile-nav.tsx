@@ -9,7 +9,7 @@ import { BottomSheet } from "@/components/motion/bottom-sheet";
 import { Button } from "@/components/motion/button";
 import { cn } from "@/lib/utils";
 
-/** Mobile nav: a header hamburger that opens the sidebar list in beUI's own bottom sheet. */
+/** Mobile nav: a header hamburger that opens the sidebar list in AgentUI's own bottom sheet. */
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -41,30 +41,6 @@ export function MobileNav() {
         <div className="flex flex-col gap-5 pt-2">
           <nav className="flex flex-wrap gap-1">
             <Link
-              href="/components/motion"
-              onClick={() => setOpen(false)}
-              className={cn(
-                "rounded-md px-3 py-1.5 text-sm transition-colors",
-                pathname.startsWith("/components/motion")
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              Components
-            </Link>
-            <Link
-              href="/components/blocks"
-              onClick={() => setOpen(false)}
-              className={cn(
-                "rounded-md px-3 py-1.5 text-sm transition-colors",
-                pathname.startsWith("/components/blocks")
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              Blocks
-            </Link>
-            <Link
               href="/components/agents"
               onClick={() => setOpen(false)}
               className={cn(
@@ -74,31 +50,7 @@ export function MobileNav() {
                   : "text-muted-foreground hover:text-foreground",
               )}
             >
-              Agents
-            </Link>
-            <Link
-              href="/playground"
-              onClick={() => setOpen(false)}
-              className={cn(
-                "rounded-md px-3 py-1.5 text-sm transition-colors",
-                pathname.startsWith("/playground")
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              Playground
-            </Link>
-            <Link
-              href="/sponsors"
-              onClick={() => setOpen(false)}
-              className={cn(
-                "rounded-md px-3 py-1.5 text-sm transition-colors",
-                pathname.startsWith("/sponsors")
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              Sponsors
+              Components
             </Link>
           </nav>
           <SidebarNav onNavigate={() => setOpen(false)} />

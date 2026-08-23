@@ -27,7 +27,7 @@ export function ParallaxPreview() {
         >
           {/* biome-ignore lint/performance/noImgElement: plain img keeps the copy-paste preview portable (no next/image host config). */}
           <img
-            src="https://picsum.photos/seed/beui-parallax/800/600"
+            src="https://picsum.photos/seed/agentui-parallax/800/600"
             alt=""
             className="size-full object-cover"
           />
@@ -50,7 +50,7 @@ export function ParallaxPreview() {
         >
           {/* biome-ignore lint/performance/noImgElement: plain img keeps the copy-paste preview portable (no next/image host config). */}
           <img
-            src="https://picsum.photos/seed/beui-avatar/120/120"
+            src="https://picsum.photos/seed/agentui-avatar/120/120"
             alt=""
             className="size-12 rounded-full border-2 border-background object-cover shadow-lg"
           />

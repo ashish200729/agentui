@@ -3,9 +3,9 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import {
-  findCategory,
-  findComponent,
-  registry,
+  findPublicCategory,
+  findPublicComponent,
+  publicRegistry,
   type ComponentExample,
 } from "@/lib/registry";
 import { CodeBlock } from "@/components/app/docs/code-block";
@@ -41,7 +41,7 @@ export const dynamic = "force-static";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return registry.flatMap((c) =>
+  return publicRegistry.flatMap((c) =>
     c.components.map((comp) => ({ category: c.slug, slug: comp.slug })),
   );
 }
@@ -52,8 +52,8 @@ export async function generateMetadata({
   params: Promise<{ category: string; slug: string }>;
 }): Promise<Metadata> {
   const { category, slug } = await params;
-  const cat = findCategory(category);
-  const comp = findComponent(category, slug);
+  const cat = findPublicCategory(category);
+  const comp = findPublicComponent(category, slug);
   if (!cat || !comp) return {};
   const installSlugs =
     comp.examples?.flatMap((example) =>
@@ -66,8 +66,8 @@ export async function generateMetadata({
     ? `/${installSlugs[0]}.json`
     : `/${comp.slug}.json`;
 
-  const title = comp.guide?.seo.title ?? `${comp.name} · React motion component`;
-  const ogTitle = `${title} · beUI`;
+  const title = comp.guide?.seo.title ?? `${comp.name} · AI agent component`;
+  const ogTitle = `${title} · AgentUI`;
   const pageUrl = `/components/${cat.slug}/${comp.slug}`;
   const imageUrl = `/api/og?component=${comp.slug}`;
   const keywords = componentKeywords(cat, comp);
@@ -82,7 +82,7 @@ export async function generateMetadata({
       description: metaDescription,
       url: pageUrl,
       type: "article",
-      siteName: "beUI",
+      siteName: "AgentUI",
       images: [
         {
           url: imageUrl,
@@ -107,13 +107,13 @@ export async function generateMetadata({
       },
     },
     other: {
-      "beui:category": cat.slug,
-      "beui:component": comp.slug,
-      "beui:registry-item": registryItem,
-      "beui:directory-item": directoryItem,
+      "agentui:category": cat.slug,
+      "agentui:component": comp.slug,
+      "agentui:registry-item": registryItem,
+      "agentui:directory-item": directoryItem,
       ...(installSlugs.length > 0
         ? {
-            "beui:variant-registry-items": installSlugs.map(
+            "agentui:variant-registry-items": installSlugs.map(
               (installSlug) => `/r/${installSlug}.json`,
             ),
           }
@@ -132,8 +132,8 @@ export default async function ComponentPage({
   params: Promise<{ category: string; slug: string }>;
 }) {
   const { category, slug } = await params;
-  const cat = findCategory(category);
-  const comp = findComponent(category, slug);
+  const cat = findPublicCategory(category);
+  const comp = findPublicComponent(category, slug);
   if (!cat || !comp) notFound();
   const hasMultipleVariants = (comp.examples?.length ?? 0) > 1;
   const hasVariantInstallCommands =
@@ -211,7 +211,7 @@ export default async function ComponentPage({
         <JsonLd
           data={[
             breadcrumbJsonLd([
-              { name: "beUI", path: "/" },
+              { name: "AgentUI", path: "/" },
               { name: cat.name, path: `/components/${cat.slug}` },
               { name: comp.name, path: `/components/${cat.slug}/${comp.slug}` },
             ]),

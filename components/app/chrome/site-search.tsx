@@ -9,15 +9,10 @@ import {
   type CommandItem,
 } from "@/components/motion/command-palette";
 import { NewBadge } from "@/components/app/docs/new-badge";
-import { registry } from "@/lib/registry";
+import { publicRegistry } from "@/lib/registry";
 
 const PAGES = [
   { slug: "ai-agents", name: "AI Agents", href: "/docs/ai-agents" },
-  {
-    slug: "motion-patterns",
-    name: "Motion Guides",
-    href: "/docs/motion-patterns",
-  },
   { slug: "openui", name: "OpenUI", href: "/docs/openui" },
 ];
 
@@ -28,7 +23,7 @@ export function SiteSearch({ className }: { className?: string }) {
 
   const items = useMemo<CommandItem[]>(
     () => [
-      ...registry.flatMap((cat) =>
+      ...publicRegistry.flatMap((cat) =>
         cat.components.map((comp) => ({
           id: `${cat.slug}-${comp.slug}`,
           label: comp.name,

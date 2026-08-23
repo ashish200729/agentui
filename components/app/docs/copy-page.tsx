@@ -48,7 +48,7 @@ function ClaudeIcon({ className }: { className?: string }) {
 }
 
 function promptUrl(baseUrl: string, pageUrl: string) {
-  const prompt = `I'm looking at this beUI component documentation: ${pageUrl}.
+  const prompt = `I'm looking at this AgentUI component documentation: ${pageUrl}.
 Help me understand how to use it. Be ready to explain the API, give examples, or help debug an implementation based on it.`;
   return `${baseUrl}?q=${encodeURIComponent(prompt)}`;
 }

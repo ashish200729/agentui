@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { CopyButton } from "@/components/app/docs/copy-button";
 import { ActionSwapCascadeText } from "@/components/motion/action-swap-cascade";
 import { Tabs, TabsList, TabsTrigger } from "@/components/motion/tabs";
-import { registry } from "@/lib/registry";
+import { publicRegistry } from "@/lib/registry";
 import { cn } from "@/lib/utils";
 
 const PM_COMMANDS = {
@@ -20,7 +20,7 @@ const PMS = Object.keys(PM_COMMANDS) as PM[];
 const REGISTRY_NAMESPACE = "@beui";
 const CYCLE_MS = 1800;
 
-const COMPONENT_SLUGS = registry.flatMap((cat) =>
+const COMPONENT_SLUGS = publicRegistry.flatMap((cat) =>
   cat.components.flatMap((comp) =>
     comp.examples
       ? comp.examples.flatMap((example) =>

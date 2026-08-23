@@ -2,26 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Check, Copy, Home, LayoutGrid, Mail } from "lucide-react";
+import { BookOpen, Bot, Home, LayoutGrid } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Dock, DockItem, DockSeparator } from "@/components/motion/dock";
-import { ActionSwapIcon } from "@/components/motion/action-swap";
 import { ThemeToggle } from "@/components/motion/theme-toggle";
 import { Tooltip } from "@/components/motion/tooltip";
-import { GithubIcon } from "@/components/app/icons";
 
 export function SiteDock() {
   const pathname = usePathname();
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [emailHovered, setEmailHovered] = useState(false);
-  const [emailCopied, setEmailCopied] = useState(false);
   useEffect(() => setMounted(true), []);
   const isDark = mounted && resolvedTheme === "dark";
 
   const isHome = pathname === "/";
-  const isComponents = pathname.startsWith("/components");
+  const isAgents = pathname.startsWith("/components/agents");
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-6 z-40 flex justify-center px-4">
@@ -42,14 +38,14 @@ export function SiteDock() {
               </Link>
             </Tooltip>
           </DockItem>
-          <DockItem aria-label="Components" active={isComponents}>
+          <DockItem aria-label="Components" active={isAgents}>
             <Tooltip
               content="Components"
               side="top"
               wrapperClassName="h-full w-full items-center justify-center"
             >
               <Link
-                href="/components/motion"
+                href="/components/agents"
                 aria-label="Components"
                 className="flex h-full w-full items-center justify-center"
               >
@@ -58,55 +54,34 @@ export function SiteDock() {
             </Tooltip>
           </DockItem>
           <DockSeparator className="mx-0.5 h-4" />
-          <DockItem aria-label="GitHub">
+          <DockItem aria-label="Agent guide">
             <Tooltip
-              content="GitHub"
+              content="Agent guide"
               side="top"
               wrapperClassName="h-full w-full items-center justify-center"
             >
               <Link
-                href="https://github.com/starc007/ui-components"
-                target="_blank"
-                rel="noreferrer noopener"
-                aria-label="GitHub"
+                href="/docs/ai-agents"
+                aria-label="Agent guide"
                 className="flex h-full w-full items-center justify-center"
               >
-                <GithubIcon className="h-4 w-4" />
+                <Bot className="h-4 w-4" />
               </Link>
             </Tooltip>
           </DockItem>
-          <DockItem aria-label="Email">
+          <DockItem aria-label="OpenUI guide">
             <Tooltip
-              content={emailCopied ? "Copied!" : "saurabh10102@gmail.com"}
+              content="OpenUI guide"
               side="top"
               wrapperClassName="h-full w-full items-center justify-center"
             >
-              <button
-                type="button"
-                aria-label="Copy email"
+              <Link
+                href="/docs/openui"
+                aria-label="OpenUI guide"
                 className="flex h-full w-full items-center justify-center"
-                onPointerEnter={() => setEmailHovered(true)}
-                onPointerLeave={() => setEmailHovered(false)}
-                onClick={() => {
-                  navigator.clipboard.writeText("saurabh10102@gmail.com");
-                  setEmailCopied(true);
-                  setTimeout(() => setEmailCopied(false), 2000);
-                }}
               >
-                <ActionSwapIcon
-                  value={emailCopied ? "check" : emailHovered ? "copy" : "mail"}
-                  animation="roll"
-                  className="h-4 w-4"
-                >
-                  {emailCopied ? (
-                    <Check className="h-4 w-4" />
-                  ) : emailHovered ? (
-                    <Copy className="h-4 w-4" />
-                  ) : (
-                    <Mail className="h-4 w-4" />
-                  )}
-                </ActionSwapIcon>
-              </button>
+                <BookOpen className="h-4 w-4" />
+              </Link>
             </Tooltip>
           </DockItem>
           <DockItem aria-label="Toggle theme">

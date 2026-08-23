@@ -5,7 +5,7 @@ export const OG_SIZE = { width: 1200, height: 630 };
 
 const FG = "#17151f";
 const MUTED = "rgba(23,21,31,0.66)";
-const LOGO_SRC = `${SITE_URL}/beui-mark.png`;
+const LOGO_SRC = `${SITE_URL}/agentui-mark.png`;
 
 type OgOptions = {
   title?: string;
@@ -26,9 +26,9 @@ function titleSize(title: string) {
 // Shared Satori-safe OG canvas for the homepage and dynamic social cards.
 // The shader is exported to a static image so edge rendering stays deterministic.
 export function ogImage({
-  title = "Animated components for React and Next.js",
-  description = "Free, open-source motion components with the source included.",
-  label = "Motion components",
+  title = "AI agent components for React and Next.js",
+  description = "Free, open-source agent interface components with the source included.",
+  label = "Agent components",
   command = "npx shadcn add @beui/...",
   backgroundSrc = `${SITE_URL}/og/dither-wave.png`,
   logoSrc = LOGO_SRC,
@@ -102,7 +102,7 @@ export function ogImage({
                 letterSpacing: "-0.04em",
               }}
             >
-              beui
+              AgentUI
             </span>
           </div>
 

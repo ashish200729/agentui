@@ -27,35 +27,35 @@ export interface ThemeToggleProps
   iconClassName?: string;
 }
 
-const VT_STYLE_ID = "beui-theme-toggle-vt";
+const VT_STYLE_ID = "agentui-theme-toggle-vt";
 
 // View transitions animate in CSS, not motion springs, so easing here is
 // either EASE_OUT_CSS or a keyword. The circle variants keep the Material
 // standard curve because their reveal expands symmetrically rather than
 // decelerating. Durations differ per variant to match native OS mode switches.
 const VT_CSS = `
-html[data-beui-vt="rect"]::view-transition-old(root) {
+html[data-agentui-vt="rect"]::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;
 }
-html[data-beui-vt="rect"]::view-transition-new(root) {
+html[data-agentui-vt="rect"]::view-transition-new(root) {
   mix-blend-mode: normal;
-  animation: beui-rect-reveal 400ms ease-out;
+  animation: agentui-rect-reveal 400ms ease-out;
 }
-html[data-beui-vt="circle"]::view-transition-old(root),
-html[data-beui-vt="circle-blur"]::view-transition-old(root) {
+html[data-agentui-vt="circle"]::view-transition-old(root),
+html[data-agentui-vt="circle-blur"]::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;
 }
-html[data-beui-vt="circle"]::view-transition-new(root) {
+html[data-agentui-vt="circle"]::view-transition-new(root) {
   mix-blend-mode: normal;
-  animation: beui-circle-reveal 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  animation: agentui-circle-reveal 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-html[data-beui-vt="circle-blur"]::view-transition-new(root) {
+html[data-agentui-vt="circle-blur"]::view-transition-new(root) {
   mix-blend-mode: normal;
-  animation: beui-circle-blur-reveal 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  animation: agentui-circle-blur-reveal 700ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-html[data-beui-vt="blinds"]::view-transition-old(root) {
+html[data-agentui-vt="blinds"]::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;
 }
@@ -69,37 +69,37 @@ html[data-beui-vt="blinds"]::view-transition-old(root) {
    transparent at -20px and fully opaque at 72px. Falling back to no mask
    (unregistered property, so the var is invalid) reveals the page in one
    step. */
-@property --beui-vt-slat {
+@property --agentui-vt-slat {
   syntax: "<length>";
   inherits: false;
   initial-value: 72px;
 }
-html[data-beui-vt="blinds"]::view-transition-new(root) {
+html[data-agentui-vt="blinds"]::view-transition-new(root) {
   mix-blend-mode: normal;
   mask-image: linear-gradient(
     90deg,
-    #000 0 var(--beui-vt-slat),
-    transparent calc(var(--beui-vt-slat) + 20px)
+    #000 0 var(--agentui-vt-slat),
+    transparent calc(var(--agentui-vt-slat) + 20px)
   );
   mask-size: 72px 100%;
   mask-repeat: repeat;
-  animation: beui-blinds-reveal 700ms ${EASE_OUT_CSS};
+  animation: agentui-blinds-reveal 700ms ${EASE_OUT_CSS};
 }
-@keyframes beui-rect-reveal {
-  from { clip-path: var(--beui-vt-from, inset(100% 0 0 0)); }
+@keyframes agentui-rect-reveal {
+  from { clip-path: var(--agentui-vt-from, inset(100% 0 0 0)); }
   to   { clip-path: inset(0 0 0 0); }
 }
-@keyframes beui-circle-reveal {
-  from { clip-path: circle(0% at var(--beui-vt-origin, 50% 100%)); }
-  to   { clip-path: circle(150% at var(--beui-vt-origin, 50% 100%)); }
+@keyframes agentui-circle-reveal {
+  from { clip-path: circle(0% at var(--agentui-vt-origin, 50% 100%)); }
+  to   { clip-path: circle(150% at var(--agentui-vt-origin, 50% 100%)); }
 }
-@keyframes beui-circle-blur-reveal {
-  from { clip-path: circle(0% at var(--beui-vt-origin, 50% 100%)); filter: blur(8px); }
-  to   { clip-path: circle(150% at var(--beui-vt-origin, 50% 100%)); filter: blur(0px); }
+@keyframes agentui-circle-blur-reveal {
+  from { clip-path: circle(0% at var(--agentui-vt-origin, 50% 100%)); filter: blur(8px); }
+  to   { clip-path: circle(150% at var(--agentui-vt-origin, 50% 100%)); filter: blur(0px); }
 }
-@keyframes beui-blinds-reveal {
-  from { --beui-vt-slat: -20px; }
-  to   { --beui-vt-slat: 72px; }
+@keyframes agentui-blinds-reveal {
+  from { --agentui-vt-slat: -20px; }
+  to   { --agentui-vt-slat: 72px; }
 }
 `;
 
@@ -149,14 +149,14 @@ export function useThemeToggle({
     const root = document.documentElement;
 
     if (variant === "rectangle") {
-      root.style.setProperty("--beui-vt-from", RECT_FROM[start]);
-      root.dataset.beuiVt = "rect";
+      root.style.setProperty("--agentui-vt-from", RECT_FROM[start]);
+      root.dataset.agentuiVt = "rect";
     } else if (variant === "blinds") {
       // Slats sweep the whole viewport; there is no origin point to set.
-      root.dataset.beuiVt = "blinds";
+      root.dataset.agentuiVt = "blinds";
     } else {
-      root.style.setProperty("--beui-vt-origin", CIRCLE_ORIGIN[start]);
-      root.dataset.beuiVt = variant;
+      root.style.setProperty("--agentui-vt-origin", CIRCLE_ORIGIN[start]);
+      root.dataset.agentuiVt = variant;
     }
 
     const vt = (
@@ -166,7 +166,7 @@ export function useThemeToggle({
     ).startViewTransition(() => setTheme(next));
 
     vt.finished.finally(() => {
-      delete root.dataset.beuiVt;
+      delete root.dataset.agentuiVt;
     });
   };
 

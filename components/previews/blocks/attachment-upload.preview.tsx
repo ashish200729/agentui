@@ -12,7 +12,7 @@ const INITIAL_ITEMS: AttachmentUploadItem[] = [
     name: "launch-brief.pdf",
     kind: "file",
     size: 32_400_000,
-    href: "data:application/pdf,beUI%20launch%20brief",
+    href: "data:application/pdf,AgentUI%20launch%20brief",
     status: "failed",
     error: "Upload failed",
   },

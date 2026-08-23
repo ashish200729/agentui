@@ -47,7 +47,7 @@ export const previewRailItems = [
   },
   {
     id: "pro",
-    label: "beUI Pro",
+    label: "AgentUI Pro",
     description: "Get premium components and lifetime access.",
     href: "#pro",
   },
@@ -60,7 +60,7 @@ export const previewRailItems = [
   {
     id: "templates",
     label: "Templates",
-    description: "Start from polished layouts built with beUI components.",
+    description: "Start from polished layouts built with AgentUI components.",
     href: "#templates",
   },
   {
@@ -72,7 +72,7 @@ export const previewRailItems = [
   {
     id: "community",
     label: "Community",
-    description: "Discover what other builders are creating with beUI.",
+    description: "Discover what other builders are creating with AgentUI.",
     href: "#community",
   },
   {
@@ -84,7 +84,7 @@ export const previewRailItems = [
   {
     id: "about",
     label: "About",
-    description: "Learn more about the ideas and people behind beUI.",
+    description: "Learn more about the ideas and people behind AgentUI.",
     href: "#about",
   },
 ];

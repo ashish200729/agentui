@@ -23,23 +23,23 @@ const PAGE_NAV_ITEMS = [
 export const metadata: Metadata = {
   title: "Motion Guides",
   description:
-    "Practical motion guidance for React interfaces: when to animate, which beUI token to use, timing ranges, reduced motion, and copy-ready patterns.",
+    "Practical motion guidance for React interfaces: when to animate, which AgentUI token to use, timing ranges, reduced motion, and copy-ready patterns.",
   alternates: {
     canonical: PAGE_PATH,
     types: { "text/markdown": `${PAGE_PATH}.md` },
   },
   openGraph: {
-    title: "Motion Guides · beUI",
+    title: "Motion Guides · AgentUI",
     description:
       "Practical guidance for purposeful animation, timing, easing, springs, and accessible motion in React interfaces.",
     url: "/docs/motion-patterns",
     type: "article",
-    siteName: "beUI",
+    siteName: "AgentUI",
     images: ["/api/og"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Motion Guides · beUI",
+    title: "Motion Guides · AgentUI",
     images: ["/api/og"],
   },
 };

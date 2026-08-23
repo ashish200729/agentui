@@ -1,12 +1,13 @@
 "use client";
 
 import { type ReactNode, useLayoutEffect, useRef, useState } from "react";
+import { EASE_OUT_CSS } from "@/lib/ease";
 import { cn } from "@/lib/utils";
 
 // Cap so a preview never renders larger than intended; only previews bigger
 // than the card shrink further to actually fit — no clipping. `maxScale`
 // per-card lets feature tiles show their preview larger than grid tiles.
-const HOVER_LIFT = 1.05;
+const HOVER_LIFT = 1.025;
 const MIN_SCALE = 0.22;
 
 // A real desktop width for the preview to render at before it gets scaled
@@ -30,11 +31,13 @@ export function PreviewFit({
   hover,
   overlay,
   maxScale = 0.82,
+  className,
 }: {
   children: ReactNode;
   hover: boolean;
   overlay?: ReactNode;
   maxScale?: number;
+  className?: string;
 }) {
   const outerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -94,15 +97,23 @@ export function PreviewFit({
   return (
     <div
       ref={outerRef}
-      className="relative m-2 mb-0 flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-[1.25rem] bg-background p-3 contain-[paint]"
+      data-slot="landing-preview"
+      className={cn(
+        "relative m-0 flex h-full min-h-0 w-full flex-1 items-center justify-center overflow-hidden rounded-2xl bg-card p-4 contain-[paint]",
+        className,
+      )}
     >
       <div
         ref={stageRef}
-        style={{ width: STAGE_WIDTH, transform: `scale(${scale})` }}
+        style={{
+          width: STAGE_WIDTH,
+          transform: `scale(${scale})`,
+          transitionTimingFunction: EASE_OUT_CSS,
+        }}
         className={cn(
           "pointer-events-none flex origin-center shrink-0 items-center justify-center [&_*]:!cursor-default",
           measured
-            ? "transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]"
+            ? "transition-transform duration-300 motion-reduce:transition-none"
             : "invisible",
         )}
       >

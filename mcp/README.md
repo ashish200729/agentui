@@ -1,20 +1,20 @@
-# beUI MCP server
+# AgentUI MCP server
 
-Remote [MCP](https://modelcontextprotocol.io) server for the beUI component registries, running on a Cloudflare Worker. It lets AI agents discover, inspect, and install both free beUI components and licensed beUI Pro blocks.
+Remote [MCP](https://modelcontextprotocol.io) server for the AgentUI component registries, running on a Cloudflare Worker. It lets AI agents discover, inspect, and install both free AgentUI components and licensed AgentUI Pro blocks.
 
-It owns no data — it reads the live `beui.dev/r/*` registry endpoints at runtime (edge-cached), so new components appear without redeploying the worker.
+It owns no data — it reads the live `agentui.dev/r/*` registry endpoints at runtime (edge-cached), so new components appear without redeploying the worker.
 
 ## Connect
 
 Add to your MCP client (Claude Desktop, Cursor, etc.):
 
 ```
-https://mcp.beui.dev/mcp
+https://mcp.agentui.dev/mcp
 ```
 
 Streamable HTTP is recommended. An SSE endpoint (`/sse`) exists for legacy clients.
 
-## Connect to beUI Pro
+## Connect to AgentUI Pro
 
 Paid users can connect to the authenticated Pro endpoint with the same license
 key they use as `BEUI_PRO_TOKEN`:
@@ -22,8 +22,8 @@ key they use as `BEUI_PRO_TOKEN`:
 ```json
 {
   "mcpServers": {
-    "beui-pro": {
-      "url": "https://mcp.beui.dev/pro/mcp",
+    "agentui-pro": {
+      "url": "https://mcp.agentui.dev/pro/mcp",
       "headers": {
         "Authorization": "Bearer ${BEUI_PRO_TOKEN}"
       }
@@ -65,4 +65,4 @@ bun run typecheck
 bun run deploy
 ```
 
-Requires `beui.dev` on Cloudflare. Wrangler provisions the `mcp.beui.dev` custom domain on first deploy (see `routes` in `wrangler.jsonc`). To point at a different registry, set the `REGISTRY_URL` var.
+Requires `agentui.dev` on Cloudflare. Wrangler provisions the `mcp.agentui.dev` custom domain on first deploy (see `routes` in `wrangler.jsonc`). To point at a different registry, set the `REGISTRY_URL` var.

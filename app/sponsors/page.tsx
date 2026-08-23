@@ -9,15 +9,15 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Sponsors",
   description:
-    "Support beUI's development with monthly sponsor stages through Dodo Payments, GitHub Sponsors, or crypto.",
+    "Support AgentUI's development with monthly sponsor stages through Dodo Payments or crypto.",
   alternates: { canonical: "/sponsors" },
   openGraph: {
-    title: "Sponsors · beUI",
+    title: "Sponsors · AgentUI",
     description:
-      "Support beUI's development with monthly sponsor stages through Dodo Payments, GitHub Sponsors, or crypto.",
+      "Support AgentUI's development with monthly sponsor stages through Dodo Payments, GitHub Sponsors, or crypto.",
     url: "/sponsors",
     type: "website",
-    siteName: "beUI",
+    siteName: "AgentUI",
     images: ["/api/og"],
   },
   twitter: {
@@ -27,8 +27,7 @@ export const metadata: Metadata = {
   },
 };
 
-const GITHUB_SPONSORS_URL = "https://github.com/sponsors/starc007";
-const CONTACT_URL = "mailto:hello@beui.dev?subject=beUI%20sponsorship";
+const CONTACT_URL = "mailto:sponsors@agentui.dev?subject=AgentUI%20sponsorship";
 
 const PLAN_STYLES = {
   diamond: {
@@ -56,7 +55,6 @@ function truncateAddress(address: string) {
     ? `${address.slice(0, 6)}...${address.slice(-6)}`
     : address;
 }
-
 function AddressRow({ label, address }: { label: string; address: string }) {
   return (
     <div className="grid grid-cols-[5rem_minmax(0,1fr)_auto] items-center gap-4 rounded-xl border border-border px-4 py-3">
@@ -175,7 +173,7 @@ export default async function SponsorsPage({
         "Largest logo placement on the sponsors page",
         "Largest logo placement in the docs sidebar",
         "Largest logo placement in the README",
-        "Shoutout on X after sponsorship",
+        "Public launch acknowledgement",
         "Priority feedback channel for requests",
       ],
       paymentUrl:
@@ -228,7 +226,7 @@ export default async function SponsorsPage({
               Sponsorship checkout complete
             </p>
             <p className="mt-1 text-sm leading-relaxed text-emerald-900/75 dark:text-emerald-100/75">
-              Thanks for sponsoring beUI. I’ll follow up for logo assets and
+              Thanks for sponsoring AgentUI. I’ll follow up for logo assets and
               placement details.
             </p>
           </div>
@@ -242,22 +240,11 @@ export default async function SponsorsPage({
           Support beUI
         </h1>
         <p className="mt-3 text-muted-foreground">
-          beUI is free and open source. Sponsor a monthly stage to reach
-          developers actively browsing motion components, blocks, and registry
+          AgentUI is free and open source. Sponsor a monthly stage to reach
+          developers actively building agent interfaces and using registry
           installs.
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          <PressLink
-            href={GITHUB_SPONSORS_URL}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:border-border-strong"
-          >
-            Sponsor on GitHub
-            <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </PressLink>
-        </div>
       </div>
 
       <section id="sponsor-plans" className="mt-12">

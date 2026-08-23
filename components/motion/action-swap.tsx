@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion, type HTMLMotionProps, type Variants } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { EASE_OUT, SPRING_PRESS, SPRING_SWAP } from "@/lib/ease";
 import { cn } from "@/lib/utils";
@@ -60,18 +60,24 @@ const ROLL_BLUR = "blur(3px)";
 // proportional glyph widths never jitter. Exits cascade at half the enter
 // stagger so the tail of the old label lingers briefly.
 const CASCADE_STAGGER = 0.025;
+const CASCADE_OFFSET = 14;
 
 const CASCADE_LETTER_VARIANTS: Variants = {
-  initial: { opacity: 0, y: "105%", filter: ROLL_BLUR },
+  initial: { opacity: 0, y: CASCADE_OFFSET, filter: ROLL_BLUR },
+  static: { opacity: 1, y: 0, filter: "blur(0px)" },
   animate: (delay: number = 0) => ({
     opacity: 1,
-    y: "0%",
+    y: 0,
     filter: "blur(0px)",
-    transition: { ...SPRING_SWAP, delay },
+    transition: {
+      y: { ...SPRING_SWAP, delay },
+      opacity: { duration: 0.2, ease: EASE_OUT, delay },
+      filter: { duration: 0.2, ease: EASE_OUT, delay },
+    },
   }),
   exit: (delay: number = 0) => ({
     opacity: 0,
-    y: "-105%",
+    y: -CASCADE_OFFSET,
     filter: ROLL_BLUR,
     transition: { duration: 0.16, ease: EASE_OUT, delay: delay * 0.5 },
   }),
@@ -164,11 +170,16 @@ export function ActionSwapText({
   className,
 }: ActionSwapTextProps) {
   const reduce = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // Cascade needs a plain string to split into letters; non-string content
   // and reduced motion fall back to the closest single-element animation.
   const label = typeof children === "string" ? children : null;
-  const cascade = animation === "cascade" && label !== null && !reduce;
+  // Server markup and the first client render must share one stable structure.
+  // Motion only becomes eligible after hydration and preference resolution.
+  const motionReady = mounted && reduce === false;
+  const cascade = animation === "cascade" && label !== null;
   const coreAnimation: CoreAnimation =
     animation === "cascade" ? "roll" : animation;
 
@@ -207,9 +218,9 @@ export function ActionSwapText({
             <motion.span
               key={`cascade-${value}`}
               aria-hidden
-              initial="initial"
-              animate="animate"
-              exit="exit"
+              initial={motionReady ? "initial" : false}
+              animate={motionReady ? "animate" : "static"}
+              exit={motionReady ? "exit" : undefined}
               className="absolute left-0 top-[0.08em] inline-block whitespace-pre"
             >
               {label.split("").map((char, i) => (
@@ -231,9 +242,13 @@ export function ActionSwapText({
           <motion.span
             key={`${animation}-${value}`}
             variants={TEXT_VARIANTS[coreAnimation]}
-            initial={reduce ? false : "initial"}
-            animate={reduce ? { opacity: 1, filter: "blur(0px)", scale: 1, y: 0 } : "animate"}
-            exit={reduce ? undefined : "exit"}
+            initial={motionReady ? "initial" : false}
+            animate={
+              motionReady
+                ? "animate"
+                : { opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }
+            }
+            exit={motionReady ? "exit" : undefined}
             // Truncation lives on the layer that holds the text — the layer
             // moves as a whole, so clipping it never eats the roll.
             className="absolute left-0 top-[0.08em] inline-block max-w-full truncate will-change-[opacity,filter,transform]"
@@ -253,6 +268,9 @@ export function ActionSwapIcon({
   className,
 }: ActionSwapIconProps) {
   const reduce = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const motionReady = mounted && reduce === false;
   // Icons are single elements — cascade maps to its closest motion, roll.
   const coreAnimation: CoreAnimation =
     animation === "cascade" ? "roll" : animation;
@@ -264,9 +282,13 @@ export function ActionSwapIcon({
           key={`${animation}-${value}`}
           aria-hidden
           variants={ICON_VARIANTS[coreAnimation]}
-          initial={reduce ? false : "initial"}
-          animate={reduce ? { opacity: 1, filter: "blur(0px)", scale: 1, y: 0 } : "animate"}
-          exit={reduce ? undefined : "exit"}
+          initial={motionReady ? "initial" : false}
+          animate={
+            motionReady
+              ? "animate"
+              : { opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }
+          }
+          exit={motionReady ? "exit" : undefined}
           className="col-start-1 row-start-1 inline-flex items-center justify-center will-change-[opacity,filter,transform]"
         >
           {children}

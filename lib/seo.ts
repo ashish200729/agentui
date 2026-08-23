@@ -3,18 +3,17 @@ import { componentDates } from "@/lib/component-dates";
 import {
   type CategoryEntry,
   type ComponentEntry,
-  allComponents,
-  registry,
+  findPublicCategory,
+  publicAllComponents,
 } from "@/lib/registry";
 import { SITE_URL } from "@/lib/site";
 
 export const SITE = SITE_URL;
-export const SITE_NAME = "beUI";
-export const SITE_TITLE = "Animated Components for React and Next.js";
-export const SITE_TAGLINE = "Animated components for React and Next.js";
+export const SITE_NAME = "AgentUI";
+export const SITE_TITLE = "AI Agent Components for React and Next.js";
+export const SITE_TAGLINE = "AI agent components for React and Next.js";
 export const SITE_DESCRIPTION =
-  "Free, open-source animated components for React and Next.js, built with Motion and Tailwind CSS. Copy the source or install with the shadcn CLI.";
-export const AUTHOR = "Saurabh";
+  "Free, open-source React components for AI agent chat, reasoning, tool activity, approvals, and streamed responses. Copy the source or install with the shadcn CLI.";
 
 const abs = (path: string) => (path.startsWith("http") ? path : `${SITE}${path}`);
 
@@ -23,7 +22,7 @@ const KEYWORD_SUFFIXES = [
   "React component",
   "Next.js component",
   "Tailwind component",
-  "framer motion component",
+  "motion-powered agent component",
   "shadcn component",
   "animation",
   "example",
@@ -31,15 +30,15 @@ const KEYWORD_SUFFIXES = [
 const KEYWORD_PREFIXES = ["", "animated ", "free ", "best "];
 
 const BASE_KEYWORDS = [
-  "React motion component",
-  "best motion components",
-  "free motion components",
-  "open source motion components",
-  "framer motion component",
-  "best framer motion components",
+  "AI agent component",
+  "best AI agent components",
+  "free AI agent components",
+  "open source AI agent components",
+  "React agent interface component",
+  "streaming chat components",
   "Tailwind CSS component",
   "shadcn registry",
-  "beUI",
+  "AgentUI",
 ];
 
 /**
@@ -72,7 +71,7 @@ export function componentKeywords(
 export function componentMetaDescription(comp: ComponentEntry): string {
   if (comp.guide?.seo.description) return comp.guide.seo.description;
 
-  return `${comp.description} Free, open-source React and Next.js motion component. Copy-paste the source or install with shadcn.`;
+  return `${comp.description} Free, open-source AI agent component for React and Next.js. Copy-paste the source or install with shadcn.`;
 }
 
 /** Trim text to `limit` chars on a word boundary — for fixed-size surfaces
@@ -103,20 +102,20 @@ export function siteJsonLd(): JsonLdSchema[] {
       name: SITE_NAME,
       url: SITE,
       slogan: SITE_TAGLINE,
-      logo: abs("/beui-mark.png"),
+      logo: abs("/agentui-mark.png"),
     },
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "@id": `${SITE}/#app`,
       name: SITE_NAME,
-      alternateName: "beUI animated components",
+      alternateName: "AgentUI AI agent components",
       slogan: SITE_TAGLINE,
       description: SITE_DESCRIPTION,
       url: SITE,
       applicationCategory: "DeveloperApplication",
       operatingSystem: "Web",
-      author: { "@type": "Person", name: AUTHOR },
+      author: { "@id": `${SITE}/#org` },
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     },
   ];
@@ -170,12 +169,7 @@ export function docsArticleJsonLd({
     isPartOf: { "@id": `${SITE}/#website` },
     datePublished,
     dateModified,
-    author: {
-      "@type": "Person",
-      name: AUTHOR,
-      url: "https://saura3h.xyz",
-      sameAs: "https://github.com/starc007",
-    },
+    author: { "@id": `${SITE}/#org` },
     publisher: { "@id": `${SITE}/#org` },
     ...(about?.length
       ? { about: about.map((name) => ({ "@type": "Thing", name })) }
@@ -194,7 +188,7 @@ export function componentJsonLd(
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "@id": `${url}#article`,
-    headline: comp.guide?.seo.title ?? `${comp.name} · React motion component`,
+    headline: comp.guide?.seo.title ?? `${comp.name} · AI agent component`,
     name: comp.name,
     description: comp.guide?.seo.description ?? comp.description,
     url,
@@ -203,19 +197,13 @@ export function componentJsonLd(
     isPartOf: { "@id": `${SITE}/#website` },
     datePublished: dates.publishedAt,
     dateModified: dates.updatedAt,
-    author: {
-      "@type": "Person",
-      name: AUTHOR,
-      url: "https://saura3h.xyz",
-      sameAs: "https://github.com/starc007",
-    },
+    author: { "@id": `${SITE}/#org` },
     publisher: { "@id": `${SITE}/#org` },
     about: {
       "@type": "SoftwareSourceCode",
       name: comp.name,
       description: comp.guide?.seo.description ?? comp.description,
-      codeRepository: "https://github.com/starc007/ui-components",
-      license: "https://github.com/starc007/ui-components/blob/main/LICENSE",
+      license: abs("/LICENSE"),
       programmingLanguage: "TypeScript",
       runtimePlatform: "React",
       codeSampleType: "full (compile ready)",
@@ -337,7 +325,7 @@ export function relatedComponents(
   slug: string,
   limit = 4,
 ): RelatedComponent[] {
-  const cat = registry.find((c) => c.slug === categorySlug);
+  const cat = findPublicCategory(categorySlug);
   const components = cat?.components ?? [];
   const currentIndex = components.findIndex((component) => component.slug === slug);
   const current = components[currentIndex];
@@ -357,7 +345,7 @@ export function relatedComponents(
 
   if (siblings.length >= limit) return siblings.slice(0, limit);
 
-  const rest = allComponents()
+  const rest = publicAllComponents()
     .filter((c) => c.category.slug !== categorySlug)
     .map((c) => toRelated(c.category.slug, c));
 

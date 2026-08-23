@@ -27,23 +27,23 @@ const PAGE_NAV_ITEMS = [
 export const metadata: Metadata = {
   title: "AI Agents",
   description:
-    "Install the beUI agent skill, connect the MCP server, or use the agent-friendly endpoints (llms.txt, JSON registry, raw source) to consume components programmatically.",
+    "Install the AgentUI agent skill, connect the MCP server, or use the agent-friendly endpoints (llms.txt, JSON registry, raw source) to consume components programmatically.",
   alternates: {
     canonical: PAGE_PATH,
     types: { "text/markdown": `${PAGE_PATH}.md` },
   },
   openGraph: {
-    title: "AI Agents · beUI",
+    title: "AI Agents · AgentUI",
     description:
-      "Install the beUI agent skill, connect the MCP server, or use the agent-friendly endpoints (llms.txt, JSON registry, raw source) to consume components programmatically.",
+      "Install the AgentUI agent skill, connect the MCP server, or use the agent-friendly endpoints (llms.txt, JSON registry, raw source) to consume components programmatically.",
     url: "/docs/ai-agents",
     type: "article",
-    siteName: "beUI",
+    siteName: "AgentUI",
     images: ["/api/og"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Agents · beUI",
+    title: "AI Agents · AgentUI",
     images: ["/api/og"],
   },
 };
@@ -81,33 +81,33 @@ const ENDPOINTS: { label: string; url: string; desc: string }[] = [
   },
 ];
 
-const MCP_URL = "https://mcp.beui.dev/mcp";
+const MCP_URL = "https://mcp.agentui.dev/mcp";
 
-const SKILL_SNIPPET = `npx skills add starc007/ui-components --skill beui`;
+const SKILL_SNIPPET = `skills/agentui/SKILL.md`;
 
 const MCP_CLI_SNIPPET = `# Claude Code
-claude mcp add --transport http beui https://mcp.beui.dev/mcp
+claude mcp add --transport http agentui https://mcp.agentui.dev/mcp
 
 # Codex
-codex mcp add beui --url https://mcp.beui.dev/mcp
+codex mcp add agentui --url https://mcp.agentui.dev/mcp
 
 # Amp
-amp mcp add beui https://mcp.beui.dev/mcp`;
+amp mcp add agentui https://mcp.agentui.dev/mcp`;
 
 const MCP_MANUAL_SNIPPET = `{
   "mcpServers": {
-    "beui": {
+    "agentui": {
       "type": "http",
-      "url": "https://mcp.beui.dev/mcp"
+      "url": "https://mcp.agentui.dev/mcp"
     }
   }
 }`;
 
 const FETCH_SNIPPET = `// 1. Discover what exists
-const idx = await fetch('https://beui.dev/r').then((r) => r.json());
+const idx = await fetch('https://agentui.dev/r').then((r) => r.json());
 
 // 2. Fetch a component
-const entry = await fetch(\`https://beui.dev/r/\${slug}\`).then((r) => r.json());
+const entry = await fetch(\`https://agentui.dev/r/\${slug}\`).then((r) => r.json());
 
 // 3. Write files into the user's project
 for (const file of entry.files) {
@@ -118,24 +118,24 @@ for (const file of entry.files) {
 await runShell(['bun', 'add', ...entry.dependencies]);`;
 
 const SHADCN_SNIPPET = `# Official registry namespace (shadcn directory)
-npx shadcn@latest add @beui/animated-toast-stack
+npx shadcn@latest add @beui/message
 
 # Direct URL, no namespace needed
-npx shadcn@latest add https://beui.dev/r/animated-toast-stack.json`;
+npx shadcn@latest add https://agentui.dev/r/message.json`;
 
 const ENTRY_SHAPE = `{
-  "slug": "swap",
-  "name": "Multi-chain Swap",
-  "description": "Cross-chain swap widget with chain + token selectors, animated flip and quote.",
-  "category": "motion",
-  "page_url": "https://beui.dev/components/motion/swap",
-  "detail_url": "https://beui.dev/r/swap",
-  "raw_url": "https://beui.dev/r/swap/raw",
+  "slug": "message",
+  "name": "Message",
+  "description": "Composable conversation message primitives for streamed agent responses.",
+  "category": "agents",
+  "page_url": "https://agentui.dev/components/agents/message",
+  "detail_url": "https://agentui.dev/r/message",
+  "raw_url": "https://agentui.dev/r/message/raw",
   "dependencies": ["motion", "lucide-react", "react"],
   "internal": ["@/lib/utils"],
   "files": [
-    { "path": "components/motion/swap.tsx", "type": "component", "content": "..." },
-    { "path": "components/previews/motion/swap.preview.tsx", "type": "preview", "content": "..." },
+    { "path": "components/agents/message.tsx", "type": "component", "content": "..." },
+    { "path": "components/previews/agents/message.preview.tsx", "type": "preview", "content": "..." },
     { "path": "lib/utils.ts", "type": "util", "content": "..." }
   ]
 }`;
@@ -158,7 +158,7 @@ export default function AIAgentsPage() {
           />
         </div>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          beUI exposes a static, agent-friendly surface. Install the beUI skill,
+          AgentUI exposes a static, agent-friendly surface. Install the AgentUI skill,
           connect the MCP server below, or hit the raw endpoints directly. Coding
           agents (Claude, Codex, Cursor, Amp) can list components, fetch source
           with all deps, and drop files into the user&apos;s project.
@@ -179,7 +179,7 @@ export default function AIAgentsPage() {
         </code>{" "}
         install slug, inspect it with shadcn, then install and compose from
         the generated source. Use it when you want agents to choose existing
-        beUI components instead of inventing custom motion widgets.
+        AgentUI components instead of inventing custom motion widgets.
       </p>
       <div className="mt-4">
         <CodeBlock code={SKILL_SNIPPET} lang="bash" filename="terminal" />
@@ -192,7 +192,7 @@ export default function AIAgentsPage() {
         MCP server
       </h2>
       <p className="mt-2 text-muted-foreground">
-        The fastest path: connect the beUI MCP server and your agent can list,
+        The fastest path: connect the AgentUI MCP server and your agent can list,
         search and install components directly. Hosted at{" "}
         <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
           {MCP_URL}
@@ -289,7 +289,7 @@ export default function AIAgentsPage() {
       <p className="mt-2 text-muted-foreground">
         The shadcn item installs source files and package dependencies.
         Components use shadcn semantic color utilities directly, so they inherit
-        the target app&apos;s theme without beUI-specific color variables.
+        the target app&apos;s theme without AgentUI-specific color variables.
       </p>
       <div className="mt-4">
         <CodeBlock code={SHADCN_SNIPPET} lang="bash" filename="terminal" />

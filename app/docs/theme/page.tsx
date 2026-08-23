@@ -7,20 +7,20 @@ import { THEME_CSS } from "@/lib/theme-css";
 export const metadata: Metadata = {
   title: "Theme setup",
   description:
-    "One-time theme setup for beUI components: install the shadcn token layer, or paste the beUI theme CSS into your globals.css.",
+    "One-time theme setup for AgentUI components: install the shadcn token layer, or paste the AgentUI theme CSS into your globals.css.",
   alternates: { canonical: "/docs/theme" },
   openGraph: {
-    title: "Theme setup · beUI",
+    title: "Theme setup · AgentUI",
     description:
-      "One-time theme setup for beUI components: shadcn tokens or the beUI theme CSS.",
+      "One-time theme setup for AgentUI components: shadcn tokens or the AgentUI theme CSS.",
     url: "/docs/theme",
     type: "article",
-    siteName: "beUI",
+    siteName: "AgentUI",
     images: ["/api/og"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Theme setup · beUI",
+    title: "Theme setup · AgentUI",
     images: ["/api/og"],
   },
 };
@@ -37,7 +37,7 @@ export default function ThemePage() {
         Theme setup
       </h1>
       <p className="mt-3 text-muted-foreground">
-        beUI components style themselves with shadcn semantic tokens
+        AgentUI components style themselves with shadcn semantic tokens
         (<code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">bg-primary</code>,
         {" "}
         <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">text-muted-foreground</code>,

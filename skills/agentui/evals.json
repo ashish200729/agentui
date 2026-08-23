@@ -1,0 +1,53 @@
+{
+  "skill_name": "agentui",
+  "evals": [
+    {
+      "id": "chat",
+      "prompt": "Build a streaming AI chat with a prompt box and a thread that follows new tokens.",
+      "expected_slugs": ["message-scroller", "message", "prompt-input"],
+      "not_slugs": ["agent-progress"]
+    },
+    {
+      "id": "thinking",
+      "prompt": "Add a thinking indicator while the agent works.",
+      "expected_slugs": ["thinking-shimmer"],
+      "not_slugs": ["agent-progress", "reasoning-text"]
+    },
+    {
+      "id": "activity",
+      "prompt": "Show reasoning steps, web searches, and tool calls in one agent activity disclosure.",
+      "expected_slugs": ["agent-activity"],
+      "not_slugs": ["todo-list"]
+    },
+    {
+      "id": "tool-output",
+      "prompt": "Render a streaming terminal result from an agent tool.",
+      "expected_slugs": ["tool-result"],
+      "not_slugs": ["code-block"]
+    },
+    {
+      "id": "approval",
+      "prompt": "Ask the user to approve or reject a tool execution.",
+      "expected_slugs": ["tool-approval"],
+      "not_slugs": ["approval-card"]
+    },
+    {
+      "id": "question",
+      "prompt": "Collect a single-choice or freeform clarification from the user before continuing.",
+      "expected_slugs": ["approval-card"],
+      "not_slugs": ["tool-approval"]
+    },
+    {
+      "id": "grounded-answer",
+      "prompt": "Show an AI answer with inline sources and a collapsible reference list.",
+      "expected_slugs": ["streaming-response", "citations"],
+      "not_slugs": ["message-bubble"]
+    },
+    {
+      "id": "workspace",
+      "prompt": "Build a complete agent workspace with navigation, chat, tools, code, and approvals.",
+      "expected_slugs": ["chat-app"],
+      "not_slugs": ["ai-sidebar"]
+    }
+  ]
+}

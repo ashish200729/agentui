@@ -10,7 +10,7 @@ import { SITE_URL } from "@/lib/site";
 
 const PAGE_TITLE = "OpenUI integration guide";
 const PAGE_DESCRIPTION =
-  "Build an OpenUI React integration with beUI. Register animated components, generate the system prompt, stream OpenUI Lang, and render interactive UI.";
+  "Build an OpenUI React integration with AgentUI. Register agent components, generate the system prompt, stream OpenUI Lang, and render interactive UI.";
 const PAGE_PATH = "/docs/openui";
 const PAGE_IMAGE = "/api/og?page=openui&v=2";
 
@@ -24,7 +24,7 @@ const PAGE_NAV_ITEMS = [
       { id: "assemble-library", label: "Assemble the library" },
       { id: "generate-prompt", label: "Generate the prompt" },
       { id: "render-stream", label: "Render the stream" },
-      { id: "why-beui", label: "Why beUI fits" },
+      { id: "why-agentui", label: "Why AgentUI fits" },
       { id: "resources", label: "Resources" },
     ],
   },
@@ -38,25 +38,25 @@ export const metadata: Metadata = {
     types: { "text/markdown": `${PAGE_PATH}.md` },
   },
   openGraph: {
-    title: `${PAGE_TITLE} · beUI`,
+    title: `${PAGE_TITLE} · AgentUI`,
     description: PAGE_DESCRIPTION,
     url: PAGE_PATH,
     type: "article",
-    siteName: "beUI",
+    siteName: "AgentUI",
     images: [
       {
         url: PAGE_IMAGE,
         width: 1200,
         height: 630,
-        alt: "Use beUI with OpenUI",
+        alt: "Use AgentUI with OpenUI",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${PAGE_TITLE} · beUI`,
+    title: `${PAGE_TITLE} · AgentUI`,
     description: PAGE_DESCRIPTION,
-    images: [{ url: PAGE_IMAGE, alt: "Use beUI with OpenUI" }],
+    images: [{ url: PAGE_IMAGE, alt: "Use AgentUI with OpenUI" }],
   },
 };
 
@@ -66,79 +66,65 @@ npm install @openuidev/react-lang @openuidev/lang-core zod
 # Your model SDK (any provider works)
 npm install openai
 
-# Pull the beUI components you want to expose (shadcn registry)
-npx shadcn@latest add @beui/button @beui/animated-badge @beui/animated-number`;
+# Pull the AgentUI components you want to expose (shadcn registry)
+npx shadcn@latest add @beui/message @beui/prompt-input @beui/agent-activity`;
 
 const DEFINE_SNIPPET = `import { defineComponent, useTriggerAction } from "@openuidev/react-lang";
 import { z } from "zod/v4";
-import { Button } from "@/components/motion/button";
-import { AnimatedBadge } from "@/components/motion/animated-badge";
-import { AnimatedNumber } from "@/components/motion/animated-number";
+import {
+  Message,
+  MessageBubble,
+  MessageBubbleContent,
+} from "@/components/agents/message";
+import { PromptInput } from "@/components/agents/prompt-input";
+import { AgentProgress } from "@/components/agents/loading-states";
 
-// beUI Button — the model picks a variant and an optional press ripple.
-// \`useTriggerAction\` keeps it live: pressing it sends \`action\` back to the
-// model, so generated buttons continue the conversation instead of sitting inert.
-const BeButton = defineComponent({
-  name: "Button",
-  description:
-    "Spring-pressed action button. \`action\` is the message sent to the model when pressed.",
+// AgentUI conversation row. \`useTriggerAction\` keeps generated controls live.
+const BeMessage = defineComponent({
+  name: "Message",
+  description: "A user or assistant message rendered as an AgentUI conversation row.",
   props: z.object({
-    label: z.string(),
-    action: z.string(),
-    variant: z.enum(["primary", "secondary", "ghost", "outline"]).default("primary"),
-    ripple: z.boolean().default(false),
+    text: z.string(),
+    from: z.enum(["user", "assistant"]).default("assistant"),
   }),
+  component: ({ props }) => (
+    <Message from={props.from}>
+      <MessageBubble>
+        <MessageBubbleContent>{props.text}</MessageBubbleContent>
+      </MessageBubble>
+    </Message>
+  ),
+});
+
+// AgentUI prompt composer. The submitted value becomes the next model action.
+const BePrompt = defineComponent({
+  name: "PromptInput",
+  description: "An auto-growing prompt composer for the next agent turn.",
+  props: z.object({ placeholder: z.string().optional() }),
   component: ({ props }) => {
     const triggerAction = useTriggerAction();
     return (
-      <Button
-        variant={props.variant}
-        ripple={props.ripple}
-        onClick={() => triggerAction(props.action)}
-      >
-        {props.label}
-      </Button>
+      <PromptInput
+        placeholder={props.placeholder}
+        onSubmit={(value) => triggerAction(value)}
+      />
     );
   },
 });
 
-// beUI status pill with a pulse and animated state icon.
-const BeBadge = defineComponent({
-  name: "Badge",
-  description:
-    "Status pill. Pick a status colour; set pulse for live or in-progress states.",
-  props: z.object({
-    label: z.string(),
-    status: z
-      .enum(["neutral", "info", "success", "warning", "danger", "loading"])
-      .default("neutral"),
-    pulse: z.boolean().default(false),
-  }),
-  component: ({ props }) => (
-    <AnimatedBadge status={props.status} pulse={props.pulse}>
-      {props.label}
-    </AnimatedBadge>
-  ),
-});
-
-// beUI spring count-up for a single metric.
-const BeStat = defineComponent({
-  name: "Stat",
-  description: "A single numeric metric that springs up from zero when shown.",
-  props: z.object({ label: z.string(), value: z.number() }),
-  component: ({ props }) => (
-    <div className="rounded-xl border border-border bg-card p-4">
-      <p className="text-sm text-muted-foreground">{props.label}</p>
-      <AnimatedNumber value={props.value} className="text-2xl font-semibold" />
-    </div>
-  ),
+// AgentUI progress status for unknown-duration work.
+const BeProgress = defineComponent({
+  name: "AgentProgress",
+  description: "A compact in-progress status with an honest elapsed timer.",
+  props: z.object({ label: z.string().default("Working") }),
+  component: ({ props }) => <AgentProgress label={props.label} />,
 });
 
 // The root node stacks the components above. Describe its children as a union
 // of each component's \`.ref\` (declared after the components exist): the runtime
 // validates what may nest here, and the model sees exactly which nodes are
 // allowed inside — both of which \`z.any()\` would throw away.
-const StackChild = z.union([BeButton.ref, BeBadge.ref, BeStat.ref]);
+const StackChild = z.union([BeMessage.ref, BePrompt.ref, BeProgress.ref]);
 
 const Stack = defineComponent({
   name: "Stack",
@@ -151,9 +137,9 @@ const Stack = defineComponent({
 
 const LIBRARY_SNIPPET = `import { createLibrary } from "@openuidev/react-lang";
 
-export const beuiLibrary = createLibrary({
+export const agentuiLibrary = createLibrary({
   root: "Stack",
-  components: [Stack, BeButton, BeBadge, BeStat],
+  components: [Stack, BeMessage, BePrompt, BeProgress],
   componentGroups: [
     {
       name: "Layout",
@@ -161,11 +147,11 @@ export const beuiLibrary = createLibrary({
       notes: ["Every response is a single Stack at the root."],
     },
     {
-      name: "beUI motion",
-      components: ["Button", "Badge", "Stat"],
+      name: "AgentUI motion",
+      components: ["Message", "PromptInput", "AgentProgress"],
       notes: [
-        "Use Badge with pulse for live or streaming status.",
-        "One Button per response, as the primary action.",
+        "Use Message for the conversation transcript.",
+        "Use PromptInput for the next agent turn.",
       ],
     },
   ],
@@ -173,7 +159,7 @@ export const beuiLibrary = createLibrary({
 
 const PROMPT_SNIPPET = `import OpenAI from "openai";
 import { generateSystemPrompt } from "@openuidev/lang-core";
-import beuiLibrarySpec from "@/lib/generated/beui-library.spec.json";
+import agentuiLibrarySpec from "@/lib/generated/agentui-library.spec.json";
 
 const openai = new OpenAI();
 
@@ -187,7 +173,7 @@ export async function POST(req: Request) {
     store: false,
     // Grammar + a signature and description for every registered component,
     // so the model only ever emits nodes your library defines.
-    instructions: generateSystemPrompt({ library: beuiLibrarySpec }),
+    instructions: generateSystemPrompt({ library: agentuiLibrarySpec }),
     input: messages,
   });
 
@@ -216,7 +202,7 @@ export async function POST(req: Request) {
 const RENDER_SNIPPET = `"use client";
 
 import { Renderer } from "@openuidev/react-lang";
-import { beuiLibrary } from "@/lib/beui-library";
+import { agentuiLibrary } from "@/lib/agentui-library";
 
 // \`response\` is the OpenUI Lang your server streams from the model.
 export function GenerativeResponse({
@@ -231,7 +217,7 @@ export function GenerativeResponse({
   return (
     <Renderer
       response={response}
-      library={beuiLibrary}
+              library={agentuiLibrary}
       isStreaming={isStreaming}
       // A registered Button was pressed — send its message back to the
       // model to continue the conversation.
@@ -278,7 +264,7 @@ export default function OpenUIPage() {
               "OpenUI React integration",
               "Custom OpenUI component library",
               "Generative UI",
-              "beUI",
+              "AgentUI",
             ],
           }),
         ]}
@@ -289,7 +275,7 @@ export default function OpenUIPage() {
         </p>
         <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <h1 className="text-3xl font-medium tracking-tight text-foreground">
-            Use beUI with OpenUI
+            Use AgentUI with OpenUI
           </h1>
           <CopyPage
             pageUrl={`${SITE_URL}${PAGE_PATH}`}
@@ -309,8 +295,8 @@ export default function OpenUIPage() {
           is a generative UI framework: instead of returning markdown, the model
           emits an abstract UI tree (OpenUI Lang) and a React runtime maps every
           node to a component <em>you</em> register. This OpenUI React integration
-          turns beUI into a custom OpenUI component library, so each generated
-          response uses real, animated components—and only the components you
+          turns AgentUI into a custom OpenUI component library, so each generated
+          response uses real agent components—and only the components you
           allow.
         </p>
       </header>
@@ -322,8 +308,8 @@ export default function OpenUIPage() {
         Install
       </h2>
       <p className="mt-2 text-muted-foreground">
-        You need OpenUI&apos;s React runtime and the beUI components you want to
-        expose. Pull beUI source with the shadcn registry (see the{" "}
+        You need OpenUI&apos;s React runtime and the AgentUI components you want to
+        expose. Pull AgentUI source with the shadcn registry (see the{" "}
         <Link
           href="/docs/ai-agents"
           className="text-foreground underline underline-offset-4 decoration-border hover:decoration-foreground"
@@ -340,7 +326,7 @@ export default function OpenUIPage() {
         <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
           npx @openuidev/cli@latest create
         </code>{" "}
-        for a working streaming app, then swap its default library for the beUI
+        for a working streaming app, then swap its default library for the AgentUI
         one below.
       </p>
 
@@ -354,7 +340,7 @@ export default function OpenUIPage() {
         <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
           defineComponent
         </code>{" "}
-        maps one OpenUI Lang node to a beUI component. The Zod{" "}
+        maps one OpenUI Lang node to an AgentUI component. The Zod{" "}
         <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
           props
         </code>{" "}
@@ -375,7 +361,7 @@ export default function OpenUIPage() {
         schemas so nesting is both validated and advertised to the model.
       </p>
       <div className="mt-4">
-        <CodeBlock code={DEFINE_SNIPPET} lang="tsx" filename="lib/beui-library.tsx" />
+        <CodeBlock code={DEFINE_SNIPPET} lang="tsx" filename="lib/agentui-library.tsx" />
       </div>
 
       <h2
@@ -399,7 +385,7 @@ export default function OpenUIPage() {
         with notes that steer how the model reaches for each one.
       </p>
       <div className="mt-4">
-        <CodeBlock code={LIBRARY_SNIPPET} lang="tsx" filename="lib/beui-library.tsx" />
+        <CodeBlock code={LIBRARY_SNIPPET} lang="tsx" filename="lib/agentui-library.tsx" />
       </div>
 
       <h2
@@ -412,7 +398,7 @@ export default function OpenUIPage() {
         The client renders OpenUI Lang, but the model has to produce it. In the
         CLI, call{" "}
         <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
-          npx @openuidev/cli@latest generate --spec ./lib/beui-library.tsx --out ./lib/generated/beui-library.spec.json
+          npx @openuidev/cli@latest generate --spec ./lib/agentui-library.tsx --out ./lib/generated/agentui-library.spec.json
         </code>{" "}
         to build the library spec. The backend combines its component
         signatures, descriptions, and nesting constraints with the OpenUI Lang
@@ -443,7 +429,7 @@ export default function OpenUIPage() {
           &lt;Renderer&gt;
         </code>{" "}
         on the client. It parses the OpenUI Lang your server streams and paints
-        beUI components progressively as tokens arrive. Wire{" "}
+        AgentUI components progressively as tokens arrive. Wire{" "}
         <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
           onAction
         </code>{" "}
@@ -455,13 +441,13 @@ export default function OpenUIPage() {
       </div>
 
       <h2
-        id="why-beui"
+        id="why-agentui"
         className="mt-10 scroll-mt-24 text-xl font-medium tracking-tight text-foreground"
       >
-        Why beUI fits
+        Why AgentUI fits
       </h2>
       <p className="mt-2 text-muted-foreground">
-        beUI components own their files and ship through the registry, so
+        AgentUI components own their files and ship through the registry, so
         there&apos;s no runtime to bolt on — the library above <em>is</em> the
         integration. They use semantic controls and shadcn tokens, so
         model-generated UIs inherit the host app&apos;s theme without extra wiring.
@@ -496,7 +482,7 @@ export default function OpenUIPage() {
       </ul>
       <p className="mt-6 text-sm text-muted-foreground">
         Other generative UI frameworks that consume shadcn registries can pull
-        beUI the same way — more integration guides to come.
+        AgentUI the same way — more integration guides to come.
       </p>
     </GuideShell>
   );

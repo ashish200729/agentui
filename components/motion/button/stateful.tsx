@@ -10,6 +10,7 @@ import {
 import {
   forwardRef,
   type ReactNode,
+  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -29,19 +30,25 @@ export interface StatefulButtonProps extends Omit<ButtonProps, "children"> {
 }
 
 const CASCADE_STAGGER = 0.025;
+const CASCADE_OFFSET = 14;
 const ROLL_BLUR = "blur(6px)";
 
 const CASCADE_LETTER_VARIANTS: Variants = {
-  initial: { opacity: 0, y: "105%", filter: ROLL_BLUR },
+  initial: { opacity: 0, y: CASCADE_OFFSET, filter: ROLL_BLUR },
+  static: { opacity: 1, y: 0, filter: "blur(0px)" },
   animate: (delay: number = 0) => ({
     opacity: 1,
-    y: "0%",
+    y: 0,
     filter: "blur(0px)",
-    transition: { ...SPRING_SWAP, delay },
+    transition: {
+      y: { ...SPRING_SWAP, delay },
+      opacity: { duration: 0.2, ease: EASE_OUT, delay },
+      filter: { duration: 0.2, ease: EASE_OUT, delay },
+    },
   }),
   exit: (delay: number = 0) => ({
     opacity: 0,
-    y: "-105%",
+    y: -CASCADE_OFFSET,
     filter: ROLL_BLUR,
     transition: { duration: 0.16, ease: EASE_OUT, delay: delay * 0.5 },
   }),
@@ -69,14 +76,17 @@ const ICON_VARIANTS: Variants = {
 
 function IconSlot({ keyId, children }: { keyId: string; children: ReactNode }) {
   const reduce = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const motionReady = mounted && reduce === false;
   return (
     <motion.span
       key={keyId}
       variants={ICON_VARIANTS}
-      initial={reduce ? { opacity: 0 } : "initial"}
-      animate={reduce ? { opacity: 1 } : "animate"}
-      exit={reduce ? { opacity: 0 } : "exit"}
-      transition={reduce ? { duration: 0.15 } : undefined}
+      initial={motionReady ? "initial" : false}
+      animate={motionReady ? "animate" : { opacity: 1 }}
+      exit={motionReady ? "exit" : { opacity: 0 }}
+      transition={motionReady ? undefined : { duration: 0.15 }}
       className="inline-grid shrink-0 place-items-center overflow-hidden"
     >
       {children}
@@ -92,10 +102,13 @@ function TextSlot({
   children: ReactNode;
 }) {
   const reduce = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const motionReady = mounted && reduce === false;
   const measureRef = useRef<HTMLSpanElement>(null);
   const [width, setWidth] = useState<number>();
   const label = typeof children === "string" ? children : null;
-  const cascade = label !== null && !reduce;
+  const cascade = label !== null;
 
   // Measure strings with the same per-letter layout as the cascade. Measuring
   // the whole string preserves kerning, which can make it narrower than the
@@ -110,7 +123,7 @@ function TextSlot({
     <motion.span
       initial={false}
       animate={{ width }}
-      transition={reduce ? { duration: 0 } : SPRING_SWAP}
+      transition={motionReady ? SPRING_SWAP : { duration: 0 }}
       className="relative inline-block overflow-hidden whitespace-nowrap align-bottom"
     >
       <span
@@ -138,9 +151,9 @@ function TextSlot({
             <motion.span
               key={`cascade-${value}`}
               aria-hidden
-              initial="initial"
-              animate="animate"
-              exit="exit"
+              initial={motionReady ? "initial" : false}
+              animate={motionReady ? "animate" : "static"}
+              exit={motionReady ? "exit" : undefined}
               className="absolute left-0 top-0 inline-block whitespace-pre"
             >
               {label.split("").map((char, index) => (
@@ -161,10 +174,22 @@ function TextSlot({
         <AnimatePresence initial={false}>
           <motion.span
             key={`text-${value}`}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14, filter: ROLL_BLUR }}
-            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, filter: "blur(0px)" }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -14, filter: ROLL_BLUR }}
-            transition={reduce ? { duration: 0.15 } : SPRING_SWAP}
+            initial={
+              motionReady
+                ? { opacity: 0, y: 14, filter: ROLL_BLUR }
+                : false
+            }
+            animate={
+              motionReady
+                ? { opacity: 1, y: 0, filter: "blur(0px)" }
+                : { opacity: 1 }
+            }
+            exit={
+              motionReady
+                ? { opacity: 0, y: -14, filter: ROLL_BLUR }
+                : { opacity: 0 }
+            }
+            transition={motionReady ? SPRING_SWAP : { duration: 0.15 }}
             className="absolute left-0 top-0 inline-block will-change-[opacity,filter,transform]"
           >
             {children}

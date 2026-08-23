@@ -20,7 +20,7 @@ export function BounceSidebarPreview() {
         items={destinations}
         value={active}
         onValueChange={setActive}
-        ariaLabel="beUI sections"
+        ariaLabel="AgentUI sections"
         className="w-52"
         listClassName="w-full"
         itemClassName="text-base"

@@ -2,33 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { registry } from "@/lib/registry";
+import { publicRegistry } from "@/lib/registry";
 import { NewBadge } from "@/components/app/docs/new-badge";
 import { SharedLayoutBg } from "@/components/motion/shared-layout-bg";
 import { isComponentNew } from "@/lib/component-status";
 import { cn } from "@/lib/utils";
 
 const INTRO = [
-  { slug: "home", name: "Home", href: "/components/motion" },
+  { slug: "home", name: "Home", href: "/components/agents" },
 ];
 
 const PATTERNS = [
-  { slug: "motion-patterns", name: "Motion Guides", href: "/docs/motion-patterns" },
   { slug: "ai-agents", name: "Agent Guide", href: "/docs/ai-agents" },
   { slug: "openui", name: "OpenUI", href: "/docs/openui" },
 ];
 
-const SIDEBAR_CATEGORY_ORDER: Record<string, number> = {
-  agents: 0,
-  motion: 1,
-  blocks: 2,
-};
-
-const SIDEBAR_CATEGORIES = [...registry].sort(
-  (a, b) =>
-    (SIDEBAR_CATEGORY_ORDER[a.slug] ?? Number.MAX_SAFE_INTEGER) -
-    (SIDEBAR_CATEGORY_ORDER[b.slug] ?? Number.MAX_SAFE_INTEGER),
-);
+const SIDEBAR_CATEGORIES = publicRegistry;
 
 function moveNewItemsToTop<
   T extends { badge?: "new"; launchedAt?: string },

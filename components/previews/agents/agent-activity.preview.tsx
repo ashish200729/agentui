@@ -111,7 +111,7 @@ function ActivityDemo() {
       status={complete ? "complete" : "working"}
       duration={5.1}
       defaultOpen={reduce}
-      collapseOnComplete={!reduce}
+      collapseOnComplete={false}
       maxHeight={220}
     />
   );

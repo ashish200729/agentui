@@ -25,14 +25,9 @@ describe("TextScramble", () => {
     ).not.toBeNull();
   });
 
-  test("packages as a directly installable motion component", async () => {
+  test("stays available in source but is hidden from the public registry", async () => {
     const item = await buildShadcnItem("motion", "text-scramble");
 
-    expect(item?.name).toBe("text-scramble");
-    expect(
-      item?.files.some(
-        (file) => file.path === "components/motion/text-scramble.tsx",
-      ),
-    ).toBe(true);
+    expect(item).toBeNull();
   });
 });

@@ -12,7 +12,7 @@ import {
 import { createProServer } from "./pro-server.js";
 
 interface Env {
-  BeUiMcp: DurableObjectNamespace;
+  AgentUiMcp: DurableObjectNamespace;
   REGISTRY_URL?: string;
   PRO_REGISTRY_URL?: string;
 }
@@ -38,9 +38,9 @@ function score(comp: IndexComponent, query: string) {
   return 0;
 }
 
-export class BeUiMcp extends McpAgent<Env, Record<string, never>, Record<string, never>> {
+export class AgentUiMcp extends McpAgent<Env, Record<string, never>, Record<string, never>> {
   server = new McpServer({
-    name: "beUI",
+    name: "AgentUI",
     version: "0.1.0",
   });
 
@@ -51,7 +51,7 @@ export class BeUiMcp extends McpAgent<Env, Record<string, never>, Record<string,
       "list_components",
       {
         description:
-          "List beUI components (animated React/Next.js components). Optionally filter by category slug (e.g. 'motion' or 'blocks').",
+          "List AgentUI components (animated React/Next.js components). Optionally filter by category slug (e.g. 'motion' or 'blocks').",
         inputSchema: {
           category: z
             .string()
@@ -83,7 +83,7 @@ export class BeUiMcp extends McpAgent<Env, Record<string, never>, Record<string,
       "search_components",
       {
         description:
-          "Search beUI components by keyword. Matches name, slug, description and category. Returns the best matches first.",
+          "Search AgentUI components by keyword. Matches name, slug, description and category. Returns the best matches first.",
         inputSchema: {
           query: z.string().describe("Search term, e.g. 'bottom sheet', 'toast', 'command palette'."),
         },
@@ -112,7 +112,7 @@ export class BeUiMcp extends McpAgent<Env, Record<string, never>, Record<string,
       "get_component",
       {
         description:
-          "Get full details for a beUI component by slug: description, npm dependencies, every source file (path + contents) and the install command. Use this to copy the component into a project.",
+          "Get full details for an AgentUI component by slug: description, npm dependencies, every source file (path + contents) and the install command. Use this to copy the component into a project.",
         inputSchema: {
           slug: z.string().describe("Component slug, e.g. 'bottom-sheet' (from list_components/search_components)."),
         },
@@ -144,7 +144,7 @@ export class BeUiMcp extends McpAgent<Env, Record<string, never>, Record<string,
       "get_install_command",
       {
         description:
-          "Get the shadcn CLI install command for a beUI component, for a given package manager.",
+          "Get the shadcn CLI install command for an AgentUI component, for a given package manager.",
         inputSchema: {
           slug: z.string().describe("Component slug, e.g. 'command-palette'."),
           packageManager: z
@@ -166,17 +166,17 @@ export class BeUiMcp extends McpAgent<Env, Record<string, never>, Record<string,
   }
 }
 
-const LANDING = `beUI MCP server
+const LANDING = `AgentUI MCP server
 
-Animated components and premium blocks for React and Next.js.
+AI agent components for React and Next.js.
 
 Connect your MCP client to:
-  https://mcp.beui.dev/mcp   (Streamable HTTP, recommended)
-  https://mcp.beui.dev/sse   (SSE, legacy)
-  https://mcp.beui.dev/pro/mcp   (beUI Pro, bearer token required)
+  https://mcp.agentui.dev/mcp   (Streamable HTTP, recommended)
+  https://mcp.agentui.dev/sse   (SSE, legacy)
+  https://mcp.agentui.dev/pro/mcp   (AgentUI Pro, bearer token required)
 
 Tools: list_components, search_components, get_component, get_install_command
-Docs:  https://beui.dev
+Docs:  https://agentui.dev
 `;
 
 function getBearerAuthorization(request: Request) {
@@ -188,14 +188,14 @@ function getBearerAuthorization(request: Request) {
 function unauthorized() {
   return new Response(
     JSON.stringify({
-      error: "A beUI Pro bearer token is required.",
+      error: "An AgentUI Pro bearer token is required.",
     }),
     {
       status: 401,
       headers: {
         "cache-control": "private, no-store",
         "content-type": "application/json; charset=utf-8",
-        "www-authenticate": 'Bearer realm="beUI Pro MCP"',
+        "www-authenticate": 'Bearer realm="AgentUI Pro MCP"',
       },
     },
   );
@@ -220,11 +220,11 @@ export default {
     }
 
     if (url.pathname.startsWith("/mcp")) {
-      return BeUiMcp.serve("/mcp", { binding: "BeUiMcp" }).fetch(request, env, ctx);
+      return AgentUiMcp.serve("/mcp", { binding: "AgentUiMcp" }).fetch(request, env, ctx);
     }
 
     if (url.pathname.startsWith("/sse")) {
-      return BeUiMcp.serveSSE("/sse", { binding: "BeUiMcp" }).fetch(request, env, ctx);
+      return AgentUiMcp.serveSSE("/sse", { binding: "AgentUiMcp" }).fetch(request, env, ctx);
     }
 
     return new Response(LANDING, {

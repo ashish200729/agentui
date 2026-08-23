@@ -70,7 +70,7 @@ function isFromNodeModules(prop: docgen.PropItem): boolean {
 function ownProps(props: docgen.PropItem[]): docgen.PropItem[] {
   const hasLibraryProps = props.some(isFromNodeModules);
   if (!hasLibraryProps) return props;
-  // Every beUI component accepts `className` (merged via `cn()`), even when it
+  // Every AgentUI component accepts `className` (merged via `cn()`), even when it
   // arrives through a native/motion passthrough rather than a hand-declared field.
   return props.filter(
     (prop) => prop.name === "className" || (prop.parent && !isFromNodeModules(prop)),

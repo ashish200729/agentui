@@ -330,6 +330,7 @@ export function ExpandableActionBar({
 
                     <motion.span
                       aria-hidden={!isExpanded}
+                      initial={false}
                       animate={
                         reduce
                           ? {
@@ -359,6 +360,7 @@ export function ExpandableActionBar({
                     {item.shortcut ? (
                       <motion.span
                         aria-hidden={!isExpanded}
+                        initial={false}
                         animate={{
                           width: isExpanded ? "auto" : 0,
                           opacity: isExpanded ? 1 : 0,

@@ -1,6 +1,6 @@
 # Contributing
 
-beUI is a React, TypeScript, Framer Motion and Tailwind CSS component library.
+AgentUI is a React, TypeScript, Framer Motion and Tailwind CSS component library.
 
 ## Before You Open a PR
 
@@ -24,6 +24,8 @@ Every component follows the same motion language:
 
 Internal imports are safe: the registry build follows `@/lib` and relative imports and bundles them with the component.
 
+The public catalog currently exposes only `components/agents/`. Motion primitives and blocks remain source-backed and are validated, but their pages and registry targets are intentionally hidden.
+
 ## Pull Requests
 
 1. Open or comment on an issue before starting larger work.
@@ -31,4 +33,4 @@ Internal imports are safe: the registry build follows `@/lib` and relative impor
 3. Keep changes focused and include the component source, preview and registry entry together.
 4. Open a pull request against `main`.
 
-Agents working in this repository should follow [`skills/beui/SKILL.md`](./skills/beui/SKILL.md) and `AGENTS.md`.
+Agents working in this repository should follow [`skills/agentui/SKILL.md`](./skills/agentui/SKILL.md) and `AGENTS.md`.

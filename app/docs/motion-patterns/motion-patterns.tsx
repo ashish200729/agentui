@@ -273,7 +273,7 @@ export function MotionPatterns() {
         id="motion-tokens"
         eyebrow="Motion tokens"
         title="Use one language everywhere"
-        description="beUI keeps deliberate motion in shared tokens. Choose by purpose so components feel related without moving identically."
+        description="AgentUI keeps deliberate motion in shared tokens. Choose by purpose so components feel related without moving identically."
       >
         <EasingLab />
       </GuideSection>

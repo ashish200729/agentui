@@ -142,7 +142,6 @@ export async function buildComponentMarkdown(
     "",
     `- Registry detail: ${primaryEntry.detail_url}`,
     `- Raw source: ${primaryEntry.raw_url}`,
-    `- GitHub: https://github.com/starc007/ui-components`,
     "",
   );
 

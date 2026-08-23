@@ -3,13 +3,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-    /* Light mode — beUI Current. */
+    /* Light mode — AgentUI Current. */
     --background: oklch(99% 0 0);
     --foreground: oklch(15% 0 0);
     --card: oklch(97% 0 0);
     --muted-foreground: oklch(50% 0 0);
     --border: oklch(15% 0 0 / 0.06);
-    /* beUI extensions (no shadcn equivalent). */
+    /* AgentUI extensions (no shadcn equivalent). */
     --border-strong: oklch(15% 0 0 / 0.12);
     --accent-fg: oklch(15% 0 0);
     --neon: oklch(80% 0.22 145);
@@ -47,7 +47,7 @@
     --ring: var(--border-strong);
 }
 
-/* Dark mode — beUI Current. Semantic tokens follow the base via var(). */
+/* Dark mode — AgentUI Current. Semantic tokens follow the base via var(). */
 .dark {
     --background: #151515;
     --foreground: oklch(96% 0 0);

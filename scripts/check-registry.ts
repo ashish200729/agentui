@@ -18,7 +18,9 @@ for (const component of allComponents()) {
   }
 
   try {
-    const entry = await buildEntry(component.category.slug, component.slug);
+    const entry = await buildEntry(component.category.slug, component.slug, {
+      publicOnly: false,
+    });
     if (!entry) {
       errors.push(`${label}: registry entry was not created`);
     } else if (entry.files.length === 0) {
@@ -39,12 +41,14 @@ for (const component of allComponents()) {
   }
 }
 
-for (const target of allShadcnTargets()) {
+for (const target of allShadcnTargets({ publicOnly: false })) {
   const label = `${target.categorySlug}/${target.slug}`;
   installSlugLabels.set(target.slug, [...(installSlugLabels.get(target.slug) ?? []), label]);
 
   try {
-    const item = await buildShadcnItem(target.categorySlug, target.slug);
+    const item = await buildShadcnItem(target.categorySlug, target.slug, {
+      publicOnly: false,
+    });
     if (!item) {
       errors.push(`${label}: shadcn item was not created`);
     } else if (item.files.length === 0) {

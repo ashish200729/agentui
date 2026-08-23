@@ -1,11 +1,11 @@
 ---
-name: beui-pro
-description: Choose, inspect, install, and compose licensed beUI Pro premium React blocks from the authenticated shadcn registry. Use when building or improving landing pages with beUI Pro, installing @beui-pro items, selecting premium heroes, features, pricing, social proof, CTAs, navigation, footers, or other page sections, or adapting installed Pro source inside a React or Next.js project.
+name: agentui-pro
+description: Choose, inspect, install, and compose licensed AgentUI Pro premium React blocks from the authenticated shadcn registry. Use when building or improving landing pages with AgentUI Pro, installing @beui-pro items, selecting premium heroes, features, pricing, social proof, CTAs, navigation, footers, or other page sections, or adapting installed Pro source inside a React or Next.js project.
 ---
 
-# beUI Pro
+# AgentUI Pro
 
-Use the customer's licensed beUI Pro registry as the source of truth. Discover current items at runtime, install only the blocks the project needs, then compose and adapt the generated source.
+Use the customer's licensed AgentUI Pro registry as the source of truth. Discover current items at runtime, install only the blocks the project needs, then compose and adapt the generated source.
 
 ## Protect access
 
@@ -19,19 +19,19 @@ Use the customer's licensed beUI Pro registry as the source of truth. Discover c
 Check access without revealing the value:
 
 ```bash
-test -n "$BEUI_PRO_TOKEN" && echo "beUI Pro token is configured"
+test -n "$BEUI_PRO_TOKEN" && echo "AgentUI Pro token is configured"
 ```
 
 ## Configure the registries
 
-Inspect the project's existing `components.json` before editing it. Preserve its aliases and settings. Ensure both namespaces exist because Pro blocks can depend on public beUI primitives:
+Inspect the project's existing `components.json` before editing it. Preserve its aliases and settings. Ensure both namespaces exist because Pro blocks can depend on public AgentUI primitives:
 
 ```jsonc
 {
   "registries": {
-    "@beui": "https://beui.dev/r/{name}.json",
+    "@beui": "https://agentui.dev/r/{name}.json",
     "@beui-pro": {
-      "url": "https://pro.beui.dev/r/{name}.json",
+      "url": "https://pro.agentui.dev/r/{name}.json",
       "headers": {
         "Authorization": "Bearer ${BEUI_PRO_TOKEN}"
       }
@@ -63,7 +63,7 @@ Fetch the authenticated registry every time instead of relying on remembered slu
 ```bash
 curl -fsS \
   -H "Authorization: Bearer ${BEUI_PRO_TOKEN}" \
-  https://pro.beui.dev/r/registry.json
+  https://pro.agentui.dev/r/registry.json
 ```
 
 Choose only from `items[].name`. This endpoint is the complete list of currently installable Pro blocks and components.
@@ -73,7 +73,7 @@ Use the grouped index when the request needs broader discovery:
 ```bash
 curl -fsS \
   -H "Authorization: Bearer ${BEUI_PRO_TOKEN}" \
-  https://pro.beui.dev/r
+  https://pro.agentui.dev/r
 ```
 
 Use names and descriptions to match the user's intent. Do not invent or shorten install slugs.
@@ -133,7 +133,7 @@ Read every generated file before using it. Then:
 - change block internals only when the product requirement needs it
 - keep all work inside the user's project
 
-Do not recreate a low-level motion primitive when the installed block already depends on a public beUI primitive.
+Do not recreate a low-level motion primitive when the installed block already depends on a public AgentUI primitive.
 
 ### 7. Verify
 
@@ -145,5 +145,5 @@ Report which Pro slugs were installed and which files were adapted.
 
 - For “build a landing page,” select a complete but restrained section sequence, install each exact slug, and compose it in the existing route.
 - For “add a pricing section,” search pricing entries, inspect the closest variants, install one, and connect the real plans.
-- For “use beUI Pro components,” inspect the current UI first and prefer relevant Pro blocks over custom replacements.
+- For “use AgentUI Pro components,” inspect the current UI first and prefer relevant Pro blocks over custom replacements.
 - For “show me what Pro has,” fetch the live registry and summarize matching items without exposing source or the token.

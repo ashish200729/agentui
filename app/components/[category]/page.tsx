@@ -1,26 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { findCategory, registry } from "@/lib/registry";
+import { findPublicCategory, publicRegistry } from "@/lib/registry";
 import { ComponentCard } from "@/components/app/docs/component-card";
 import { JsonLd } from "@/components/app/analytics/json-ld";
 import { isComponentNew } from "@/lib/component-status";
 import { breadcrumbJsonLd, categoryJsonLd } from "@/lib/seo";
 
 const categoryContent = {
-  motion: {
-    title: "Animated React Components — Copy-Paste Motion UI",
-    heading: "Animated React components",
-    description:
-      "Explore free, open-source animated React components built with Motion and Tailwind CSS. Copy the TypeScript source into your app and customize every interaction.",
-    allLabel: "All animated components",
-  },
-  blocks: {
-    title: "Animated React UI Blocks — Product-Ready Motion",
-    heading: "Animated React UI blocks",
-    description:
-      "Explore product-ready animated React blocks built with Motion and Tailwind CSS. Copy complete interactions into your app and adapt the source to your product.",
-    allLabel: "All animated blocks",
-  },
   agents: {
     title: "AI Agent Components — Animated React AI Interfaces",
     heading: "Animated AI agent components",
@@ -31,6 +17,13 @@ const categoryContent = {
 } as const;
 
 const AGENT_CATEGORY_GROUPS = [
+  {
+    id: "workspace",
+    title: "Workspace and navigation components",
+    description:
+      "Build the complete agent workspace shell, then organize projects, conversations, files, and bookmarks in a responsive navigation surface.",
+    slugs: ["chat-app", "ai-sidebar"],
+  },
   {
     id: "conversation",
     title: "Conversation components",
@@ -69,8 +62,10 @@ const AGENT_CATEGORY_GROUPS = [
 ] as const;
 
 export function generateStaticParams() {
-  return registry.map((c) => ({ category: c.slug }));
+  return publicRegistry.map((c) => ({ category: c.slug }));
 }
+
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -78,14 +73,13 @@ export async function generateMetadata({
   params: Promise<{ category: string }>;
 }): Promise<Metadata> {
   const { category } = await params;
-  const cat = findCategory(category);
+  const cat = findPublicCategory(category);
   if (!cat) return {};
 
   const content =
-    categoryContent[cat.slug as keyof typeof categoryContent] ??
-    categoryContent.motion;
+    categoryContent[cat.slug as keyof typeof categoryContent];
   const title = content.title;
-  const ogTitle = `${title} · beUI`;
+  const ogTitle = `${title} · AgentUI`;
   const pageUrl = `/components/${cat.slug}`;
   const imageUrl = `/api/og?category=${cat.slug}`;
   const componentNames = cat.components.map((comp) => comp.name);
@@ -95,17 +89,16 @@ export async function generateMetadata({
     description: content.description,
     keywords: [
       `${cat.name} components`,
-      "React motion components",
-      "best motion components",
-      "free motion components",
-      "open source motion components",
-      "framer motion components",
-      "best framer motion components",
-      "framer motion templates",
+      "AI agent components",
+      "best AI agent components",
+      "free AI agent components",
+      "open source AI agent components",
+      "streaming chat components",
+      "agent tool activity UI",
       "Tailwind CSS components",
       "shadcn-compatible components",
       "shadcn registry",
-      "beUI",
+      "AgentUI",
       ...componentNames,
     ],
     openGraph: {
@@ -113,13 +106,13 @@ export async function generateMetadata({
       description: content.description,
       url: pageUrl,
       type: "website",
-      siteName: "beUI",
+      siteName: "AgentUI",
       images: [
         {
           url: imageUrl,
           width: 1200,
           height: 630,
-          alt: `${cat.name} components by beUI`,
+          alt: `${cat.name} components by AgentUI`,
         },
       ],
     },
@@ -144,11 +137,10 @@ export default async function CategoryPage({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
-  const cat = findCategory(category);
+  const cat = findPublicCategory(category);
   if (!cat) notFound();
   const content =
-    categoryContent[cat.slug as keyof typeof categoryContent] ??
-    categoryContent.motion;
+    categoryContent[cat.slug as keyof typeof categoryContent];
   const now = Date.now();
   const newComponents = cat.components.filter((comp) =>
     isComponentNew(comp, now),
@@ -172,7 +164,7 @@ export default async function CategoryPage({
       <JsonLd
         data={[
           breadcrumbJsonLd([
-            { name: "beUI", path: "/" },
+            { name: "AgentUI", path: "/" },
             { name: cat.name, path: `/components/${cat.slug}` },
           ]),
           categoryJsonLd(cat),

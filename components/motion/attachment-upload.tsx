@@ -550,7 +550,15 @@ function AttachmentRow({
             : { opacity: 0, y: 6 }
       }
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={reduce ? undefined : { opacity: 0, y: -4 }}
+      exit={
+        reduce
+          ? undefined
+          : {
+              opacity: 0,
+              y: -4,
+              transition: { duration: 0.16, ease: EASE_OUT },
+            }
+      }
       transition={rowTransition}
       className={cn(
         "flex min-h-14 items-center gap-1 rounded-2xl bg-muted/70 p-1",

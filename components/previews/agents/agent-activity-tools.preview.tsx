@@ -58,7 +58,7 @@ function ToolsDemo() {
       status={complete ? "complete" : "working"}
       contentType="tool"
       defaultOpen={reduce}
-      collapseOnComplete={!reduce}
+      collapseOnComplete={false}
       maxHeight={220}
       items={TOOLS.slice(0, visible)}
     />

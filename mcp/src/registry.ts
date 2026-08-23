@@ -1,5 +1,5 @@
-// Thin typed client over the live beUI registry endpoints. The MCP server owns
-// no data: it reads beui.dev/r/* at runtime so new components appear without a
+// Thin typed client over the live AgentUI registry endpoints. The MCP server owns
+// no data: it reads agentui.dev/r/* at runtime so new components appear without a
 // worker redeploy. Responses are cached at the edge for a short TTL.
 
 export type IndexComponent = {
@@ -67,7 +67,7 @@ async function fetchJson<T>(url: string): Promise<T> {
 }
 
 function base(env: { REGISTRY_URL?: string }) {
-  return (env.REGISTRY_URL ?? "https://beui.dev").replace(/\/$/, "");
+  return (env.REGISTRY_URL ?? "https://agentui.dev").replace(/\/$/, "");
 }
 
 export function getIndex(env: { REGISTRY_URL?: string }) {

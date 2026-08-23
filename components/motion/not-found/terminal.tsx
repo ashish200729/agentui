@@ -27,7 +27,7 @@ export function NotFoundTerminal({
           <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
           <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
           <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-          <span className="ml-2 text-xs text-white/40">~/beui</span>
+          <span className="ml-2 text-xs text-white/40">~/agentui</span>
         </div>
         <div className="space-y-1.5 p-4 font-mono text-sm leading-relaxed">
           <TextReveal
