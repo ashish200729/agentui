@@ -10,9 +10,9 @@ const params = (slug: string) => ({ params: Promise.resolve({ slug }) });
 describe("public AgentUI endpoints", () => {
   test("hide non-agent directory, detail, and raw source slugs", async () => {
     const [directory, detail, raw] = await Promise.all([
-      getDirectoryItem(new Request("https://agentui.dev/text-scramble.json"), params("text-scramble.json")),
-      getRegistryItem(new Request("https://agentui.dev/r/text-scramble"), params("text-scramble")),
-      getRawSource(new Request("https://agentui.dev/r/text-scramble/raw"), params("text-scramble")),
+      getDirectoryItem(new Request("https://www.agentui.pro/text-scramble.json"), params("text-scramble.json")),
+      getRegistryItem(new Request("https://www.agentui.pro/r/text-scramble"), params("text-scramble")),
+      getRawSource(new Request("https://www.agentui.pro/r/text-scramble/raw"), params("text-scramble")),
     ]);
 
     expect(directory.status).toBe(404);

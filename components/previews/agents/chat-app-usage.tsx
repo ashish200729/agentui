@@ -443,7 +443,7 @@ export function ChatAppExample({
                     { id: "reason", type: "text", content: "Tracing the checkout submission path and validation boundary." },
                     { id: "read", type: "tool", action: "read", target: "checkout/submit.ts" },
                     { id: "search", type: "search", query: "order validation failures", results: [
-                      { id: "result-1", title: "Agent interface guide", domain: "agentui.dev", url: "/docs/ai-agents" },
+                      { id: "result-1", title: "Agent interface guide", domain: "agentui.pro", url: "/docs/ai-agents" },
                     ] },
                   ]}
                 />
@@ -569,19 +569,19 @@ export function ChatAppExample({
                           {
                             id: "message",
                             title: "Message composition",
-                            domain: "agentui.dev",
+                            domain: "agentui.pro",
                             url: "/components/agents/message",
                           },
                           {
                             id: "diff",
                             title: "File Diff",
-                            domain: "agentui.dev",
+                            domain: "agentui.pro",
                             url: "/components/agents/file-diff",
                           },
                           {
                             id: "approval",
                             title: "Tool Approval",
-                            domain: "agentui.dev",
+                            domain: "agentui.pro",
                             url: "/components/agents/tool-approval",
                           },
                         ]}

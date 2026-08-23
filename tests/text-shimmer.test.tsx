@@ -37,7 +37,7 @@ describe("TextShimmer", () => {
 
   test("ships the reduced-motion rule to consumers", async () => {
     // The docs site neutralises CSS animation globally in app/globals.css, which
-    // the registry does not bundle. Without this the rule reaches agentui.dev only.
+    // the registry does not bundle. Without this the rule reaches agentui.pro only.
     const item = await buildShadcnItem("motion", "text-shimmer", {
       publicOnly: false,
     });

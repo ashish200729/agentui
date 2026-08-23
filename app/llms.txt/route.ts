@@ -19,7 +19,7 @@ export async function GET() {
   lines.push("");
   lines.push("## Guides");
   lines.push("");
-  lines.push(`- [Agent Guide](${SITE_URL}/docs/ai-agents.md): Agent skill, MCP server, registry endpoints, and install flows.`);
+  lines.push(`- [Agent Guide](${SITE_URL}/docs/ai-agents.md): Agent skill, registry endpoints, and install flows.`);
   lines.push(`- [OpenUI Guide](${SITE_URL}/docs/openui.md): Register AgentUI components and render streamed generative interfaces.`);
   lines.push("");
   lines.push("## Components");

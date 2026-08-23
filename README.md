@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://agentui.dev">
+  <a href="https://www.agentui.pro">
     <img src="./public/agentui-mark.png" alt="AgentUI logo" width="88" height="88" />
   </a>
 </p>
@@ -16,15 +16,15 @@
 </p>
 
 <p align="center">
-  <a href="https://agentui.dev">Website</a>
+  <a href="https://www.agentui.pro">Website</a>
   ·
-  <a href="https://agentui.dev/components/agents">Agent components</a>
+  <a href="https://www.agentui.pro/components/agents">Agent components</a>
   ·
-  <a href="https://agentui.dev/llms.txt">llms.txt</a>
+  <a href="https://www.agentui.pro/llms.txt">llms.txt</a>
 </p>
 
 <p align="center">
-  <a href="https://agentui.dev"><img src="./public/demo.gif" alt="AgentUI components demo" width="640" /></a>
+  <a href="https://www.agentui.pro"><img src="./public/demo.gif" alt="AgentUI components demo" width="640" /></a>
 </p>
 
 ## What is AgentUI?
@@ -33,39 +33,39 @@ AgentUI is a small component library for product interfaces.
 
 Each component includes a live preview, usage example, source code, and a shadcn install command. The components are meant to live in your app, not behind a package.
 
-### Need complete blocks and landing pages?
-
-[AgentUI Pro](https://pro.agentui.dev/) includes premium animated sections and full Next.js templates with editable source and private registry access.
-
 ## Install a component
 
-Open any component page and copy the install command. AgentUI is in the shadcn registry directory under the existing `@beui` compatibility namespace.
+Open any component page and copy the direct install command:
 
 ```bash
-npx shadcn@latest add @beui/message
+npx shadcn@latest add https://www.agentui.pro/r/message.json
 ```
 
-Direct URLs also work:
+The planned `@agentui` namespace can be configured today in your project's `components.json`:
 
-```bash
-npx shadcn@latest add https://agentui.dev/r/animated-toast-stack.json
+```json
+{
+  "registries": {
+    "@agentui": "https://www.agentui.pro/r/{name}.json"
+  }
+}
 ```
 
-You can also copy the source directly from the component page.
+After that, `npx shadcn@latest add @agentui/message` works. Direct URLs remain the zero-configuration path until the namespace is accepted into shadcn's public registry directory. You can also copy the source directly from the component page.
 
 ## For AI agents
 
 AgentUI exposes static endpoints that coding agents can read without scraping the UI.
 
 ```txt
-https://agentui.dev/llms.txt
-https://agentui.dev/r
-https://agentui.dev/r/{slug}
-https://agentui.dev/r/{slug}.json
-https://agentui.dev/r/{slug}/raw
+https://www.agentui.pro/llms.txt
+https://www.agentui.pro/r
+https://www.agentui.pro/r/{slug}
+https://www.agentui.pro/r/{slug}.json
+https://www.agentui.pro/r/{slug}/raw
 ```
 
-The agent skill is included at [`skills/agentui/SKILL.md`](./skills/agentui/SKILL.md). It helps Cursor, Claude Code, Codex, and other coding agents choose existing `@beui` components before inventing new motion UI.
+The agent skill is included at [`skills/agentui/SKILL.md`](./skills/agentui/SKILL.md). It helps Cursor, Claude Code, Codex, and other coding agents choose existing `@agentui` components before inventing new motion UI.
 
 ## Run locally
 

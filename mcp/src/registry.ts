@@ -1,5 +1,5 @@
 // Thin typed client over the live AgentUI registry endpoints. The MCP server owns
-// no data: it reads agentui.dev/r/* at runtime so new components appear without a
+// no data: it reads agentui.pro/r/* at runtime so new components appear without a
 // worker redeploy. Responses are cached at the edge for a short TTL.
 
 export type IndexComponent = {
@@ -67,7 +67,7 @@ async function fetchJson<T>(url: string): Promise<T> {
 }
 
 function base(env: { REGISTRY_URL?: string }) {
-  return (env.REGISTRY_URL ?? "https://agentui.dev").replace(/\/$/, "");
+  return (env.REGISTRY_URL ?? "https://www.agentui.pro").replace(/\/$/, "");
 }
 
 export function getIndex(env: { REGISTRY_URL?: string }) {
@@ -88,7 +88,11 @@ const PM_PREFIX = {
 export type PackageManager = keyof typeof PM_PREFIX;
 export const PACKAGE_MANAGERS = Object.keys(PM_PREFIX) as PackageManager[];
 
-/** The shadcn install command for a component, using the public @beui namespace. */
-export function installCommand(slug: string, pm: PackageManager) {
-  return `${PM_PREFIX[pm]} shadcn add @beui/${slug}`;
+/** A zero-configuration shadcn install command for a public component. */
+export function installCommand(
+  slug: string,
+  pm: PackageManager,
+  env: { REGISTRY_URL?: string } = {},
+) {
+  return `${PM_PREFIX[pm]} shadcn add ${base(env)}/r/${encodeURIComponent(slug)}.json`;
 }

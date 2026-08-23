@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { SITE_URL } from "@/lib/site";
+import { registryItemUrl, SITE_URL } from "@/lib/site";
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
@@ -29,7 +29,7 @@ export function ogImage({
   title = "AI agent components for React and Next.js",
   description = "Free, open-source agent interface components with the source included.",
   label = "Agent components",
-  command = "npx shadcn add @beui/...",
+  command = `npx shadcn add ${registryItemUrl("...")}`,
   backgroundSrc = `${SITE_URL}/og/dither-wave.png`,
   logoSrc = LOGO_SRC,
 }: OgOptions = {}): ReactElement {

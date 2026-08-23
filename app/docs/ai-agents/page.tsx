@@ -14,7 +14,6 @@ const PAGE_NAV_ITEMS = [
     label: "Agent guide",
     children: [
       { id: "agent-skill", label: "Agent skill" },
-      { id: "mcp-server", label: "MCP server" },
       { id: "endpoints", label: "Endpoints" },
       { id: "agent-flow", label: "Agent flow" },
       { id: "shadcn-flow", label: "shadcn flow" },
@@ -27,7 +26,7 @@ const PAGE_NAV_ITEMS = [
 export const metadata: Metadata = {
   title: "AI Agents",
   description:
-    "Install the AgentUI agent skill, connect the MCP server, or use the agent-friendly endpoints (llms.txt, JSON registry, raw source) to consume components programmatically.",
+    "Install the AgentUI agent skill or use the agent-friendly endpoints (llms.txt, JSON registry, raw source) to consume components programmatically.",
   alternates: {
     canonical: PAGE_PATH,
     types: { "text/markdown": `${PAGE_PATH}.md` },
@@ -35,7 +34,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI Agents · AgentUI",
     description:
-      "Install the AgentUI agent skill, connect the MCP server, or use the agent-friendly endpoints (llms.txt, JSON registry, raw source) to consume components programmatically.",
+      "Install the AgentUI agent skill or use the agent-friendly endpoints (llms.txt, JSON registry, raw source) to consume components programmatically.",
     url: "/docs/ai-agents",
     type: "article",
     siteName: "AgentUI",
@@ -81,33 +80,13 @@ const ENDPOINTS: { label: string; url: string; desc: string }[] = [
   },
 ];
 
-const MCP_URL = "https://mcp.agentui.dev/mcp";
-
 const SKILL_SNIPPET = `skills/agentui/SKILL.md`;
 
-const MCP_CLI_SNIPPET = `# Claude Code
-claude mcp add --transport http agentui https://mcp.agentui.dev/mcp
-
-# Codex
-codex mcp add agentui --url https://mcp.agentui.dev/mcp
-
-# Amp
-amp mcp add agentui https://mcp.agentui.dev/mcp`;
-
-const MCP_MANUAL_SNIPPET = `{
-  "mcpServers": {
-    "agentui": {
-      "type": "http",
-      "url": "https://mcp.agentui.dev/mcp"
-    }
-  }
-}`;
-
 const FETCH_SNIPPET = `// 1. Discover what exists
-const idx = await fetch('https://agentui.dev/r').then((r) => r.json());
+const idx = await fetch('https://www.agentui.pro/r').then((r) => r.json());
 
 // 2. Fetch a component
-const entry = await fetch(\`https://agentui.dev/r/\${slug}\`).then((r) => r.json());
+const entry = await fetch(\`https://www.agentui.pro/r/\${slug}\`).then((r) => r.json());
 
 // 3. Write files into the user's project
 for (const file of entry.files) {
@@ -117,20 +96,20 @@ for (const file of entry.files) {
 // 4. Install external deps
 await runShell(['bun', 'add', ...entry.dependencies]);`;
 
-const SHADCN_SNIPPET = `# Official registry namespace (shadcn directory)
-npx shadcn@latest add @beui/message
+const SHADCN_SNIPPET = `# Direct URL, no namespace configuration needed
+npx shadcn@latest add https://www.agentui.pro/r/message.json
 
-# Direct URL, no namespace needed
-npx shadcn@latest add https://agentui.dev/r/message.json`;
+# Optional components.json namespace mapping
+"@agentui": "https://www.agentui.pro/r/{name}.json"`;
 
 const ENTRY_SHAPE = `{
   "slug": "message",
   "name": "Message",
   "description": "Composable conversation message primitives for streamed agent responses.",
   "category": "agents",
-  "page_url": "https://agentui.dev/components/agents/message",
-  "detail_url": "https://agentui.dev/r/message",
-  "raw_url": "https://agentui.dev/r/message/raw",
+  "page_url": "https://www.agentui.pro/components/agents/message",
+  "detail_url": "https://www.agentui.pro/r/message",
+  "raw_url": "https://www.agentui.pro/r/message/raw",
   "dependencies": ["motion", "lucide-react", "react"],
   "internal": ["@/lib/utils"],
   "files": [
@@ -158,10 +137,10 @@ export default function AIAgentsPage() {
           />
         </div>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          AgentUI exposes a static, agent-friendly surface. Install the AgentUI skill,
-          connect the MCP server below, or hit the raw endpoints directly. Coding
-          agents (Claude, Codex, Cursor, Amp) can list components, fetch source
-          with all deps, and drop files into the user&apos;s project.
+          AgentUI exposes a static, agent-friendly surface. Install the AgentUI skill
+          or use the raw endpoints directly. Coding agents can list components,
+          fetch source with every dependency, and drop files into the user&apos;s
+          project.
         </p>
       </header>
 
@@ -184,49 +163,6 @@ export default function AIAgentsPage() {
       <div className="mt-4">
         <CodeBlock code={SKILL_SNIPPET} lang="bash" filename="terminal" />
       </div>
-
-      <h2
-        id="mcp-server"
-        className="mt-10 scroll-mt-24 text-xl font-medium tracking-tight text-foreground"
-      >
-        MCP server
-      </h2>
-      <p className="mt-2 text-muted-foreground">
-        The fastest path: connect the AgentUI MCP server and your agent can list,
-        search and install components directly. Hosted at{" "}
-        <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
-          {MCP_URL}
-        </code>
-        .
-      </p>
-      <div className="mt-4">
-        <CodeBlock code={MCP_CLI_SNIPPET} lang="bash" filename="terminal" />
-      </div>
-      <p className="mt-4 text-muted-foreground">
-        Any other client: add it manually to your MCP config.
-      </p>
-      <div className="mt-4">
-        <CodeBlock code={MCP_MANUAL_SNIPPET} lang="json" filename="mcp.json" />
-      </div>
-      <p className="mt-4 text-sm text-muted-foreground">
-        Tools:{" "}
-        <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
-          list_components
-        </code>
-        ,{" "}
-        <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
-          search_components
-        </code>
-        ,{" "}
-        <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
-          get_component
-        </code>
-        ,{" "}
-        <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-xs text-foreground">
-          get_install_command
-        </code>
-        .
-      </p>
 
       <h2
         id="endpoints"

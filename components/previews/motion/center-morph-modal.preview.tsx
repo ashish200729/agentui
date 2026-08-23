@@ -21,29 +21,29 @@ export function CenterMorphModalPreview() {
         </CenterMorphModalTrigger>
 
         <CenterMorphModalContent
-          ariaLabel="AgentUI Pro"
-          ariaDescribedBy="center-morph-pro-description"
+          ariaLabel="AgentUI components"
+          ariaDescribedBy="center-morph-description"
         >
           <div className="p-7 sm:p-8">
             <p className="text-sm font-medium text-muted-foreground">
-              AgentUI Pro
+              AgentUI library
             </p>
             <h2 className="mt-5 max-w-xs pr-8 text-2xl font-medium tracking-tight text-foreground">
               Ship the whole experience.
             </h2>
             <p
-              id="center-morph-pro-description"
+              id="center-morph-description"
               className="mt-3 text-sm leading-relaxed text-muted-foreground"
             >
-              Go beyond individual components with premium animated sections
-              and complete Next.js templates.
+              Compose focused agent primitives into a complete React or Next.js
+              interface while keeping every source file editable.
             </p>
 
             <div className="mt-7 space-y-3 border-y border-border py-5">
               {[
-                "Premium animated sections",
-                "Complete Next.js templates",
-                "Editable source and private registry",
+                "Agent conversation primitives",
+                "Accessible motion patterns",
+                "Editable registry source",
               ].map((feature) => (
                 <div
                   key={feature}
@@ -59,12 +59,10 @@ export function CenterMorphModalPreview() {
             </div>
 
             <a
-              href="https://pro.agentui.dev/?utm_source=agentui&utm_medium=component_preview&utm_campaign=center_morph_modal"
-              target="_blank"
-              rel="noreferrer"
+              href="/components/agents"
               className="mt-7 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background press focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              Explore AgentUI Pro
+              Explore components
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>

@@ -1,6 +1,6 @@
 ---
 name: agentui-pro
-description: Choose, inspect, install, and compose licensed AgentUI Pro premium React blocks from the authenticated shadcn registry. Use when building or improving landing pages with AgentUI Pro, installing @beui-pro items, selecting premium heroes, features, pricing, social proof, CTAs, navigation, footers, or other page sections, or adapting installed Pro source inside a React or Next.js project.
+description: Choose, inspect, install, and compose licensed AgentUI Pro premium React blocks from the authenticated shadcn registry. Use when building or improving landing pages with AgentUI Pro, installing @agentui-pro items, selecting premium heroes, features, pricing, social proof, CTAs, navigation, footers, or other page sections, or adapting installed Pro source inside a React or Next.js project.
 ---
 
 # AgentUI Pro
@@ -9,7 +9,7 @@ Use the customer's licensed AgentUI Pro registry as the source of truth. Discove
 
 ## Protect access
 
-- Require `BEUI_PRO_TOKEN` in the environment before accessing the registry.
+- Require `AGENTUI_PRO_TOKEN` in the environment before accessing the registry.
 - Never print, paste, commit, or write the token into source files.
 - Never accept a token copied into the user's prompt when an environment variable can be used.
 - Stop and ask the user to configure their token when it is unavailable. Do not replace a requested Pro block with an approximation.
@@ -19,7 +19,7 @@ Use the customer's licensed AgentUI Pro registry as the source of truth. Discove
 Check access without revealing the value:
 
 ```bash
-test -n "$BEUI_PRO_TOKEN" && echo "AgentUI Pro token is configured"
+test -n "$AGENTUI_PRO_TOKEN" && echo "AgentUI Pro token is configured"
 ```
 
 ## Configure the registries
@@ -29,11 +29,11 @@ Inspect the project's existing `components.json` before editing it. Preserve its
 ```jsonc
 {
   "registries": {
-    "@beui": "https://agentui.dev/r/{name}.json",
-    "@beui-pro": {
-      "url": "https://pro.agentui.dev/r/{name}.json",
+    "@agentui": "https://www.agentui.pro/r/{name}.json",
+    "@agentui-pro": {
+      "url": "https://pro.agentui.pro/r/{name}.json",
       "headers": {
-        "Authorization": "Bearer ${BEUI_PRO_TOKEN}"
+        "Authorization": "Bearer ${AGENTUI_PRO_TOKEN}"
       }
     }
   }
@@ -62,8 +62,8 @@ Fetch the authenticated registry every time instead of relying on remembered slu
 
 ```bash
 curl -fsS \
-  -H "Authorization: Bearer ${BEUI_PRO_TOKEN}" \
-  https://pro.agentui.dev/r/registry.json
+  -H "Authorization: Bearer ${AGENTUI_PRO_TOKEN}" \
+  https://pro.agentui.pro/r/registry.json
 ```
 
 Choose only from `items[].name`. This endpoint is the complete list of currently installable Pro blocks and components.
@@ -72,8 +72,8 @@ Use the grouped index when the request needs broader discovery:
 
 ```bash
 curl -fsS \
-  -H "Authorization: Bearer ${BEUI_PRO_TOKEN}" \
-  https://pro.agentui.dev/r
+  -H "Authorization: Bearer ${AGENTUI_PRO_TOKEN}" \
+  https://pro.agentui.pro/r
 ```
 
 Use names and descriptions to match the user's intent. Do not invent or shorten install slugs.
@@ -92,21 +92,21 @@ Map the page brief to the smallest useful set of sections. A typical landing pag
 
 Do not install the whole catalog unless the user explicitly requests it. Avoid combining blocks with conflicting visual directions. Preserve the strongest aesthetic of each selected block while aligning shared typography, spacing, and theme tokens across the page.
 
-Only entries returned by `/r/registry.json` are shadcn-installable. Full standalone templates use a separate purchase and download entitlement; do not fabricate an `@beui-pro` template command.
+Only entries returned by `/r/registry.json` are shadcn-installable. Full standalone templates use a separate purchase and download entitlement; do not fabricate an `@agentui-pro` template command.
 
 ### 4. Inspect before installing
 
 Inspect each selected item so the agent understands its files, dependencies, props, and named exports:
 
 ```bash
-npx shadcn@latest view @beui-pro/<slug>
+npx shadcn@latest view @agentui-pro/<slug>
 ```
 
 Use the project's package runner when appropriate:
 
 ```bash
-pnpm dlx shadcn@latest view @beui-pro/<slug>
-bunx --bun shadcn@latest view @beui-pro/<slug>
+pnpm dlx shadcn@latest view @agentui-pro/<slug>
+bunx --bun shadcn@latest view @agentui-pro/<slug>
 ```
 
 Re-fetch the live catalog if inspection returns `404`. Resolve authentication or registry configuration if it returns `401`; do not bypass the private registry.
@@ -116,10 +116,10 @@ Re-fetch the live catalog if inspection returns `404`. Resolve authentication or
 Install through the configured namespace:
 
 ```bash
-npx shadcn@latest add @beui-pro/<slug>
+npx shadcn@latest add @agentui-pro/<slug>
 ```
 
-The registry can install public `@beui` dependencies automatically. Keep those generated dependencies and helpers instead of copying or rebuilding them.
+The registry can install public `@agentui` dependencies automatically. Keep those generated dependencies and helpers instead of copying or rebuilding them.
 
 ### 6. Compose and adapt
 

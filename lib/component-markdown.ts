@@ -3,6 +3,7 @@ import { getComponentProps } from "@/lib/props-extractor";
 import { findComponent, type ComponentExample } from "@/lib/registry";
 import { buildEntry } from "@/lib/registry-server";
 import { pageUrlFor } from "@/lib/signature";
+import { registryItemUrl } from "@/lib/site";
 import { readOptionalSourceFile } from "@/lib/source-files";
 
 function escapeTableCell(value: string) {
@@ -65,9 +66,10 @@ export async function buildComponentMarkdown(
   const markdownUrl = `${pageUrl}.md`;
   const dates = componentDates(categorySlug, component.slug);
   const examples = component.examples ?? [];
-  const installTargets = examples.some((example) => example.installSlug)
-    ? examples.filter((example) => example.installSlug)
-    : [];
+  const installTargets = examples.filter(
+    (example): example is ComponentExample & { installSlug: string } =>
+      Boolean(example.installSlug),
+  );
   const primaryEntry = await buildEntry(categorySlug, component.slug);
   if (!primaryEntry) return null;
 
@@ -102,12 +104,12 @@ export async function buildComponentMarkdown(
       lines.push(`### ${example.name}`, "");
       if (example.description) lines.push(example.description, "");
       lines.push("```bash");
-      lines.push(`npx shadcn@latest add @beui/${example.installSlug}`);
+      lines.push(`npx shadcn@latest add ${registryItemUrl(example.installSlug)}`);
       lines.push("```", "");
     }
   } else {
     lines.push("```bash");
-    lines.push(`npx shadcn@latest add @beui/${component.slug}`);
+    lines.push(`npx shadcn@latest add ${registryItemUrl(component.slug)}`);
     lines.push("```", "");
   }
 

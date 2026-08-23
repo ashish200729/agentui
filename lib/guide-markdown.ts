@@ -87,7 +87,7 @@ const visible = {
   "ai-agents": {
     title: "Agent Guide",
     description:
-      "Install the AgentUI agent skill, connect the MCP server, or consume the agent-friendly registry endpoints directly.",
+      "Install the AgentUI agent skill or consume the agent-friendly registry endpoints directly.",
     body: `## Agent skill
 
 The skill at \`skills/agentui/SKILL.md\` teaches coding agents to choose existing AgentUI components before inventing custom motion widgets.
@@ -95,37 +95,6 @@ The skill at \`skills/agentui/SKILL.md\` teaches coding agents to choose existin
 \`\`\`text
 skills/agentui/SKILL.md
 \`\`\`
-
-## MCP server
-
-Connect the hosted AgentUI MCP server at \`https://mcp.agentui.dev/mcp\`.
-
-\`\`\`bash
-# Claude Code
-claude mcp add --transport http agentui https://mcp.agentui.dev/mcp
-
-# Codex
-codex mcp add agentui --url https://mcp.agentui.dev/mcp
-
-# Amp
-amp mcp add agentui https://mcp.agentui.dev/mcp
-\`\`\`
-
-Manual configuration:
-
-\`\`\`json
-{
-  "mcpServers": {
-    "agentui": {
-      "type": "http",
-      "url": "https://mcp.agentui.dev/mcp"
-    }
-  }
-}
-\`\`\`
-
-Available tools: \`list_components\`, \`search_components\`, \`get_component\`, and \`get_install_command\`.
-
 ## Endpoints
 
 | Endpoint | Purpose |
@@ -140,21 +109,20 @@ Available tools: \`list_components\`, \`search_components\`, \`get_component\`, 
 
 ## Agent flow
 
-1. Fetch \`https://agentui.dev/r\` to discover components.
+1. Fetch \`https://www.agentui.pro/r\` to discover components.
 2. Select the closest item by its published name and description.
-3. Fetch \`https://agentui.dev/r/{slug}\` for source, files, and dependencies.
+3. Fetch \`https://www.agentui.pro/r/{slug}\` for source, files, and dependencies.
 4. Write every returned file to its declared path.
 5. Install the external dependencies from the response.
 
 ## shadcn flow
 
 \`\`\`bash
-# Official registry namespace
-npx shadcn@latest add @beui/message
-
-# Direct registry URL
-npx shadcn@latest add https://agentui.dev/r/message.json
+# Direct registry URL (works without project configuration)
+npx shadcn@latest add https://www.agentui.pro/r/message.json
 \`\`\`
+
+To use the planned \`@agentui\` namespace before it enters shadcn's public directory, add \`"@agentui": "https://www.agentui.pro/r/{name}.json"\` under \`registries\` in your project's \`components.json\`.
 
 ## Entry shape
 
@@ -175,7 +143,9 @@ To let a model compose AgentUI components into a live interface, follow the [Ope
 \`\`\`bash
 npm install @openuidev/react-lang @openuidev/lang-core zod
 npm install openai
-npx shadcn@latest add @beui/message @beui/prompt-input @beui/agent-activity
+npx shadcn@latest add https://www.agentui.pro/r/message.json
+npx shadcn@latest add https://www.agentui.pro/r/prompt-input.json
+npx shadcn@latest add https://www.agentui.pro/r/agent-activity.json
 \`\`\`
 
 ## Register components

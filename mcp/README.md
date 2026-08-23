@@ -2,14 +2,14 @@
 
 Remote [MCP](https://modelcontextprotocol.io) server for the AgentUI component registries, running on a Cloudflare Worker. It lets AI agents discover, inspect, and install both free AgentUI components and licensed AgentUI Pro blocks.
 
-It owns no data — it reads the live `agentui.dev/r/*` registry endpoints at runtime (edge-cached), so new components appear without redeploying the worker.
+It owns no data — it reads the live `agentui.pro/r/*` registry endpoints at runtime (edge-cached), so new components appear without redeploying the worker.
 
 ## Connect
 
 Add to your MCP client (Claude Desktop, Cursor, etc.):
 
 ```
-https://mcp.agentui.dev/mcp
+https://mcp.agentui.pro/mcp
 ```
 
 Streamable HTTP is recommended. An SSE endpoint (`/sse`) exists for legacy clients.
@@ -17,15 +17,15 @@ Streamable HTTP is recommended. An SSE endpoint (`/sse`) exists for legacy clien
 ## Connect to AgentUI Pro
 
 Paid users can connect to the authenticated Pro endpoint with the same license
-key they use as `BEUI_PRO_TOKEN`:
+key they use as `AGENTUI_PRO_TOKEN`:
 
 ```json
 {
   "mcpServers": {
     "agentui-pro": {
-      "url": "https://mcp.agentui.dev/pro/mcp",
+      "url": "https://mcp.agentui.pro/pro/mcp",
       "headers": {
-        "Authorization": "Bearer ${BEUI_PRO_TOKEN}"
+        "Authorization": "Bearer ${AGENTUI_PRO_TOKEN}"
       }
     }
   }
@@ -46,7 +46,7 @@ results, or cache authenticated source responses.
 | `get_install_command` | `slug`, `packageManager?` | shadcn CLI command per package manager |
 
 The Pro endpoint exposes the same four tool names against the installable
-`@beui-pro` catalog. `get_component` returns the licensed source files, while
+`@agentui-pro` catalog. `get_component` returns the licensed source files, while
 `get_install_command` also returns the registry configuration required by the
 shadcn CLI. Standalone templates that are not in the private shadcn index are
 not exposed as installable components.
@@ -65,4 +65,4 @@ bun run typecheck
 bun run deploy
 ```
 
-Requires `agentui.dev` on Cloudflare. Wrangler provisions the `mcp.agentui.dev` custom domain on first deploy (see `routes` in `wrangler.jsonc`). To point at a different registry, set the `REGISTRY_URL` var.
+Requires `agentui.pro` on Cloudflare. Wrangler provisions the `mcp.agentui.pro` custom domain on first deploy (see `routes` in `wrangler.jsonc`). To point at a different registry, set the `REGISTRY_URL` var.

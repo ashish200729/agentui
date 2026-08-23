@@ -162,7 +162,7 @@ export function createProServer(env: ProEnv, authorization: string) {
             packageManager: manager,
             command: proInstallCommand(item.name, manager),
           })),
-          requiredEnvironmentVariable: "BEUI_PRO_TOKEN",
+          requiredEnvironmentVariable: "AGENTUI_PRO_TOKEN",
           requiredRegistries: PRO_REGISTRY_SETUP,
         });
       } catch (cause) {

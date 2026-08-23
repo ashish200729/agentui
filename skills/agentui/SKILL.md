@@ -1,35 +1,35 @@
 ---
 name: agentui
-description: Pick and install AgentUI (@beui) AI-agent interface components from the shadcn registry. Use for chat surfaces, streamed responses, reasoning, tool activity, approvals, plans, code, diffs, citations, and agent workspaces. The public catalog currently exposes agent components only.
+description: Pick and install AgentUI AI-agent interface components from the shadcn registry. Use for chat surfaces, streamed responses, reasoning, tool activity, approvals, plans, code, diffs, citations, and agent workspaces. The public catalog currently exposes agent components only.
 ---
 
 # AgentUI
 
-Use AgentUI as copy-paste source through the `@beui` shadcn registry. The public catalog is intentionally limited to the `agents` category; motion primitives and product blocks remain in the repository but are not published through public endpoints.
+Use AgentUI as copy-paste source through its shadcn registry. The public catalog is intentionally limited to the `agents` category; motion primitives and product blocks remain in the repository but are not published through public endpoints. Use direct registry URLs until `@agentui` is accepted into shadcn's public directory.
 
 ## Workflow
 
 1. Fetch the live registry before choosing a component:
 
 ```bash
-curl -fsS https://agentui.dev/r/registry.json
+curl -fsS https://www.agentui.pro/r/registry.json
 ```
 
 2. Pick the closest install slug from `items[].name`.
 3. Inspect before installing:
 
 ```bash
-npx shadcn@latest view @beui/<slug>
+npx shadcn@latest view https://www.agentui.pro/r/<slug>.json
 ```
 
 4. Install with the user's package runner:
 
 ```bash
-npx shadcn@latest add @beui/<slug>
+npx shadcn@latest add https://www.agentui.pro/r/<slug>.json
 # or
-pnpm dlx shadcn@latest add @beui/<slug>
+pnpm dlx shadcn@latest add https://www.agentui.pro/r/<slug>.json
 # or
-bunx --bun shadcn@latest add @beui/<slug>
+bunx --bun shadcn@latest add https://www.agentui.pro/r/<slug>.json
 ```
 
 5. Read the files that were added, then compose with the named exports. There is no `agentui` runtime package.
@@ -38,7 +38,7 @@ The live registry is the source of truth. Use the table below only to resolve co
 
 ## Picker
 
-| User asks for | Install `@beui/...` | Avoid |
+| User asks for | Install slug | Avoid |
 | --- | --- | --- |
 | Streaming thread that follows tokens | `message-scroller`, `message` | custom scroll math |
 | Chat bubble | `message-bubble` | custom bubble |

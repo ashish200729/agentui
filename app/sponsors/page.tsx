@@ -22,12 +22,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sponsors · beUI",
+    title: "Sponsors · AgentUI",
     images: ["/api/og"],
   },
 };
 
-const CONTACT_URL = "mailto:sponsors@agentui.dev?subject=AgentUI%20sponsorship";
+const CONTACT_URL = "mailto:sponsors@agentui.pro?subject=AgentUI%20sponsorship";
 
 const PLAN_STYLES = {
   diamond: {
@@ -237,7 +237,7 @@ export default async function SponsorsPage({
           Sponsors
         </p>
         <h1 className="mt-2 text-4xl font-semibold tracking-tight text-foreground">
-          Support beUI
+          Support AgentUI
         </h1>
         <p className="mt-3 text-muted-foreground">
           AgentUI is free and open source. Sponsor a monthly stage to reach

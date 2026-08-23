@@ -47,8 +47,8 @@ export const previewRailItems = [
   },
   {
     id: "pro",
-    label: "AgentUI Pro",
-    description: "Get premium components and lifetime access.",
+    label: "Agent patterns",
+    description: "Browse complete agent-interface compositions.",
     href: "#pro",
   },
   {

@@ -127,7 +127,7 @@ export class AgentUiMcp extends McpAgent<Env, Record<string, never>, Record<stri
             category: entry.category,
             page_url: entry.page_url,
             dependencies: entry.dependencies,
-            install: installCommand(entry.slug, "bun"),
+            install: installCommand(entry.slug, "bun", this.env),
             files: entry.files.map((f) => ({
               path: f.path,
               type: f.type,
@@ -158,8 +158,11 @@ export class AgentUiMcp extends McpAgent<Env, Record<string, never>, Record<stri
         return json({
           slug,
           packageManager: pm,
-          command: installCommand(slug, pm),
-          all: PACKAGE_MANAGERS.map((p) => ({ packageManager: p, command: installCommand(slug, p) })),
+          command: installCommand(slug, pm, this.env),
+          all: PACKAGE_MANAGERS.map((p) => ({
+            packageManager: p,
+            command: installCommand(slug, p, this.env),
+          })),
         });
       },
     );
@@ -171,12 +174,12 @@ const LANDING = `AgentUI MCP server
 AI agent components for React and Next.js.
 
 Connect your MCP client to:
-  https://mcp.agentui.dev/mcp   (Streamable HTTP, recommended)
-  https://mcp.agentui.dev/sse   (SSE, legacy)
-  https://mcp.agentui.dev/pro/mcp   (AgentUI Pro, bearer token required)
+  https://mcp.agentui.pro/mcp   (Streamable HTTP, recommended)
+  https://mcp.agentui.pro/sse   (SSE, legacy)
+  https://mcp.agentui.pro/pro/mcp   (AgentUI Pro, bearer token required)
 
 Tools: list_components, search_components, get_component, get_install_command
-Docs:  https://agentui.dev
+Docs:  https://www.agentui.pro
 `;
 
 function getBearerAuthorization(request: Request) {

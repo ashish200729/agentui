@@ -33,7 +33,7 @@ export class ProRegistryError extends Error {
 }
 
 function base(env: { PRO_REGISTRY_URL?: string }) {
-  return (env.PRO_REGISTRY_URL ?? "https://pro.agentui.dev").replace(/\/$/, "");
+  return (env.PRO_REGISTRY_URL ?? "https://pro.agentui.pro").replace(/\/$/, "");
 }
 
 async function fetchJson<T>(url: string, authorization: string): Promise<T> {
@@ -93,15 +93,15 @@ export const PRO_PACKAGE_MANAGERS = Object.keys(
 ) as ProPackageManager[];
 
 export function proInstallCommand(slug: string, pm: ProPackageManager) {
-  return `${PM_PREFIX[pm]} shadcn@latest add @beui-pro/${slug}`;
+  return `${PM_PREFIX[pm]} shadcn@latest add @agentui-pro/${slug}`;
 }
 
 export const PRO_REGISTRY_SETUP = {
-  "@beui": "https://agentui.dev/r/{name}.json",
-  "@beui-pro": {
-    url: "https://pro.agentui.dev/r/{name}.json",
+  "@agentui": "https://www.agentui.pro/r/{name}.json",
+  "@agentui-pro": {
+    url: "https://pro.agentui.pro/r/{name}.json",
     headers: {
-      Authorization: "Bearer ${BEUI_PRO_TOKEN}",
+      Authorization: "Bearer ${AGENTUI_PRO_TOKEN}",
     },
   },
 } as const;

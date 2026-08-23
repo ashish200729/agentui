@@ -26,12 +26,12 @@ function installSlugs() {
 function slugsFromSkill(markdown: string) {
   const found = new Set<string>();
 
-  for (const match of markdown.matchAll(/@beui\/([a-z][a-z0-9-]*)/g)) {
+  for (const match of markdown.matchAll(/@agentui\/([a-z][a-z0-9-]*)/g)) {
     found.add(match[1]);
   }
 
   for (const match of markdown.matchAll(
-    /https:\/\/agentui\.dev\/r\/([a-z][a-z0-9-]*)(?:\.json)?/g,
+    /https:\/\/www\.agentui\.pro\/r\/([a-z][a-z0-9-]*)(?:\.json)?/g,
   )) {
     if (match[1] === "registry") continue;
     found.add(match[1]);
@@ -58,7 +58,7 @@ describe("AgentUI skill", () => {
     const skill = await readFile(SKILL_PATH, "utf8");
 
     expect(existsSync(CATALOG_PATH)).toBe(false);
-    expect(skill).toContain("curl -fsS https://agentui.dev/r/registry.json");
+    expect(skill).toContain("curl -fsS https://www.agentui.pro/r/registry.json");
     expect(skill).toContain("items[].name");
     expect(skill).toContain("The live registry is the source of truth");
     expect(skill).not.toContain("!`curl");
@@ -66,7 +66,7 @@ describe("AgentUI skill", () => {
     expect(skill).not.toContain("catalog.md");
   });
 
-  test("every picker slug is a real @beui install name", async () => {
+  test("every picker slug is a real @agentui install name", async () => {
     const skill = await readFile(SKILL_PATH, "utf8");
     const known = installSlugs();
     const missing = slugsFromSkill(skill).filter((slug) => !known.has(slug));

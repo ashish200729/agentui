@@ -4,6 +4,7 @@ import { getOgFonts } from "@/lib/og-fonts";
 import { findPublicCategory, publicAllComponents } from "@/lib/registry";
 import { OG_SIZE, ogImage } from "@/lib/og";
 import { clampText } from "@/lib/seo";
+import { registryItemUrl } from "@/lib/site";
 
 // The card art has room for roughly this much body text before it overflows.
 const OG_DESCRIPTION_LIMIT = 120;
@@ -14,7 +15,7 @@ const PAGE_CARDS = {
     description:
     "Register AgentUI components, generate OpenUI Lang, and render an interactive agent UI stream.",
     label: "Integration guide",
-    command: "agentui.dev/docs/openui",
+    command: "agentui.pro/docs/openui",
   },
 } as const;
 
@@ -54,8 +55,8 @@ export async function GET(request: Request) {
       ? category.name
       : page?.label ?? "Agent components";
   const command = component
-    ? `npx shadcn add @beui/${component.slug}`
-    : page?.command ?? "npx shadcn add @beui/...";
+    ? `npx shadcn add ${registryItemUrl(component.slug)}`
+    : page?.command ?? `npx shadcn add ${registryItemUrl("...")}`;
   const origin = requestUrl.origin;
   const [fonts, assets] = await Promise.all([
     getOgFonts(origin),

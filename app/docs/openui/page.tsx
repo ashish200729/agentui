@@ -67,7 +67,9 @@ npm install @openuidev/react-lang @openuidev/lang-core zod
 npm install openai
 
 # Pull the AgentUI components you want to expose (shadcn registry)
-npx shadcn@latest add @beui/message @beui/prompt-input @beui/agent-activity`;
+npx shadcn@latest add https://www.agentui.pro/r/message.json
+npx shadcn@latest add https://www.agentui.pro/r/prompt-input.json
+npx shadcn@latest add https://www.agentui.pro/r/agent-activity.json`;
 
 const DEFINE_SNIPPET = `import { defineComponent, useTriggerAction } from "@openuidev/react-lang";
 import { z } from "zod/v4";
@@ -80,7 +82,7 @@ import { PromptInput } from "@/components/agents/prompt-input";
 import { AgentProgress } from "@/components/agents/loading-states";
 
 // AgentUI conversation row. \`useTriggerAction\` keeps generated controls live.
-const BeMessage = defineComponent({
+const AgentMessage = defineComponent({
   name: "Message",
   description: "A user or assistant message rendered as an AgentUI conversation row.",
   props: z.object({
@@ -97,7 +99,7 @@ const BeMessage = defineComponent({
 });
 
 // AgentUI prompt composer. The submitted value becomes the next model action.
-const BePrompt = defineComponent({
+const AgentPrompt = defineComponent({
   name: "PromptInput",
   description: "An auto-growing prompt composer for the next agent turn.",
   props: z.object({ placeholder: z.string().optional() }),
@@ -113,7 +115,7 @@ const BePrompt = defineComponent({
 });
 
 // AgentUI progress status for unknown-duration work.
-const BeProgress = defineComponent({
+const AgentProgressComponent = defineComponent({
   name: "AgentProgress",
   description: "A compact in-progress status with an honest elapsed timer.",
   props: z.object({ label: z.string().default("Working") }),
@@ -124,7 +126,11 @@ const BeProgress = defineComponent({
 // of each component's \`.ref\` (declared after the components exist): the runtime
 // validates what may nest here, and the model sees exactly which nodes are
 // allowed inside — both of which \`z.any()\` would throw away.
-const StackChild = z.union([BeMessage.ref, BePrompt.ref, BeProgress.ref]);
+const StackChild = z.union([
+  AgentMessage.ref,
+  AgentPrompt.ref,
+  AgentProgressComponent.ref,
+]);
 
 const Stack = defineComponent({
   name: "Stack",
@@ -139,7 +145,7 @@ const LIBRARY_SNIPPET = `import { createLibrary } from "@openuidev/react-lang";
 
 export const agentuiLibrary = createLibrary({
   root: "Stack",
-  components: [Stack, BeMessage, BePrompt, BeProgress],
+  components: [Stack, AgentMessage, AgentPrompt, AgentProgressComponent],
   componentGroups: [
     {
       name: "Layout",
