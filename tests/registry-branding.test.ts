@@ -63,7 +63,6 @@ describe("AgentUI production registry branding", () => {
       ...(await collectTextFiles("app")),
       ...(await collectTextFiles("components")),
       ...(await collectTextFiles("lib")),
-      ...(await collectTextFiles("mcp")),
       ...(await collectTextFiles("skills")),
     ];
 

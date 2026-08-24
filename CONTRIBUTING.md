@@ -1,6 +1,6 @@
 # Contributing
 
-AgentUI is a React, TypeScript, Framer Motion and Tailwind CSS component library.
+AgentUI is a React, TypeScript, Motion, and Tailwind CSS component library.
 
 ## Before You Open a PR
 

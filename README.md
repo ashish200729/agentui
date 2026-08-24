@@ -23,15 +23,11 @@
   <a href="https://www.agentui.pro/llms.txt">llms.txt</a>
 </p>
 
-<p align="center">
-  <a href="https://www.agentui.pro"><img src="./public/demo.gif" alt="AgentUI components demo" width="640" /></a>
-</p>
-
 ## What is AgentUI?
 
-AgentUI is a small component library for product interfaces.
+AgentUI is a source-first component library for AI agent interfaces. The public catalogue contains 17 component pages and 19 installable registry items covering conversations, streaming responses, reasoning, tools, approvals, code, files, media, citations, and workspace navigation.
 
-Each component includes a live preview, usage example, source code, and a shadcn install command. The components are meant to live in your app, not behind a package.
+Each component includes a live preview, usage example, source code, and a shadcn-compatible install item. Components are copied into your application so you own the implementation and can adapt it without a runtime AgentUI package.
 
 ## Install a component
 
@@ -53,6 +49,15 @@ The planned `@agentui` namespace can be configured today in your project's `comp
 
 After that, `npx shadcn@latest add @agentui/message` works. Direct URLs remain the zero-configuration path until the namespace is accepted into shadcn's public registry directory. You can also copy the source directly from the component page.
 
+## Public catalogue
+
+- Conversation: Message Bubble, Message, Message Scroller, Prompt Input
+- Work state: Agent Activity, Agent Loading States, Todo List
+- Results: Streaming Response, Tool Result, Code Block, File Diff
+- Human control: Tool Approval, Approval Card
+- Evidence and media: Citations, Image Generation
+- Workspace: AI Sidebar, Chat App
+
 ## For AI agents
 
 AgentUI exposes static endpoints that coding agents can read without scraping the UI.
@@ -66,6 +71,19 @@ https://www.agentui.pro/r/{slug}/raw
 ```
 
 The agent skill is included at [`skills/agentui/SKILL.md`](./skills/agentui/SKILL.md). It helps Cursor, Claude Code, Codex, and other coding agents choose existing `@agentui` components before inventing new motion UI.
+
+## Repository structure
+
+```text
+app/                       Next.js site and registry endpoints
+components/agents/         Public agent-interface component source
+components/previews/agents Live examples and copyable compositions
+components/app/            Documentation-site chrome
+lib/registry.ts            Component catalogue and install metadata
+lib/registry-server.ts     Dependency graph and shadcn item generation
+skills/agentui/            Agent-facing component selection workflow
+tests/                     Accessibility, interaction, registry, and release checks
+```
 
 ## Run locally
 
@@ -93,3 +111,7 @@ Read [CONTRIBUTING.md](./CONTRIBUTING.md) before contributing.
 ## License
 
 AgentUI is available under the [MIT License](./LICENSE).
+
+## Attribution
+
+AgentUI includes modifications of MIT-licensed software. The original copyright and permission notice are preserved in [`LICENSE`](./LICENSE). AgentUI's name, icon, documentation structure, public catalogue, and current product interface are project-specific work; third-party project names and logos are not used.
