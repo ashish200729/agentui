@@ -16,8 +16,8 @@ The AgentUI mark is an open rounded workflow loop with a detached handoff node. 
 
 - Adaptive vector source: `public/agentui-mark.svg`
 - Transparent raster fallback: `public/agentui-mark.png`
-- Use the SVG in interface chrome and favicons so it follows light and dark preferences.
-- Use the PNG only where a raster asset is required, including Open Graph rendering and registry metadata.
+- Use the black PNG in interface chrome with the semantic `.dark:invert` treatment so it follows AgentUI's active theme instead of the operating-system preference.
+- Use the adaptive SVG for favicons and the PNG where a raster asset is required, including Open Graph rendering and registry metadata.
 
 ## Palette — AgentUI Current
 

@@ -28,7 +28,7 @@ describe("AgentUI brand assets", () => {
     expect(png[25]).toBe(6);
   });
 
-  test("uses SVG in adaptive UI and PNG in raster-only metadata", async () => {
+  test("uses theme-controlled PNG in UI and adaptive SVG for favicons", async () => {
     const [header, footer, layout, manifest, og] = await Promise.all([
       readFile(path.join(ROOT, "components/app/chrome/site-header.tsx"), "utf8"),
       readFile(path.join(ROOT, "components/app/chrome/site-footer.tsx"), "utf8"),
@@ -37,8 +37,10 @@ describe("AgentUI brand assets", () => {
       readFile(path.join(ROOT, "lib/og.tsx"), "utf8"),
     ]);
 
-    expect(header).toContain("/agentui-mark.svg");
-    expect(footer).toContain("/agentui-mark.svg");
+    expect(header).toContain("/agentui-mark.png");
+    expect(header).toContain("dark:invert");
+    expect(footer).toContain("/agentui-mark.png");
+    expect(footer).toContain("dark:invert");
     expect(layout).toContain("/agentui-mark.svg");
     expect(manifest).toContain("/agentui-mark.svg");
     expect(manifest).toContain("/agentui-mark.png");
