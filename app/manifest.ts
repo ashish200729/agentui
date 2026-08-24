@@ -18,7 +18,7 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: "any",
       },
       {
-        src: "/agentui-mark.png",
+        src: "/agentui-mark-v2.png",
         sizes: "1024x1024",
         type: "image/png",
         purpose: "any",

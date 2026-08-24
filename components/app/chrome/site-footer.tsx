@@ -51,7 +51,7 @@ export function SiteFooter() {
               className="inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground"
             >
               <Image
-                src="/agentui-mark.png"
+                src="/agentui-mark-v2.png"
                 alt="AgentUI"
                 width={22}
                 height={22}

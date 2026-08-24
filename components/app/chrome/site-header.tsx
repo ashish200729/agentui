@@ -45,7 +45,7 @@ export function SiteHeader() {
             className="group flex items-center gap-2.5 text-sm font-semibold tracking-tight text-foreground"
           >
             <Image
-              src="/agentui-mark.png"
+              src="/agentui-mark-v2.png"
               alt=""
               aria-hidden="true"
               width={24}

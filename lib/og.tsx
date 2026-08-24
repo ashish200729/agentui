@@ -5,7 +5,7 @@ export const OG_SIZE = { width: 1200, height: 630 };
 
 const FG = "#17151f";
 const MUTED = "rgba(23,21,31,0.66)";
-const LOGO_SRC = `${SITE_URL}/agentui-mark.png`;
+const LOGO_SRC = `${SITE_URL}/agentui-mark-v2.png`;
 
 type OgOptions = {
   title?: string;

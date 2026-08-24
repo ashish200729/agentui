@@ -20,7 +20,7 @@ describe("AgentUI brand assets", () => {
   });
 
   test("ships a transparent 1024px PNG fallback", async () => {
-    const png = await readFile(path.join(ROOT, "public/agentui-mark.png"));
+    const png = await readFile(path.join(ROOT, "public/agentui-mark-v2.png"));
 
     expect(png.subarray(1, 4).toString("ascii")).toBe("PNG");
     expect(png.readUInt32BE(16)).toBe(1024);
@@ -37,13 +37,13 @@ describe("AgentUI brand assets", () => {
       readFile(path.join(ROOT, "lib/og.tsx"), "utf8"),
     ]);
 
-    expect(header).toContain("/agentui-mark.png");
+    expect(header).toContain("/agentui-mark-v2.png");
     expect(header).toContain("dark:invert");
-    expect(footer).toContain("/agentui-mark.png");
+    expect(footer).toContain("/agentui-mark-v2.png");
     expect(footer).toContain("dark:invert");
     expect(layout).toContain("/agentui-mark.svg");
     expect(manifest).toContain("/agentui-mark.svg");
-    expect(manifest).toContain("/agentui-mark.png");
-    expect(og).toContain("/agentui-mark.png");
+    expect(manifest).toContain("/agentui-mark-v2.png");
+    expect(og).toContain("/agentui-mark-v2.png");
   });
 });
