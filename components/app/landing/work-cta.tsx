@@ -19,16 +19,8 @@ export function WorkCta() {
 
         <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
           <PressLink
-            href="/docs/ai-agents"
-            className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Read the agent guide
-            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-          </PressLink>
-
-          <PressLink
             href="/components/agents"
-            className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-7 py-3.5 text-sm font-semibold text-foreground transition-colors hover:border-border-strong hover:bg-muted"
+            className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Browse components
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />

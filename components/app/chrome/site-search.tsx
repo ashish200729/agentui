@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleDashed, FileText, Search } from "lucide-react";
+import { CircleDashed, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -10,11 +10,6 @@ import {
 } from "@/components/motion/command-palette";
 import { NewBadge } from "@/components/app/docs/new-badge";
 import { publicRegistry } from "@/lib/registry";
-
-const PAGES = [
-  { slug: "ai-agents", name: "AI Agents", href: "/docs/ai-agents" },
-  { slug: "openui", name: "OpenUI", href: "/docs/openui" },
-];
 
 /** Site search trigger backed by the library's own command palette. */
 export function SiteSearch({ className }: { className?: string }) {
@@ -37,14 +32,6 @@ export function SiteSearch({ className }: { className?: string }) {
           onSelect: () => router.push(`/components/${cat.slug}/${comp.slug}`),
         })),
       ),
-      ...PAGES.map((page) => ({
-        id: page.slug,
-        label: page.name,
-        group: "Pages",
-        keywords: [page.slug],
-        icon: FileText,
-        onSelect: () => router.push(page.href),
-      })),
     ],
     [router],
   );

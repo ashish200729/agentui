@@ -13,7 +13,7 @@ export const SITE_NAME = "AgentUI";
 export const SITE_TITLE = "AI Agent Components for React and Next.js";
 export const SITE_TAGLINE = "AI agent components for React and Next.js";
 export const SITE_DESCRIPTION =
-  "Free, open-source React components for AI agent chat, reasoning, tool activity, approvals, and streamed responses. Copy the source or install with the shadcn CLI.";
+  "React components for AI agent chat, reasoning, tool activity, approvals, and streamed responses. Copy the source or install with the shadcn CLI.";
 
 const abs = (path: string) => (path.startsWith("http") ? path : `${SITE}${path}`);
 
@@ -27,13 +27,12 @@ const KEYWORD_SUFFIXES = [
   "animation",
   "example",
 ];
-const KEYWORD_PREFIXES = ["", "animated ", "free ", "best "];
+const KEYWORD_PREFIXES = ["", "animated ", "best "];
 
 const BASE_KEYWORDS = [
   "AI agent component",
   "best AI agent components",
-  "free AI agent components",
-  "open source AI agent components",
+  "React AI agent components",
   "React agent interface component",
   "streaming chat components",
   "Tailwind CSS component",
@@ -71,7 +70,7 @@ export function componentKeywords(
 export function componentMetaDescription(comp: ComponentEntry): string {
   if (comp.guide?.seo.description) return comp.guide.seo.description;
 
-  return `${comp.description} Free, open-source AI agent component for React and Next.js. Copy-paste the source or install with shadcn.`;
+  return `${comp.description} AI agent component for React and Next.js. Copy-paste the source or install with shadcn.`;
 }
 
 /** Trim text to `limit` chars on a word boundary — for fixed-size surfaces
@@ -102,7 +101,7 @@ export function siteJsonLd(): JsonLdSchema[] {
       name: SITE_NAME,
       url: SITE,
       slogan: SITE_TAGLINE,
-      logo: abs("/agentui-mark.png"),
+      logo: abs("/agentui-mark.svg"),
     },
     {
       "@context": "https://schema.org",

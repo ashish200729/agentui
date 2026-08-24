@@ -12,8 +12,14 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#151515",
     icons: [
       {
-        src: "/agentui-mark.png",
+        src: "/agentui-mark.svg",
         sizes: "any",
+        type: "image/svg+xml",
+        purpose: "any",
+      },
+      {
+        src: "/agentui-mark.png",
+        sizes: "1024x1024",
         type: "image/png",
         purpose: "any",
       },

@@ -7,11 +7,7 @@ import { buildGuideMarkdown, GUIDE_SLUGS } from "@/lib/guide-markdown";
 
 describe("guide Markdown", () => {
   test("builds every published guide with canonical frontmatter", () => {
-    expect(GUIDE_SLUGS).toEqual([
-      "motion-patterns",
-      "ai-agents",
-      "openui",
-    ]);
+    expect([...GUIDE_SLUGS]).toEqual(["motion-patterns"]);
 
     for (const slug of GUIDE_SLUGS) {
       const markdown = buildGuideMarkdown(slug);
@@ -28,8 +24,8 @@ describe("guide Markdown", () => {
   });
 
   test("serves Markdown with discovery headers", async () => {
-    const response = await GET(new Request("https://www.agentui.pro/docs/openui.md"), {
-      params: Promise.resolve({ slug: "openui.md" }),
+    const response = await GET(new Request("https://www.agentui.pro/docs/motion-patterns.md"), {
+      params: Promise.resolve({ slug: "motion-patterns.md" }),
     });
 
     expect(response.status).toBe(200);
@@ -37,8 +33,22 @@ describe("guide Markdown", () => {
       "text/markdown; charset=utf-8",
     );
     expect(response.headers.get("x-robots-tag")).toBe("noindex");
-    expect(response.headers.get("link")).toContain("</docs/openui>");
-    expect(await response.text()).toContain("# Use AgentUI with OpenUI");
+    expect(response.headers.get("link")).toContain("</docs/motion-patterns>");
+    expect(await response.text()).toContain("# Motion Guides");
+  });
+
+  test("returns not found for the removed guides", async () => {
+    const [agentGuide, openui] = await Promise.all([
+      GET(new Request("https://www.agentui.pro/docs/ai-agents.md"), {
+        params: Promise.resolve({ slug: "ai-agents.md" }),
+      }),
+      GET(new Request("https://www.agentui.pro/docs/openui.md"), {
+        params: Promise.resolve({ slug: "openui.md" }),
+      }),
+    ]);
+
+    expect(agentGuide.status).toBe(404);
+    expect(openui.status).toBe(404);
   });
 
   test("rejects unknown or non-Markdown guide paths", async () => {

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { findPublicCategory, publicRegistry } from "@/lib/registry";
-import { ComponentCard } from "@/components/app/docs/component-card";
 import { JsonLd } from "@/components/app/analytics/json-ld";
+import { AgentCatalogCard } from "@/components/app/docs/agent-catalog-card";
+import { AgentCatalogHero } from "@/components/app/docs/agent-catalog-hero";
+import { ComponentCard } from "@/components/app/docs/component-card";
 import { isComponentNew } from "@/lib/component-status";
+import { findPublicCategory, publicRegistry } from "@/lib/registry";
 import { breadcrumbJsonLd, categoryJsonLd } from "@/lib/seo";
 
 const categoryContent = {
@@ -11,55 +13,10 @@ const categoryContent = {
     title: "AI Agent Components — Animated React AI Interfaces",
     heading: "Animated AI agent components",
     description:
-      "Build clear, responsive AI experiences with open-source React components for agent reasoning, progress, tool activity, and conversation states.",
+      "Build clear, responsive AI experiences with React components for agent reasoning, progress, tool activity, and conversation states.",
     allLabel: "All agent components",
   },
 } as const;
-
-const AGENT_CATEGORY_GROUPS = [
-  {
-    id: "workspace",
-    title: "Workspace and navigation components",
-    description:
-      "Build the complete agent workspace shell, then organize projects, conversations, files, and bookmarks in a responsive navigation surface.",
-    slugs: ["chat-app", "ai-sidebar"],
-  },
-  {
-    id: "conversation",
-    title: "Conversation components",
-    description:
-      "Compose prompts, arrange sender-aware messages, shape conversational surfaces, and keep streamed turns stable while the reader moves through the transcript.",
-    slugs: ["prompt-input", "message", "message-bubble", "message-scroller"],
-  },
-  {
-    id: "responses",
-    title: "Response and evidence components",
-    description:
-      "Render rich answers as they arrive, reveal completion actions at the right time, and connect generated claims to inspectable sources.",
-    slugs: ["streaming-response", "image-generation", "citations"],
-  },
-  {
-    id: "progress",
-    title: "Progress and planning components",
-    description:
-      "Communicate unknown waits, durable task plans, and chronological agent activity without inventing precision or exposing an unfiltered trace.",
-    slugs: ["loading-states", "todo-list", "agent-activity"],
-  },
-  {
-    id: "tools",
-    title: "Tool and code components",
-    description:
-      "Present execution outcomes, generated source, and file changes with bounded streaming, stable highlighting, and inspectable completion states.",
-    slugs: ["tool-result", "code-block", "file-diff"],
-  },
-  {
-    id: "human-control",
-    title: "Human-in-the-loop components",
-    description:
-      "Pause agent work for a scoped permission, clarification, review, or decision, then preserve the resolved outcome in the run history.",
-    slugs: ["tool-approval", "approval-card"],
-  },
-] as const;
 
 export function generateStaticParams() {
   return publicRegistry.map((c) => ({ category: c.slug }));
@@ -91,8 +48,7 @@ export async function generateMetadata({
       `${cat.name} components`,
       "AI agent components",
       "best AI agent components",
-      "free AI agent components",
-      "open source AI agent components",
+      "React AI agent components",
       "streaming chat components",
       "agent tool activity UI",
       "Tailwind CSS components",
@@ -148,19 +104,10 @@ export default async function CategoryPage({
   const components = cat.components.filter(
     (comp) => !isComponentNew(comp, now),
   );
-  const agentGroups =
-    cat.slug === "agents"
-      ? AGENT_CATEGORY_GROUPS.map((group) => ({
-          ...group,
-          components: group.slugs.flatMap((slug) => {
-            const component = cat.components.find((item) => item.slug === slug);
-            return component ? [component] : [];
-          }),
-        }))
-      : [];
+  const isAgentCategory = cat.slug === "agents";
 
   return (
-    <div>
+    <div className="mx-auto max-w-7xl">
       <JsonLd
         data={[
           breadcrumbJsonLd([
@@ -170,49 +117,33 @@ export default async function CategoryPage({
           categoryJsonLd(cat),
         ]}
       />
-      <nav
-        aria-label="Breadcrumb"
-        className="flex items-center gap-1.5 text-sm"
-      >
-        <span className="font-medium text-foreground">{cat.name}</span>
-      </nav>
-      <h1 className="mt-4 text-3xl font-medium tracking-tight text-foreground">
-        {content.heading}
-      </h1>
-      <p className="mt-2 max-w-2xl text-muted-foreground">
-        {content.description}
-      </p>
-
-      {agentGroups.length ? (
-        <div className="mt-12 space-y-14">
-          {agentGroups.map((group) => (
-            <section key={group.id} id={group.id} className="scroll-mt-24">
-              <div className="max-w-2xl">
-                <h2 className="text-xl font-medium tracking-tight text-foreground">
-                  {group.title}
-                </h2>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  {group.description}
-                </p>
-              </div>
-              <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                {group.components.map((comp) => (
-                  <ComponentCard
-                    key={comp.slug}
-                    categorySlug={cat.slug}
-                    slug={comp.slug}
-                    name={comp.name}
-                    description={comp.description}
-                    badge={comp.badge}
-                    launchedAt={comp.launchedAt}
-                  />
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
+      {isAgentCategory ? (
+        <>
+          <AgentCatalogHero componentCount={cat.components.length} />
+          <section id="all-components" className="scroll-mt-24 py-12 sm:py-16">
+            <h2 className="sr-only">All agent components</h2>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-4">
+              {cat.components.map((component) => (
+                <AgentCatalogCard key={component.slug} component={component} />
+              ))}
+            </div>
+          </section>
+        </>
       ) : (
         <>
+          <nav
+            aria-label="Breadcrumb"
+            className="flex items-center gap-1.5 text-sm"
+          >
+            <span className="font-medium text-foreground">{cat.name}</span>
+          </nav>
+          <h1 className="mt-4 text-3xl font-medium tracking-tight text-foreground">
+            {content.heading}
+          </h1>
+          <p className="mt-2 max-w-2xl text-muted-foreground">
+            {content.description}
+          </p>
+
           {newComponents.length ? (
             <section className="mt-10">
               <h2 className="font-display text-xs font-medium uppercase text-muted-foreground">

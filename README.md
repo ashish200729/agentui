@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://www.agentui.pro">
-    <img src="./public/agentui-mark.png" alt="AgentUI logo" width="88" height="88" />
+    <img src="./public/agentui-mark.svg" alt="AgentUI logo" width="88" height="88" />
   </a>
 </p>
 

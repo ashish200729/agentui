@@ -42,7 +42,7 @@ export const previewRailItems = [
   {
     id: "sponsors",
     label: "Sponsors",
-    description: "Support continued development of the open-source library.",
+    description: "Support continued development of the library.",
     href: "#sponsors",
   },
   {

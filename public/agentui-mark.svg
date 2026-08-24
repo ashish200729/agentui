@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="none">
+  <title>AgentUI</title>
+  <style>
+    .agentui-mark { color: #111111; }
+    @media (prefers-color-scheme: dark) {
+      .agentui-mark { color: #FAFAFA; }
+    }
+  </style>
+  <g class="agentui-mark" color="#111111">
+    <path
+      d="M512 152H372C250.5 152 152 250.5 152 372V652C152 773.5 250.5 872 372 872H588"
+      stroke="currentColor"
+      stroke-width="144"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M872 588V372C872 250.5 773.5 152 652 152H512"
+      stroke="currentColor"
+      stroke-width="144"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <rect x="698" y="698" width="174" height="174" rx="56" fill="currentColor" />
+  </g>
+</svg>

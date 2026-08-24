@@ -443,7 +443,7 @@ export function ChatAppExample({
                     { id: "reason", type: "text", content: "Tracing the checkout submission path and validation boundary." },
                     { id: "read", type: "tool", action: "read", target: "checkout/submit.ts" },
                     { id: "search", type: "search", query: "order validation failures", results: [
-                      { id: "result-1", title: "Agent interface guide", domain: "agentui.pro", url: "/docs/ai-agents" },
+                      { id: "result-1", title: "Agent components", domain: "agentui.pro", url: "/components/agents" },
                     ] },
                   ]}
                 />

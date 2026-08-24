@@ -27,7 +27,7 @@ function titleSize(title: string) {
 // The shader is exported to a static image so edge rendering stays deterministic.
 export function ogImage({
   title = "AI agent components for React and Next.js",
-  description = "Free, open-source agent interface components with the source included.",
+  description = "Agent interface components for React and Next.js with the source included.",
   label = "Agent components",
   command = `npx shadcn add ${registryItemUrl("...")}`,
   backgroundSrc = `${SITE_URL}/og/dither-wave.png`,

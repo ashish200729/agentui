@@ -57,7 +57,7 @@ export const registry: CategoryEntry[] = [
     slug: "motion",
     name: "Components",
     description:
-      "Free, open-source animated React components built with Motion and Tailwind CSS, available as copy-paste source through the shadcn registry.",
+      "Animated React components built with Motion and Tailwind CSS, available as copy-paste source through the shadcn registry.",
     components: [
       {
         slug: "tilt-card",

@@ -46,8 +46,8 @@ export function Hero() {
       />
 
       <p className="mx-auto mt-6 max-w-md text-pretty text-base leading-7 text-muted-foreground">
-        Copy-paste AI agent components built with Motion and Tailwind CSS. Free,
-        open source, and fully customizable.
+        Copy-paste AI agent components built with Motion and Tailwind CSS.
+        Fully customizable and production-ready.
       </p>
 
       <motion.div

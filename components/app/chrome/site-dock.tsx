@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Bot, Home, LayoutGrid } from "lucide-react";
+import { Home, LayoutGrid } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Dock, DockItem, DockSeparator } from "@/components/motion/dock";
@@ -54,36 +54,6 @@ export function SiteDock() {
             </Tooltip>
           </DockItem>
           <DockSeparator className="mx-0.5 h-4" />
-          <DockItem aria-label="Agent guide">
-            <Tooltip
-              content="Agent guide"
-              side="top"
-              wrapperClassName="h-full w-full items-center justify-center"
-            >
-              <Link
-                href="/docs/ai-agents"
-                aria-label="Agent guide"
-                className="flex h-full w-full items-center justify-center"
-              >
-                <Bot className="h-4 w-4" />
-              </Link>
-            </Tooltip>
-          </DockItem>
-          <DockItem aria-label="OpenUI guide">
-            <Tooltip
-              content="OpenUI guide"
-              side="top"
-              wrapperClassName="h-full w-full items-center justify-center"
-            >
-              <Link
-                href="/docs/openui"
-                aria-label="OpenUI guide"
-                className="flex h-full w-full items-center justify-center"
-              >
-                <BookOpen className="h-4 w-4" />
-              </Link>
-            </Tooltip>
-          </DockItem>
           <DockItem aria-label="Toggle theme">
             <Tooltip
               content={mounted && isDark ? "Light mode" : "Dark mode"}

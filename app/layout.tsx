@@ -74,10 +74,7 @@ export const metadata: Metadata = {
   keywords: [
     "AI agent components",
     "best AI agent components",
-    "free AI agent components",
-    "open source AI agent components",
-    "open source React components",
-    "free React components",
+    "React agent components",
     "Tailwind CSS components",
     "Next.js components",
     "shadcn registry",
@@ -89,8 +86,7 @@ export const metadata: Metadata = {
     "animated UI components",
     "component library",
     "copy paste components",
-    "free",
-    "open source",
+    "AgentUI",
   ],
 };
 
@@ -121,7 +117,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             data-respect-do-not-track="true"
           />
         )}
-        <link rel="icon" type="image/png" href="/agentui-mark.png" />
+        <link rel="icon" type="image/svg+xml" href="/agentui-mark.svg" />
         <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
         <link rel="alternate" type="application/json" title="Component registry" href="/r" />
         <link rel="alternate" type="application/json" title="shadcn registry" href="/registry.json" />

@@ -12,11 +12,6 @@ const INTRO = [
   { slug: "home", name: "Home", href: "/components/agents" },
 ];
 
-const PATTERNS = [
-  { slug: "ai-agents", name: "Agent Guide", href: "/docs/ai-agents" },
-  { slug: "openui", name: "OpenUI", href: "/docs/openui" },
-];
-
 const SIDEBAR_CATEGORIES = publicRegistry;
 
 function moveNewItemsToTop<
@@ -50,23 +45,6 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
         </p>
         <SharedLayoutBg inset={0} pillClassName="rounded-lg bg-foreground/[0.05]">
           {INTRO.map((item) => (
-            <Link
-              key={item.slug}
-              href={item.href}
-              onClick={onNavigate}
-              className={linkClass(pathname === item.href)}
-            >
-              {item.name}
-            </Link>
-          ))}
-        </SharedLayoutBg>
-      </div>
-      <div>
-        <p className="mb-2 block px-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-          Guides
-        </p>
-        <SharedLayoutBg inset={0} pillClassName="rounded-lg bg-foreground/[0.05]">
-          {PATTERNS.map((item) => (
             <Link
               key={item.slug}
               href={item.href}

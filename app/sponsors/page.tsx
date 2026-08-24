@@ -186,7 +186,7 @@ export default async function SponsorsPage({
       name: "Platinum",
       price: "$199",
       description:
-        "Prominent placement for product teams supporting polished open-source UI.",
+        "Prominent placement for product teams supporting polished agent interface design.",
       benefits: [
         "Larger logo placement on the sponsors page",
         "Large logo placement in the docs sidebar",
@@ -240,9 +240,8 @@ export default async function SponsorsPage({
           Support AgentUI
         </h1>
         <p className="mt-3 text-muted-foreground">
-          AgentUI is free and open source. Sponsor a monthly stage to reach
-          developers actively building agent interfaces and using registry
-          installs.
+          Sponsor a monthly stage to reach developers actively building agent
+          interfaces and using registry installs.
         </p>
 
       </div>

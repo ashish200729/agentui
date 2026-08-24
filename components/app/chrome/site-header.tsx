@@ -45,12 +45,12 @@ export function SiteHeader() {
             className="group flex items-center gap-2.5 text-sm font-semibold tracking-tight text-foreground"
           >
             <Image
-              src="/agentui-mark.png"
+              src="/agentui-mark.svg"
               alt=""
               aria-hidden="true"
               width={24}
               height={24}
-              className="h-6 w-6 rounded-lg"
+              className="h-6 w-6"
             />
             <span>AgentUI</span>
           </Link>
