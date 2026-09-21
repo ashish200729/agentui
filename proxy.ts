@@ -1,4 +1,5 @@
 import { type NextFetchEvent, type NextRequest, NextResponse } from "next/server";
+import { GOOGLE_ANALYTICS_ID } from "@/lib/site";
 
 /**
  * Registry installs happen via the shadcn CLI fetching `/r/{slug}.json`. That
@@ -9,7 +10,6 @@ import { type NextFetchEvent, type NextRequest, NextResponse } from "next/server
  */
 export const config = { matcher: "/r/:path*" };
 
-const GA_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
 const GA_SECRET = process.env.GA_API_SECRET;
 
 export function proxy(req: NextRequest, event: NextFetchEvent) {
@@ -19,7 +19,6 @@ export function proxy(req: NextRequest, event: NextFetchEvent) {
   // Only the shadcn item endpoints (`/r/<slug>.json`) are real installs.
   // Skip the catalog and the raw-source / non-json sub-paths.
   if (
-    !GA_ID ||
     !GA_SECRET ||
     !pathname.endsWith(".json") ||
     pathname === "/r/registry.json"
@@ -40,7 +39,7 @@ async function reportInstall(slug: string, ua: string, req: NextRequest) {
     const clientId = await stableId(`${ip}|${ua}`);
 
     await fetch(
-      `https://www.google-analytics.com/mp/collect?measurement_id=${GA_ID}&api_secret=${GA_SECRET}`,
+      `https://www.google-analytics.com/mp/collect?measurement_id=${GOOGLE_ANALYTICS_ID}&api_secret=${GA_SECRET}`,
       {
         method: "POST",
         body: JSON.stringify({

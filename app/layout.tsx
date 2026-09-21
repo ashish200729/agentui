@@ -18,7 +18,7 @@ import {
   SITE_TITLE,
   siteJsonLd,
 } from "@/lib/seo";
-import { SITE_URL } from "@/lib/site";
+import { GOOGLE_ANALYTICS_ID, SITE_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const sans = Geist({
@@ -98,8 +98,6 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const googleAnalyticsId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
-
   return (
     <html
       lang="en"
@@ -135,7 +133,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <PreferencesPanel />
             {process.env.NODE_ENV === "production" && <Analytics />}
             {process.env.NODE_ENV === "production" && <SpeedInsights />}
-            <GoogleAnalytics measurementId={googleAnalyticsId} />
+            {process.env.NODE_ENV === "production" && (
+              <GoogleAnalytics measurementId={GOOGLE_ANALYTICS_ID} />
+            )}
           </PreferencesProvider>
         </ThemeProvider>
       </body>
