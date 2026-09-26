@@ -19,6 +19,8 @@ export function SiteDock() {
   const isHome = pathname === "/";
   const isAgents = pathname.startsWith("/components/agents");
 
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-6 z-40 flex justify-center px-4">
       <div className="pointer-events-auto">

@@ -9,6 +9,7 @@ import {
 } from "@/components/motion/popover-morph";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/components/app/auth/auth-provider";
 
 type CopyState = "idle" | "copying" | "copied" | "error";
 
@@ -60,13 +61,16 @@ export function CopyPage({
   pageUrl,
   markdownPath,
   componentName,
+  requiresAuth = false,
 }: {
   pageUrl: string;
   markdownPath: string;
   componentName: string;
+  requiresAuth?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [copyState, setCopyState] = useState<CopyState>("idle");
+  const { copyText } = useAuth();
   const resetTimer = useRef<number | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -94,10 +98,15 @@ export function CopyPage({
   const copyMarkdown = async () => {
     setCopyState("copying");
     try {
-      const response = await fetch(markdownPath);
-      if (!response.ok) throw new Error(`Markdown request failed: ${response.status}`);
-      const markdown = await response.text();
-      await navigator.clipboard.writeText(markdown);
+      const markdown = await copyText(async () => {
+        const response = await fetch(markdownPath);
+        if (!response.ok) throw new Error(`Markdown request failed: ${response.status}`);
+        return response.text();
+      }, requiresAuth);
+      if (markdown === null) {
+        setCopyState("idle");
+        return;
+      }
       setCopyState("copied");
       trackEvent("copy_component_page", {
         label: componentName,
@@ -172,7 +181,10 @@ export function CopyPage({
       <div className="inline-flex rounded-lg bg-muted/70">
         <button
           type="button"
-          onClick={copyMarkdown}
+          onClick={(event) => {
+            event.currentTarget.focus();
+            void copyMarkdown();
+          }}
           disabled={copyState === "copying"}
           aria-busy={copyState === "copying"}
           aria-label={copyAriaLabel}

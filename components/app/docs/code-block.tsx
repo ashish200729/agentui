@@ -14,6 +14,7 @@ type Props = {
   lang?: string;
   filename?: string;
   className?: string;
+  requiresAuth?: boolean;
 };
 
 const LANG_MAP: Record<string, string> = {
@@ -42,6 +43,7 @@ export async function CodeBlock({
   lang = "tsx",
   filename,
   className,
+  requiresAuth = false,
 }: Props) {
   const shikiLang = LANG_MAP[lang.toLowerCase()] ?? lang;
   const langLabel =
@@ -86,11 +88,11 @@ export async function CodeBlock({
             </span>
           </div>
 
-          <CopyButton text={code} eventLabel={filename ?? lang} />
+          <CopyButton text={code} eventLabel={filename ?? lang} requiresAuth={requiresAuth} />
         </div>
       ) : (
         <div className="absolute right-3 top-3 z-10">
-          <CopyButton text={code} eventLabel={filename ?? lang} />
+          <CopyButton text={code} eventLabel={filename ?? lang} requiresAuth={requiresAuth} />
         </div>
       )}
 

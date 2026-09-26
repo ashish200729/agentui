@@ -245,6 +245,7 @@ export default async function ComponentPage({
               pageUrl={pageUrlFor(cat.slug, comp.slug)}
               markdownPath={`/components/${cat.slug}/${comp.slug}.md`}
               componentName={comp.name}
+              requiresAuth
             />
           </div>
           <p className="mt-2 max-w-2xl text-muted-foreground">
@@ -417,7 +418,7 @@ async function ExampleBlock({
             </div>
           </TabsContent>
           <TabsContent value="usage" className="mt-4">
-            <CodeBlock code={usage} filename={usageFile} />
+            <CodeBlock code={usage} filename={usageFile} requiresAuth />
           </TabsContent>
           <TabsContent value="source" className="mt-4">
             <CodeBlock
@@ -427,6 +428,7 @@ async function ExampleBlock({
                 pageUrlFor(category, pageSlug),
               )}
               filename={example.file}
+              requiresAuth
             />
           </TabsContent>
         </Tabs>
@@ -493,12 +495,13 @@ async function DefaultTabs({
           </div>
         </TabsContent>
         <TabsContent value="usage" className="mt-4">
-          <CodeBlock code={usage} filename={resolvedUsageFile} />
+          <CodeBlock code={usage} filename={resolvedUsageFile} requiresAuth />
         </TabsContent>
         <TabsContent value="source" className="mt-4">
           <CodeBlock
             code={withSignature(source, file, pageUrlFor(category, slug))}
             filename={file}
+            requiresAuth
           />
         </TabsContent>
       </Tabs>

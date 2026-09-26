@@ -29,6 +29,9 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# separate Vercel backend; keep it out of the AgentUI repository
+/backend/
+
 # vercel
 .vercel
 

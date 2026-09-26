@@ -12,6 +12,7 @@ import { SiteDock } from "@/components/app/chrome/site-dock";
 import { SiteFrame } from "@/components/app/chrome/site-frame";
 import { KeyboardShortcuts } from "@/components/app/chrome/keyboard-shortcuts";
 import { JsonLd } from "@/components/app/analytics/json-ld";
+import { AuthProvider } from "@/components/app/auth/auth-provider";
 import {
   SITE_DESCRIPTION,
   SITE_NAME,
@@ -123,20 +124,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen antialiased">
         <JsonLd data={siteJsonLd()} />
         <ThemeProvider>
-          <PreferencesProvider>
-            <KeyboardShortcuts />
-            <SiteHeader />
-            <main className="pt-14 pb-32">
-              <SiteFrame>{children}</SiteFrame>
-            </main>
-            <SiteDock />
-            <PreferencesPanel />
-            {process.env.NODE_ENV === "production" && <Analytics />}
-            {process.env.NODE_ENV === "production" && <SpeedInsights />}
-            {process.env.NODE_ENV === "production" && (
-              <GoogleAnalytics measurementId={GOOGLE_ANALYTICS_ID} />
-            )}
-          </PreferencesProvider>
+          <AuthProvider
+            copyAuthRequired={process.env.NEXT_PUBLIC_COPY_AUTH_REQUIRED === "true"}
+          >
+            <PreferencesProvider>
+              <KeyboardShortcuts />
+              <SiteHeader />
+              <main className="pt-14 pb-32">
+                <SiteFrame>{children}</SiteFrame>
+              </main>
+              <SiteDock />
+              <PreferencesPanel />
+              {process.env.NODE_ENV === "production" && <Analytics />}
+              {process.env.NODE_ENV === "production" && <SpeedInsights />}
+              {process.env.NODE_ENV === "production" && (
+                <GoogleAnalytics measurementId={GOOGLE_ANALYTICS_ID} />
+              )}
+            </PreferencesProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

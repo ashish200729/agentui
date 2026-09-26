@@ -17,7 +17,7 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { EASE_OUT } from "@/lib/ease";
+import { EASE_OUT, SPRING_PANEL } from "@/lib/ease";
 import { PresenceGate } from "@/lib/presence-gate";
 import { cn } from "@/lib/utils";
 
@@ -153,6 +153,10 @@ export interface CenterMorphModalContentProps {
   closeButtonLabel?: string;
   className?: string;
   backdropClassName?: string;
+  /** Surface colour and border for the panel animation. */
+  surfaceClassName?: string;
+  /** Keep the default center unfold or move the complete, opaque panel. */
+  animation?: "unfold" | "panel";
 }
 
 const FOCUSABLE_SELECTOR = [
@@ -193,9 +197,12 @@ export function CenterMorphModalContent({
   closeButtonLabel = "Close modal",
   className,
   backdropClassName,
+  surfaceClassName,
+  animation = "unfold",
 }: CenterMorphModalContentProps) {
   const context = useCenterMorphModalContext("CenterMorphModalContent");
   const reduce = useReducedMotion() ?? false;
+  const panelAnimation = animation === "panel";
   const [mounted, setMounted] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -205,6 +212,7 @@ export function CenterMorphModalContent({
     if (!context.open) return;
 
     const previousOverflow = document.body.style.overflow;
+    const previouslyFocused = document.activeElement;
     document.body.style.overflow = "hidden";
 
     const focusFrame = requestAnimationFrame(() => {
@@ -243,7 +251,11 @@ export function CenterMorphModalContent({
       cancelAnimationFrame(focusFrame);
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
-      document.getElementById(context.triggerId)?.focus();
+      if (previouslyFocused instanceof HTMLElement && previouslyFocused.isConnected) {
+        previouslyFocused.focus();
+      } else {
+        document.getElementById(context.triggerId)?.focus();
+      }
     };
   }, [context, dismissible]);
 
@@ -262,10 +274,16 @@ export function CenterMorphModalContent({
                 disabled={!dismissible}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                exit={{
+                  opacity: 0,
+                  transition: {
+                    duration: reduce ? 0.1 : panelAnimation ? 0.14 : 0.28,
+                    ease: EASE_OUT,
+                  },
+                }}
                 {...gate}
                 transition={{
-                  duration: reduce ? 0.1 : 0.28,
+                  duration: reduce ? 0.1 : panelAnimation ? 0.16 : 0.28,
                   ease: EASE_OUT,
                 }}
                 onClick={() => context.setOpen(false)}
@@ -281,11 +299,17 @@ export function CenterMorphModalContent({
                   tests/fixed-overlay-edge-sampling.test.tsx. */}
               <div
                 inert={!isPresent}
-                className="pointer-events-none fixed inset-4 z-[100] flex items-center justify-center overflow-y-auto drop-shadow-2xl"
+                className={cn(
+                  "pointer-events-none fixed inset-4 z-[100] flex overflow-y-auto",
+                  panelAnimation ? "items-start" : "items-center justify-center drop-shadow-2xl",
+                )}
               >
-                {/* Drop-shadow reads the clipped child's alpha, so depth follows the
-                    unfolding silhouette without introducing another panel layer. */}
-                <div className="flex w-full flex-col items-center py-8">
+                {/* The default drop shadow follows its clipped silhouette. The
+                    sign-in panel keeps its shadow on the card itself. */}
+                <div className={cn(
+                  "flex w-full flex-col items-center py-8",
+                  panelAnimation && "min-h-full justify-center",
+                )}>
                   <motion.div
                     ref={panelRef}
                     id={context.contentId}
@@ -295,34 +319,50 @@ export function CenterMorphModalContent({
                     aria-describedby={ariaDescribedBy}
                     tabIndex={-1}
                     initial={
-                      reduce
-                        ? { opacity: 0, clipPath: CENTER_OPEN_CLIP }
-                        : { opacity: 1, clipPath: CENTER_FOLDED_CLIP }
+                      panelAnimation
+                        ? reduce
+                          ? false
+                          : { opacity: 1, scale: 0.96, y: 8 }
+                        : reduce
+                          ? { opacity: 0, clipPath: CENTER_OPEN_CLIP }
+                          : { opacity: 1, clipPath: CENTER_FOLDED_CLIP }
                     }
-                    animate={{
-                      opacity: 1,
-                      clipPath: CENTER_OPEN_CLIP,
-                    }}
+                    animate={
+                      panelAnimation
+                        ? reduce
+                          ? { opacity: 1 }
+                          : { opacity: 1, scale: 1, y: 0 }
+                        : { opacity: 1, clipPath: CENTER_OPEN_CLIP }
+                    }
                     exit={
-                      reduce
-                        ? {
-                            opacity: 0,
-                            clipPath: CENTER_OPEN_CLIP,
-                          }
-                        : {
-                            opacity: 1,
-                            clipPath: CENTER_FOLDED_CLIP,
-                          }
+                      panelAnimation
+                        ? reduce
+                          ? { opacity: 1, transition: { duration: 0 } }
+                          : {
+                              opacity: 1,
+                              scale: 0.9,
+                              y: 16,
+                              transition: { duration: 0.16, ease: EASE_OUT },
+                            }
+                        : reduce
+                          ? { opacity: 0, clipPath: CENTER_OPEN_CLIP }
+                          : { opacity: 1, clipPath: CENTER_FOLDED_CLIP }
                     }
                     {...gate}
                     transition={
-                      reduce
-                        ? { duration: 0.14, ease: EASE_OUT }
-                        : CENTER_UNFOLD_TRANSITION
+                      panelAnimation
+                        ? reduce
+                          ? { duration: 0 }
+                          : SPRING_PANEL
+                        : reduce
+                          ? { duration: 0.14, ease: EASE_OUT }
+                          : CENTER_UNFOLD_TRANSITION
                     }
                     className={cn(
-                      "pointer-events-auto relative w-full max-w-[26rem] origin-center overflow-hidden rounded-[30px] border border-border bg-background will-change-[clip-path]",
+                      "pointer-events-auto relative w-full max-w-[26rem] origin-center overflow-hidden rounded-[30px] border border-border bg-background",
+                      panelAnimation ? "shadow-2xl will-change-transform" : "will-change-[clip-path]",
                       className,
+                      panelAnimation && surfaceClassName,
                     )}
                   >
                     {children}
@@ -333,19 +373,17 @@ export function CenterMorphModalContent({
                         aria-label={closeButtonLabel}
                         onClick={() => context.setOpen(false)}
                         initial={
-                          reduce
-                            ? { opacity: 0 }
-                            : { opacity: 0, scale: 0.8 }
+                          panelAnimation ? false : reduce ? { opacity: 0 } : { opacity: 0, scale: 0.8 }
                         }
-                        animate={{ opacity: 1, scale: 1 }}
+                        animate={{ opacity: panelAnimation || isPresent ? 1 : 0, scale: 1 }}
                         exit={{
-                          opacity: 0,
-                          scale: reduce ? 1 : 0.88,
-                          transition: { duration: 0.1, ease: EASE_OUT },
+                          opacity: panelAnimation ? 1 : 0,
+                          scale: panelAnimation || reduce ? 1 : 0.88,
+                          transition: { duration: panelAnimation ? 0 : 0.1, ease: EASE_OUT },
                         }}
                         transition={{
-                          delay: reduce ? 0 : 0.16,
-                          duration: reduce ? 0.12 : 0.2,
+                          delay: panelAnimation || reduce ? 0 : 0.16,
+                          duration: panelAnimation ? 0 : reduce ? 0.12 : 0.2,
                           ease: EASE_OUT,
                         }}
                         className="absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full bg-foreground/[0.05] text-muted-foreground transition-colors hover:bg-foreground/[0.08] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

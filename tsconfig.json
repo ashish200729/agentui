@@ -38,6 +38,7 @@
   ],
   "exclude": [
     "examples/shadcn-vite-install",
+    "backend",
     "mcp",
     "node_modules"
   ]

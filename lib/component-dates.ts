@@ -39,7 +39,7 @@ const COMPONENT_DATES = {
   "motion/morphing-modal": { publishedAt: "2026-05-17", updatedAt: "2026-08-20" },
   "motion/center-morph-modal": {
     publishedAt: "2026-07-21",
-    updatedAt: "2026-08-20",
+    updatedAt: "2026-09-26",
   },
   "motion/text-animation": { publishedAt: "2026-05-17", updatedAt: "2026-08-23" },
   "motion/number": { publishedAt: "2026-05-17", updatedAt: "2026-06-28" },

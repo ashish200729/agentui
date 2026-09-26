@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "app/globals.css"
+        ],
+        "createdAt": "2026-09-21T07:11:27.394Z",
+        "reason": "Agent: the grid-noise utility is unused and has no rendered UI impact"
+      }
+    ]
+  }
+}

@@ -82,6 +82,7 @@ export function InstallCommand({
             text={copyValue}
             eventName="copy_install_command"
             eventLabel={currentSlug}
+            requiresAuth
           />
         </div>
       </div>

@@ -49,7 +49,7 @@ export async function ManualInstall({
             Install dependencies
           </h3>
           <div className="mt-3">
-            <CodeBlock code={`npm i ${deps.join(" ")}`} lang="bash" />
+            <CodeBlock code={`npm i ${deps.join(" ")}`} lang="bash" requiresAuth />
           </div>
         </section>
       ) : null}
@@ -61,7 +61,7 @@ export async function ManualInstall({
           </h3>
           <div className="mt-3 flex flex-col gap-4">
             {utilFiles.map((file) => (
-              <CodeBlock key={file.path} code={file.content} filename={file.path} />
+              <CodeBlock key={file.path} code={file.content} filename={file.path} requiresAuth />
             ))}
           </div>
         </section>
@@ -73,7 +73,7 @@ export async function ManualInstall({
         </h3>
         <div className="mt-3 flex flex-col gap-4">
           {sourceFiles.map((file) => (
-            <CodeBlock key={file.path} code={file.content} filename={file.path} />
+            <CodeBlock key={file.path} code={file.content} filename={file.path} requiresAuth />
           ))}
         </div>
       </section>
