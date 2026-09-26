@@ -1,20 +1,19 @@
-import type { LucideIcon } from "lucide-react";
-import { ArrowUpRight, Check, CircleCheck, Gem, Medal, Trophy } from "lucide-react";
 import type { Metadata } from "next";
-import { CopyButton } from "@/components/app/docs/copy-button";
-import { PressLink } from "@/components/app/press-link";
-import { SponsorPlanBeam } from "@/components/app/sponsors/sponsor-plan-beam";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { FeaturedDocsSponsor } from "@/components/app/sponsors/featured-docs-sponsor";
+import { SponsorContactActions } from "@/components/app/sponsors/sponsor-contact-actions";
+import { SPONSORSHIP_PRICE } from "@/lib/sponsorship";
+
+const description =
+  `One featured AgentUI sponsorship placement across public component documentation pages, available for ${SPONSORSHIP_PRICE} per month.`;
 
 export const metadata: Metadata = {
-  title: "Sponsors",
-  description:
-    "Support AgentUI's development with monthly sponsor stages through Dodo Payments or crypto.",
+  title: "Sponsor AgentUI",
+  description,
   alternates: { canonical: "/sponsors" },
   openGraph: {
-    title: "Sponsors · AgentUI",
-    description:
-      "Support AgentUI's development with monthly sponsor stages through Dodo Payments, GitHub Sponsors, or crypto.",
+    title: "Sponsor AgentUI",
+    description,
     url: "/sponsors",
     type: "website",
     siteName: "AgentUI",
@@ -22,251 +21,103 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sponsors · AgentUI",
+    title: "Sponsor AgentUI",
+    description,
     images: ["/api/og"],
   },
 };
 
-const CONTACT_URL = "mailto:sponsors@agentui.pro?subject=AgentUI%20sponsorship";
-
-const PLAN_STYLES = {
-  diamond: {
-    card: "border-border bg-card shadow-[0_24px_80px_-48px_rgba(255,255,255,0.75)]",
-    icon: "border border-border bg-muted text-foreground",
-    Icon: Gem,
-  },
-  platinum: {
-    card: "border-border bg-card",
-    icon: "border border-border bg-muted text-foreground",
-    Icon: Trophy,
-  },
-  silver: {
-    card: "border-border bg-card",
-    icon: "border border-border bg-muted text-foreground",
-    Icon: Medal,
-  },
-} satisfies Record<
-  string,
-  { card: string; icon: string; Icon: LucideIcon }
->;
-
-function truncateAddress(address: string) {
-  return address.length > 14
-    ? `${address.slice(0, 6)}...${address.slice(-6)}`
-    : address;
-}
-function AddressRow({ label, address }: { label: string; address: string }) {
+export default function SponsorsPage() {
   return (
-    <div className="grid grid-cols-[5rem_minmax(0,1fr)_auto] items-center gap-4 rounded-xl border border-border px-4 py-3">
-      <p className="whitespace-nowrap text-sm font-medium text-muted-foreground">
-        {label}
-      </p>
-      <p className="min-w-0 truncate whitespace-nowrap font-mono text-sm text-foreground">
-        {truncateAddress(address)}
-      </p>
-      <CopyButton text={address} eventName="copy_sponsor_address" eventLabel={label} />
-    </div>
-  );
-}
+    <div className="mx-auto max-w-6xl px-4 pb-32 pt-12 sm:px-6 lg:px-8 lg:pt-24">
+      <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-x-20 lg:gap-y-12">
+        <div className="min-w-0">
+          <h1 className="max-w-2xl text-4xl font-semibold tracking-[-0.035em] text-foreground sm:text-5xl">
+            Put your brand beside the work.
+          </h1>
+          <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+            Sponsor AgentUI with one featured placement across its public
+            component pages. Your brand appears alongside the documentation
+            developers use to explore and install components.
+          </p>
 
-function SponsorPlanCard({
-  name,
-  price,
-  description,
-  benefits,
-  paymentUrl,
-  featured = false,
-  tone,
-}: {
-  name: string;
-  price: string;
-  description: string;
-  benefits: string[];
-  paymentUrl?: string;
-  featured?: boolean;
-  tone: keyof typeof PLAN_STYLES;
-}) {
-  const styles = PLAN_STYLES[tone];
-  const Icon = styles.Icon;
-  const href = paymentUrl || CONTACT_URL;
+          <div className="mt-8 flex flex-wrap items-baseline gap-x-2 border-t border-border pt-6">
+            <span className="text-4xl font-semibold tabular-nums tracking-tight text-foreground">
+              {SPONSORSHIP_PRICE}
+            </span>
+            <span className="text-sm text-muted-foreground">per month</span>
+          </div>
+        </div>
 
-  return (
-    <SponsorPlanBeam enabled={featured} className="h-full">
-      <div
-        className={cn(
-          "relative flex h-full flex-col overflow-hidden rounded-3xl border p-5",
-          styles.card,
-        )}
+        <aside
+          aria-label="Sponsorship preview"
+          className="lg:sticky lg:top-28 lg:col-start-2 lg:row-span-2 lg:row-start-1"
+        >
+          <FeaturedDocsSponsor />
+          <p className="mt-3 text-xs leading-5 text-muted-foreground">
+            Preview shown with AgentUI branding. Your approved creative replaces it.
+          </p>
+        </aside>
+
+        <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+          <section aria-labelledby="placement-heading">
+            <h2 id="placement-heading" className="text-xl font-semibold tracking-tight text-foreground">
+              What the placement includes
+            </h2>
+            <dl className="mt-5 divide-y divide-border border-y border-border text-sm">
+              <div className="grid gap-1 py-4 sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-6">
+                <dt className="font-medium text-foreground">Where</dt>
+                <dd className="text-muted-foreground">
+                  In the right rail of every public component page on desktop,
+                  and after the documentation on smaller screens.
+                </dd>
+              </div>
+              <div className="grid gap-1 py-4 sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-6">
+                <dt className="font-medium text-foreground">Your creative</dt>
+                <dd className="text-muted-foreground">
+                  Your logo, brand name, short description, and a link to your site.
+                </dd>
+              </div>
+              <div className="grid gap-1 py-4 sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-6">
+                <dt className="font-medium text-foreground">Before launch</dt>
+                <dd className="text-muted-foreground">
+                  We agree on fit, artwork, start date, and payment by email.
+                </dd>
+              </div>
+            </dl>
+          </section>
+
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <a
+              href="#contact"
+              className="inline-flex min-h-11 items-center gap-3 rounded-lg border border-border-strong bg-card px-4 text-sm font-medium text-foreground outline-none transition-colors duration-150 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              Discuss sponsorship
+            </a>
+            <Link
+              href="/components/agents/message-scroller"
+              className="inline-flex min-h-11 items-center text-sm text-muted-foreground underline underline-offset-4 outline-none transition-colors duration-150 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              See it on a component page
+            </Link>
+          </div>
+        </div>
+
+      </div>
+      <section
+        id="contact"
+        aria-labelledby="sponsor-contact-heading"
+        className="mt-20 scroll-mt-24 border-t border-border pt-10"
       >
-        {featured ? (
-          <span className="absolute right-4 top-4 rounded-full border border-white/10 bg-foreground px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-wider text-background">
-            Highest impact
-          </span>
-        ) : null}
-        <div className="flex items-start justify-between gap-4 pr-24">
-          <div
-            className={cn(
-              "flex h-11 w-11 items-center justify-center rounded-2xl",
-              styles.icon,
-          )}
-        >
-          <Icon className="h-4 w-4" />
-        </div>
-        </div>
-        <div className="mt-6">
-          <h2 className="text-xl font-semibold tracking-tight text-foreground">
-            {name}
-          </h2>
-          <p className="mt-2 min-h-12 text-sm leading-relaxed text-muted-foreground">
-            {description}
-          </p>
-        </div>
-        <div className="mt-6 border-t border-border pt-5">
-          <span className="text-4xl font-semibold tracking-tight text-foreground">
-            {price}
-          </span>
-          <span className="ml-2 text-sm text-muted-foreground">/mo</span>
-        </div>
-        <ul className="mb-6 mt-6 min-h-32 space-y-3 text-sm text-foreground">
-          {benefits.map((benefit) => (
-            <li key={benefit} className="flex gap-2.5">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" />
-              <span>{benefit}</span>
-            </li>
-          ))}
-        </ul>
-        <PressLink
-          href={href}
-          target={paymentUrl ? "_blank" : undefined}
-          rel={paymentUrl ? "noreferrer noopener" : undefined}
-          className={cn(
-            "group mt-auto inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-colors",
-            featured
-              ? "bg-primary text-primary-foreground hover:bg-primary/90"
-              : "border border-border bg-background text-foreground hover:border-border-strong",
-          )}
-        >
-          {paymentUrl ? `Sponsor as ${name}` : "Request payment link"}
-          <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-        </PressLink>
-      </div>
-    </SponsorPlanBeam>
-  );
-}
-
-export default async function SponsorsPage({
-  searchParams,
-}: {
-  searchParams?: Promise<{ success?: string }>;
-}) {
-  const resolvedSearchParams = await searchParams;
-  const checkoutSucceeded = resolvedSearchParams?.success === "true";
-  const evmAddress = process.env.SPONSOR_EVM_ADDRESS;
-  const solAddress = process.env.SPONSOR_SOL_ADDRESS;
-  const sponsorPlans = [
-    {
-      name: "Diamond",
-      price: "$399",
-      description:
-        "Maximum visibility for teams that want their logo in the highest-signal sponsor slot.",
-      benefits: [
-        "Largest logo placement on the sponsors page",
-        "Largest logo placement in the docs sidebar",
-        "Largest logo placement in the README",
-        "Public launch acknowledgement",
-        "Priority feedback channel for requests",
-      ],
-      paymentUrl:
-        process.env.DODO_SPONSOR_DIAMOND_SUBSCRIPTION_URL ??
-        process.env.DODO_SPONSOR_DIAMOND_URL,
-      featured: true,
-      tone: "diamond" as const,
-    },
-    {
-      name: "Platinum",
-      price: "$199",
-      description:
-        "Prominent placement for product teams supporting polished agent interface design.",
-      benefits: [
-        "Larger logo placement on the sponsors page",
-        "Large logo placement in the docs sidebar",
-        "Larger logo placement in the README",
-        "Shoutout on X after sponsorship",
-      ],
-      paymentUrl:
-        process.env.DODO_SPONSOR_PLATINUM_SUBSCRIPTION_URL ??
-        process.env.DODO_SPONSOR_PLATINUM_URL,
-      tone: "platinum" as const,
-    },
-    {
-      name: "Silver",
-      price: "$99",
-      description:
-        "A simple way to support ongoing component work and be listed publicly.",
-      benefits: [
-        "Logo on the sponsors page",
-        "Logo placement in the docs sidebar",
-        "Logo in the README",
-        "Public sponsor listing",
-      ],
-      paymentUrl:
-        process.env.DODO_SPONSOR_SILVER_SUBSCRIPTION_URL ??
-        process.env.DODO_SPONSOR_SILVER_URL,
-      tone: "silver" as const,
-    },
-  ];
-
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-16">
-      {checkoutSucceeded ? (
-        <div className="mx-auto mb-8 flex max-w-xl gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-4">
-          <CircleCheck className="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
-          <div>
-            <p className="text-sm font-semibold text-emerald-950 dark:text-emerald-100">
-              Sponsorship checkout complete
-            </p>
-            <p className="mt-1 text-sm leading-relaxed text-emerald-900/75 dark:text-emerald-100/75">
-              Thanks for sponsoring AgentUI. I’ll follow up for logo assets and
-              placement details.
-            </p>
-          </div>
-        </div>
-      ) : null}
-      <div className="max-w-2xl">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Sponsors
+        <h2 id="sponsor-contact-heading" className="text-2xl font-semibold tracking-tight text-foreground">
+          Start a sponsorship
+        </h2>
+        <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
+          Tell us about your brand and where the placement should link. We’ll
+          confirm the details before anything goes live.
         </p>
-        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-foreground">
-          Support AgentUI
-        </h1>
-        <p className="mt-3 text-muted-foreground">
-          Sponsor a monthly stage to reach developers actively building agent
-          interfaces and using registry installs.
-        </p>
-
-      </div>
-
-      <section id="sponsor-plans" className="mt-12">
-        <div className="grid gap-4 md:grid-cols-3">
-          {sponsorPlans.map((plan) => (
-            <SponsorPlanCard key={plan.name} {...plan} />
-          ))}
-        </div>
+        <SponsorContactActions />
       </section>
-
-      {evmAddress || solAddress ? (
-        <div className="mt-14">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Crypto
-          </p>
-          <div className="mt-3 grid gap-3 md:grid-cols-2">
-            {evmAddress ? <AddressRow label="EVM" address={evmAddress} /> : null}
-            {solAddress ? (
-              <AddressRow label="Solana" address={solAddress} />
-            ) : null}
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useReducedMotion } from "motion/react";
-import { type MouseEvent, useEffect, useRef, useState } from "react";
+import { type MouseEvent, type ReactNode, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export type PageNavItem = {
@@ -10,7 +10,13 @@ export type PageNavItem = {
   children?: PageNavItem[];
 };
 
-export function PageNav({ items }: { items: PageNavItem[] }) {
+export function PageNav({
+  items,
+  afterNav,
+}: {
+  items: PageNavItem[];
+  afterNav?: ReactNode;
+}) {
   const reduce = useReducedMotion();
   const [activeId, setActiveId] = useState(items[0]?.id ?? "");
   const scrollTargetRef = useRef<string | null>(null);
@@ -165,6 +171,7 @@ export function PageNav({ items }: { items: PageNavItem[] }) {
             })}
           </ul>
         </nav>
+        {afterNav ? <div className="mt-7 border-t border-border pt-5">{afterNav}</div> : null}
       </div>
     </aside>
   );

@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { MobileNav } from "@/components/app/chrome/mobile-nav";
 import { AuthControl } from "@/components/app/auth/auth-control";
-import { PressLink } from "@/components/app/press-link";
 import { SiteSearch } from "@/components/app/chrome/site-search";
 import { cn } from "@/lib/utils";
 
@@ -69,13 +68,20 @@ export function SiteHeader() {
           )}
           {isAdmin ? null : (
             <>
-              <PressLink
+              <Link
                 href="/components/agents"
-                className="group hidden items-center gap-1.5 rounded-2xl border border-border bg-card/20 px-3 py-2 text-xs font-medium text-foreground hover:border-(--color-border-strong) sm:inline-flex"
+                className="hidden h-9 items-center justify-center rounded-2xl border border-border bg-card/20 px-3 text-xs font-medium text-foreground outline-none transition-colors duration-150 hover:border-border-strong focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
                 aria-label="Components"
               >
                 Components
-              </PressLink>
+              </Link>
+              <Link
+                href="/sponsors"
+                aria-current={pathname === "/sponsors" ? "page" : undefined}
+                className="hidden h-9 items-center justify-center rounded-2xl border border-border bg-card/20 px-3 text-xs font-medium text-foreground outline-none transition-colors duration-150 hover:border-border-strong focus-visible:ring-2 focus-visible:ring-ring md:inline-flex"
+              >
+                Sponsor
+              </Link>
               <AuthControl />
             </>
           )}

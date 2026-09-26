@@ -32,6 +32,7 @@ const GUIDES = [
 ];
 
 const RESOURCES = [
+  { name: "Sponsor AgentUI", href: "/sponsors", isExternal: false },
   { name: "shadcn Registry", href: "/registry.json", isExternal: false },
   { name: "llms.txt", href: "/llms.txt", isExternal: false },
   { name: "Registry API", href: "/r/index.json", isExternal: false },
@@ -39,9 +40,11 @@ const RESOURCES = [
 ];
 
 export function SiteFooter() {
+  // The root main reserves bottom space for the floating dock. Let the
+  // decorative photo consume that space so it ends at the page edge.
   return (
-    <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-7xl px-4 pt-16 pb-28 sm:px-6 lg:px-8 lg:pb-32">
+    <footer className="relative isolate -mb-32 overflow-hidden border-t border-border bg-background">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pb-4 pt-16 sm:px-6 lg:px-8 lg:pb-5">
         {/* Main Grid */}
         <div className="grid grid-cols-2 gap-10 sm:grid-cols-2 md:grid-cols-6 lg:gap-12">
           {/* Brand & Mission */}
@@ -63,6 +66,9 @@ export function SiteFooter() {
             <p className="mt-3 max-w-xs text-sm leading-6 text-muted-foreground">
               Agent interface components for React and Next.js. Built with
               Motion and Tailwind CSS.
+            </p>
+            <p className="mt-8 text-xs text-muted-foreground">
+              © 2026 AgentUI. All rights reserved.
             </p>
           </div>
 
@@ -164,10 +170,25 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row">
-          <p>© 2026 AgentUI. All rights reserved.</p>
-        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none relative z-0 -mt-16 h-[22rem] overflow-hidden sm:-mt-20 sm:h-[25rem] lg:-mt-28 lg:h-[28rem]"
+      >
+        <Image
+          src="/agentui-footer-alpine.webp"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center dark:brightness-50"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--background) 0%, var(--background) 20%, transparent 54%)",
+          }}
+        />
       </div>
     </footer>
   );

@@ -62,7 +62,7 @@ export function AuthControl() {
         openSignIn();
       }}
       aria-label="Sign in"
-      className="inline-flex h-9 items-center gap-2 rounded-full border border-border bg-card/30 px-2.5 text-xs font-medium text-foreground outline-none transition-colors hover:border-border-strong focus-visible:ring-2 focus-visible:ring-ring sm:px-3"
+      className="inline-flex h-9 items-center justify-center gap-2 rounded-2xl border border-border bg-card/20 px-2.5 text-xs font-medium text-foreground outline-none transition-colors duration-150 hover:border-border-strong focus-visible:ring-2 focus-visible:ring-ring sm:px-3"
     >
       <UserRound className="h-3.5 w-3.5" aria-hidden="true" />
       <span className="hidden sm:inline">Sign in</span>

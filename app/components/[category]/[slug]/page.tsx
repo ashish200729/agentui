@@ -12,6 +12,7 @@ import { CodeBlock } from "@/components/app/docs/code-block";
 import { InstallBlock } from "@/components/app/docs/install-block";
 import { KeepInMind } from "@/components/app/docs/keep-in-mind";
 import { PageNav, type PageNavItem } from "@/components/app/docs/page-nav";
+import { FeaturedDocsSponsor } from "@/components/app/sponsors/featured-docs-sponsor";
 import { PropsTable } from "@/components/app/docs/props-table";
 import {
   Tabs,
@@ -359,8 +360,9 @@ export default async function ComponentPage({
             }).format(new Date(`${dates.updatedAt}T00:00:00Z`))}
           </time>
         </p>
+        <FeaturedDocsSponsor className="mt-10 max-w-sm xl:hidden" />
       </div>
-      <PageNav items={pageNavItems} />
+      <PageNav items={pageNavItems} afterNav={<FeaturedDocsSponsor />} />
     </div>
   );
 }

@@ -52,6 +52,19 @@ export function MobileNav() {
             >
               Components
             </Link>
+            <Link
+              href="/sponsors"
+              onClick={() => setOpen(false)}
+              aria-current={pathname === "/sponsors" ? "page" : undefined}
+              className={cn(
+                "rounded-md px-3 py-1.5 text-sm transition-colors",
+                pathname === "/sponsors"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              Sponsor
+            </Link>
           </nav>
           <SidebarNav onNavigate={() => setOpen(false)} />
         </div>
