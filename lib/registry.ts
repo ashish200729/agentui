@@ -39,6 +39,8 @@ export type ComponentEntry = {
   extraFiles?: string[];
   /** Optional composition file shown instead of the live preview source. */
   usageFile?: string;
+  /** Compact preview for landing cards when the full demo is too tall to fit. */
+  landingPreviewKey?: string;
   /** Per-variant breakdown rendered as separate Preview / Usage / Source on the page. */
   examples?: ComponentExample[];
   /** Optional behavior guide rendered on the component documentation page. */
@@ -872,6 +874,24 @@ export const registry: CategoryEntry[] = [
     description:
       "AI agent components for reasoning, progress, tool activity, and conversational interfaces.",
     components: [
+      {
+        slug: "usage-dashboard",
+        name: "Usage Dashboard",
+        description:
+          "A coding-agent usage overview with daily token trends, provider and model totals, billed spend, and a daily breakdown.",
+        file: "components/agents/usage-dashboard.tsx",
+        usageFile: "components/previews/agents/usage-dashboard-example.tsx",
+        landingPreviewKey: "agents/usage-dashboard-landing",
+        badge: "new",
+        launchedAt: "2026-09-26",
+        keywords: [
+          "AI usage dashboard React",
+          "LLM token usage chart",
+          "model cost analytics component",
+          "AI provider spending dashboard",
+          "agent usage analytics UI",
+        ],
+      },
       {
         slug: "message-bubble",
         name: "Message Bubble",

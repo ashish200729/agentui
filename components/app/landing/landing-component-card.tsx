@@ -36,8 +36,9 @@ export function LandingComponentCard({
     once: true,
     margin: "0px",
   });
-  const Preview = previewKey
-    ? previews[previewKey]
+  const cardPreviewKey = previewKey ?? component.landingPreviewKey;
+  const Preview = cardPreviewKey
+    ? previews[cardPreviewKey]
     : getPreview(
         category,
         component.slug,

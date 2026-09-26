@@ -64,6 +64,10 @@ const COMPONENT_DATES = {
     publishedAt: "2026-08-02",
     updatedAt: "2026-08-22",
   },
+  "agents/usage-dashboard": {
+    publishedAt: "2026-09-26",
+    updatedAt: "2026-09-26",
+  },
   "agents/message-bubble": {
     publishedAt: "2026-08-02",
     updatedAt: "2026-08-02",

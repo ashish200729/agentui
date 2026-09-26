@@ -5,12 +5,13 @@ import Link from "next/link";
 import { useInView } from "motion/react";
 import { useRef } from "react";
 import { PreviewFit } from "@/components/app/landing/preview-fit";
-import { getPreview } from "@/components/previews";
+import { getPreview, previews } from "@/components/previews";
 import { useHoverCapable } from "@/lib/hooks/use-hover-capable";
 import type { ComponentEntry } from "@/lib/registry";
 import { cn } from "@/lib/utils";
 
 export const AGENT_CATALOG_LABELS: Record<string, string> = {
+  "usage-dashboard": "Usage analytics",
   "message-bubble": "Chat bubble",
   message: "Message row",
   "message-scroller": "Conversation scroll",
@@ -36,11 +37,13 @@ export function AgentCatalogCard({ component }: { component: ComponentEntry }) {
     once: true,
     margin: "160px",
   });
-  const Preview = getPreview(
-    "agents",
-    component.slug,
-    component.examples?.map((example) => example.previewKey),
-  );
+  const Preview = component.landingPreviewKey
+    ? previews[component.landingPreviewKey]
+    : getPreview(
+        "agents",
+        component.slug,
+        component.examples?.map((example) => example.previewKey),
+      );
   const canHover = useHoverCapable();
   const label = AGENT_CATALOG_LABELS[component.slug] ?? component.name;
 

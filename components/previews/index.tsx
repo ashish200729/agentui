@@ -77,6 +77,16 @@ export const previews: Record<string, ComponentType> = {
       (m) => m.ImageGenerationPreview,
     ),
   ),
+  "agents/usage-dashboard": dynamic(() =>
+    import("./agents/usage-dashboard.preview").then(
+      (m) => m.UsageDashboardPreview,
+    ),
+  ),
+  "agents/usage-dashboard-landing": dynamic(() =>
+    import("./agents/usage-dashboard-landing.preview").then(
+      (m) => m.UsageDashboardLandingPreview,
+    ),
+  ),
   "agents/tool-approval": dynamic(() =>
     import("./agents/tool-approval.preview").then(
       (m) => m.ToolApprovalPreview,
