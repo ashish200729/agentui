@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { EASE_OUT } from "@/lib/ease";
@@ -12,6 +13,8 @@ const HEADLINE = ["Agent interface components", "for React and Next.js"];
 const HEADLINE_WORDS = HEADLINE.reduce((n, l) => n + l.split(" ").length, 0);
 const STAGGER = 0.09;
 const START = 0.12;
+const AGENTUI_CONTRACT = "0xe3A1C9B8ffe33436Dc2364D7B7C9645372c13922";
+const AGENTUI_LAUNCHPAD = `https://www.ponsfamily.com/launchpad/${AGENTUI_CONTRACT}`;
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
@@ -62,6 +65,36 @@ export function Hero() {
           Explore components
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </MovingGradientButton>
+        <PressLink
+          href={AGENTUI_LAUNCHPAD}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={`CA: ${AGENTUI_CONTRACT}`}
+          aria-label={`View $AGENTUI contract ${AGENTUI_CONTRACT} on Pons`}
+          className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-2xl border border-border bg-card py-1.5 pl-2 pr-3 text-left text-foreground outline-none transition-colors duration-150 hover:border-border-strong hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <Image
+            src="/pons-logo.webp"
+            alt=""
+            aria-hidden="true"
+            width={36}
+            height={36}
+            className="h-9 w-9 shrink-0 rounded-xl object-cover"
+          />
+          <span className="flex flex-col items-start gap-1 leading-none">
+            <span className="flex items-center gap-1.5 text-xs font-semibold">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+              $AGENTUI is live
+            </span>
+            <span className="text-[0.625rem] text-muted-foreground">
+              Pons launchpad · CA 0xe3A1…13922
+            </span>
+          </span>
+          <ArrowUpRight
+            className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            aria-hidden="true"
+          />
+        </PressLink>
       </motion.div>
     </div>
   );
