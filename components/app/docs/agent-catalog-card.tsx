@@ -11,6 +11,7 @@ import type { ComponentEntry } from "@/lib/registry";
 import { cn } from "@/lib/utils";
 
 export const AGENT_CATALOG_LABELS: Record<string, string> = {
+  "model-selector": "Model and effort",
   "usage-dashboard": "Usage analytics",
   "message-bubble": "Chat bubble",
   message: "Message row",

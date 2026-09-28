@@ -38,6 +38,11 @@ export const previews: Record<string, ComponentType> = {
   "agents/prompt-input": dynamic(() =>
     import("./agents/prompt-input.preview").then((m) => m.PromptInputPreview),
   ),
+  "agents/model-selector": dynamic(() =>
+    import("./agents/model-selector.preview").then(
+      (m) => m.ModelSelectorPreview,
+    ),
+  ),
   "agents/todo-list": dynamic(() =>
     import("./agents/todo-list.preview").then((m) => m.TodoListPreview),
   ),

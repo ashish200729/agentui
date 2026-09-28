@@ -8,6 +8,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { StrictMode, type ReactElement } from "react";
+import { ModelSelector } from "@/components/agents/model-selector";
 import {
   AnimatedSidebar,
   AnimatedSidebarContent,
@@ -316,6 +317,11 @@ const IMAGE_ITEM = {
   status: "complete" as const,
 };
 
+const MODEL_SELECTOR_ITEMS = [
+  { value: "default", label: "Default" },
+  { value: "gpt-6-sol", label: "GPT-6 Sol" },
+];
+
 // Every overlay in the library that puts a `position: fixed` layer over the
 // page, in the state that layer exists in. Render thunks (not bare JSX) keep
 // these out of an iterable literal; the optional third entry drives a case that
@@ -426,6 +432,17 @@ const cases: Array<
     () => <AttachmentUpload defaultValue={[IMAGE_ITEM]} />,
     ({ getByRole }) =>
       fireEvent.click(getByRole("button", { name: "Preview screenshot.png" })),
+  ],
+  [
+    "ModelSelector open",
+    () => (
+      <ModelSelector
+        models={MODEL_SELECTOR_ITEMS}
+        defaultValue="default"
+      />
+    ),
+    ({ getByRole }) =>
+      fireEvent.click(getByRole("button", { name: /Model and effort/ })),
   ],
 ];
 
@@ -609,6 +626,39 @@ const OPEN_GATE = { inert: false, pointerEvents: "auto" };
 const CLOSING_GATE = { inert: true, pointerEvents: "none" };
 
 describe("overlay interaction releases when closing starts", () => {
+  test("the model selector releases interaction on the close render", () => {
+    const { getByRole, rerender } = render(
+      <ModelSelector
+        models={MODEL_SELECTOR_ITEMS}
+        value="default"
+        open
+        onOpenChange={() => {}}
+      />,
+    );
+
+    const panel = getByRole("dialog", { name: "Model and effort" });
+    const portal = panel.closest(
+      "[data-model-selector-portal]",
+    ) as HTMLElement;
+    const slider = getByRole("slider", { name: "Reasoning effort" });
+    expect(gateOf(portal)).toEqual(OPEN_GATE);
+    expect(slider.closest("[inert]")).toBeNull();
+
+    rerender(
+      <ModelSelector
+        models={MODEL_SELECTOR_ITEMS}
+        value="default"
+        open={false}
+        onOpenChange={() => {}}
+      />,
+    );
+
+    expect(portal.isConnected).toBe(true);
+    expect(gateOf(portal)).toEqual(CLOSING_GATE);
+    expect(slider.closest("[inert]")).not.toBeNull();
+    expect(portal.contains(slider.closest("[inert]"))).toBe(true);
+  });
+
   test("the command palette releases pointer events and focus on the close render", () => {
     const { getByRole, rerender } = render(
       <CommandPalette items={[{ id: "one", label: "Alpha", onSelect: () => {} }]} open />,

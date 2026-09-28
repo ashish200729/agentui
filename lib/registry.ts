@@ -875,6 +875,24 @@ export const registry: CategoryEntry[] = [
       "AI agent components for reasoning, progress, tool activity, and conversational interfaces.",
     components: [
       {
+        slug: "model-selector",
+        name: "Model Selector",
+        description:
+          "A composer-ready model and reasoning-effort control: the first view manages effort, the current model opens a full picker, and both views share a stable collision-aware panel with complete pointer and keyboard navigation.",
+        file: "components/agents/model-selector.tsx",
+        usageFile: "components/previews/agents/model-selector.usage.tsx",
+        badge: "new",
+        launchedAt: "2026-09-28",
+        keywords: [
+          "AI model selector React",
+          "LLM model picker",
+          "agent composer dropdown",
+          "model dropdown component",
+          "AI provider model menu",
+          "accessible model select",
+        ],
+      },
+      {
         slug: "usage-dashboard",
         name: "Usage Dashboard",
         description:
